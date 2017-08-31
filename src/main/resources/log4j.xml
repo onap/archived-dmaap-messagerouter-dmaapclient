@@ -46,11 +46,9 @@
 		</layout>
 	</appender>-->
 
+	
+
 	<logger name="com.att" additivity="false">
-		<level value="INFO" />
-		<appender-ref ref="CONSOLE" />
-	</logger>
-	<logger name="org.onap.dmaap.messagerouter.dmaapclient" additivity="false">
 		<level value="INFO" />
 		<appender-ref ref="CONSOLE" />
 	</logger>

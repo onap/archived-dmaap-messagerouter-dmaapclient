@@ -26,7 +26,7 @@
   
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
 
-	<appender name="MR" class="org.onap.dmaap.messagerouter.dmaapclient.nsa.mr.logging.MRAppender">
+	<appender name="MR" class="com.att.nsa.mr.logging.MRAppender">
 		<param name="Topic" value="Log4J_Topic"/>
 		<param name="Partition" value="1"/>
 		<param name="Hosts" value="zlxv8619.vci.att.com"/>
