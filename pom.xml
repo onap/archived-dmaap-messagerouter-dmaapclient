@@ -26,7 +26,7 @@
 	<artifactId>dmaapClient</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>dmaapClient</name>
+	<name>dmaap-messagerouter-dmaapclient</name>
 	<description>Client library for MR event routing API</description>
 	<url>https://github.com/att/dmaap-framework</url>
 
