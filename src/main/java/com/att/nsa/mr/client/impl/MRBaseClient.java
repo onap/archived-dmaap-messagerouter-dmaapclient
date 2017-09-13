@@ -59,6 +59,8 @@ public class MRBaseClient extends HttpClient implements MRClient
 	protected MRBaseClient ( Collection<String> hosts ) throws MalformedURLException
 	{
 		super ( ConnectionType.HTTP, hosts, MRConstants.kStdMRServicePort );
+		
+		fLog = LoggerFactory.getLogger ( this.getClass().getName () );
 	}
 
 	protected MRBaseClient ( Collection<String> hosts, int stdSvcPort ) throws MalformedURLException {
