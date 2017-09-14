@@ -26,8 +26,10 @@ package com.att.nsa.mr.logging;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.helpers.LogLog;
 import org.apache.log4j.spi.LoggingEvent;
 
 import com.att.nsa.mr.client.MRClientFactory;
@@ -38,6 +40,8 @@ import com.att.nsa.mr.client.MRPublisher;
  *
  */
 public class MRAppender extends AppenderSkeleton {
+
+	private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
 	private MRPublisher fPublisher;
 
@@ -98,7 +102,7 @@ public class MRAppender extends AppenderSkeleton {
 		try {
 			fPublisher.send(partition, message);
 		} catch (IOException e) {
-			e.printStackTrace();
+                    logger.error("IOException: ", e);
 		}
 	}
 
@@ -106,7 +110,7 @@ public class MRAppender extends AppenderSkeleton {
 		if (hosts != null && topic != null && partition != null) {
 			fPublisher = MRClientFactory.createBatchingPublisher(hosts.split(","), topic, maxBatchSize, maxAgeMs, compress);
 		} else {
-			LogLog.error("The Hosts, Topic, and Partition parameter are required to create a MR Log4J Appender");
+			logger.error("The Hosts, Topic, and Partition parameter are required to create a MR Log4J Appender");
 		}
 	}
 	public String getTopic() {
