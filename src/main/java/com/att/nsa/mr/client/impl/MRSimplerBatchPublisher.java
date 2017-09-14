@@ -40,6 +40,9 @@ import java.util.zip.GZIPOutputStream;
 
 import javax.ws.rs.core.MultivaluedMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
@@ -54,6 +57,8 @@ import com.att.nsa.mr.test.clients.ProtocolTypeConstants;
 
 public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingPublisher
 {
+	private static final Logger logger = LoggerFactory.getLogger(MRSimplerBatchPublisher.class);
+
 	public static class Builder 
 	{
 		public Builder ()
@@ -512,6 +517,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 
 					pubResponse.setResponseCode(String.valueOf(HttpStatus.SC_INTERNAL_SERVER_ERROR));
 					pubResponse.setResponseMessage(x.getMessage());
+                                        logger.error("exception: ", x);
 					
 				}
 				
@@ -684,8 +690,8 @@ private MRPublisherResponse createMRPublisherResponse(String reply, MRPublisherR
 	private String handlers;
 	private Properties props;
 	public static String routerFilePath;
-	public static Map<String, String> headers=new HashMap<String, String>();
-	public static MultivaluedMap<String, Object> headersMap;
+	protected static final Map<String, String> headers=new HashMap<String, String>();
+	public static final MultivaluedMap<String, Object> headersMap;
 	
 	
 	private MRPublisherResponse pubResponse;
