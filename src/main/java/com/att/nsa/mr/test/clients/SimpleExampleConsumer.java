@@ -22,12 +22,13 @@
 
 package com.att.nsa.mr.test.clients;
 
-
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.att.nsa.mr.client.MRClientFactory;
 import com.att.nsa.mr.client.MRConsumer;
@@ -40,6 +41,7 @@ public class SimpleExampleConsumer
 	static FileReader routeReader=null;
 	public static void main ( String[] args )
 	{
+		final Logger LOG = LoggerFactory.getLogger(SimpleExampleConsumer.class);
 	
 		long count = 0;
 		long nextReport = 5000;
@@ -81,6 +83,7 @@ public class SimpleExampleConsumer
 		catch ( Exception x )
 		{
 			System.err.println ( x.getClass().getName () + ": " + x.getMessage () );
+                    LOG.error("exception: ", x);
 		}
 	}
 }
