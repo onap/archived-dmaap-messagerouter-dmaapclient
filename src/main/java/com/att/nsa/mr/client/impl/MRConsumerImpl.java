@@ -57,7 +57,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer
 	private static final String SUCCESS_MESSAGE = "Success";
 	
 	
-	private Logger fLog = LoggerFactory.getLogger ( this.getClass().getName () );
+	private Logger log = LoggerFactory.getLogger ( this.getClass().getName () );
 	public static List<String> stringToList ( String str )
 	{
 		final LinkedList<String> set = new LinkedList<String> ();
@@ -160,6 +160,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer
 				{
 					// unexpected response
 					reportProblemWithResponse ();
+                                    log.error("exception: ", e);
 				}
 				catch ( HttpException e )
 				{
@@ -202,6 +203,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer
 				{
 					// unexpected response
 					reportProblemWithResponse ();
+                                    log.error("exception: ", e);
 				}
 				catch ( HttpException e )
 				{
@@ -242,6 +244,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer
 			{
 				// unexpected response
 				reportProblemWithResponse ();
+                            log.error("exception: ", e);
 			}
 			catch ( HttpException e )
 			{
@@ -253,6 +256,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer
 		} catch ( JSONException e ) {
 			// unexpected response
 			reportProblemWithResponse ();
+                    log.error("exception: ", e);
 		} catch (HttpException e) {
 			throw new IOException(e);
 		} catch (Exception e ) {
@@ -267,7 +271,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer
 	try {
 		
 		
-		//fLog.info("DMAAP response status: " + response.getStatus());
+		//log.info("DMAAP response status: " + response.getStatus());
 
 		//	final String responseData = response.readEntity(String.class);
 		JSONTokener jsonTokener = new JSONTokener(response);
@@ -284,7 +288,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer
 
 		return jsonObject;
 	} catch (JSONException excp) {
-	//	fLog.error("DMAAP - Error reading response data.", excp);
+	//	log.error("DMAAP - Error reading response data.", excp);
 		return null;
 	}
 	
@@ -348,7 +352,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer
         private Properties props;
     	private HashMap<String, String> DMETimeOuts;
     	private String handlers;
-    	public static String routerFilePath;
+    	public static final String routerFilePath;
     	public static String getRouterFilePath() {
     		return routerFilePath;
     	}
@@ -413,7 +417,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer
 				url = protocol + "://"+serviceName+"?version="+version+"&envContext="+env+"&routeoffer="+routeOffer;
 			}
 			
-			//fLog.info("url :"+url);
+			//log.info("url :"+url);
 						
 			if(timeoutMs != -1 )url=url+"&timeout="+timeoutMs;
 			if(limit != -1 )url=url+"&limit="+limit;
@@ -564,7 +568,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer
 			MRClientFactory.prop.load(new FileReader(new File (MRClientFactory.routeFilePath)));
 
 		} catch (Exception ex) {
-			fLog.error("Reply Router Error " + ex.toString() );
+			log.error("Reply Router Error " + ex.toString() );
 		}
 		String routeOffer = MRClientFactory.prop.getProperty(routeKey);		
 		return routeOffer;
@@ -669,15 +673,19 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer
 		} catch (JSONException e) {	
 			mrConsumerResponse.setResponseMessage(String.valueOf(HttpStatus.SC_INTERNAL_SERVER_ERROR));
 			mrConsumerResponse.setResponseMessage(e.getMessage());
+                        log.error("json exception: ", e);
 		} catch (HttpException e) {			
 			mrConsumerResponse.setResponseMessage(String.valueOf(HttpStatus.SC_INTERNAL_SERVER_ERROR));
 			mrConsumerResponse.setResponseMessage(e.getMessage());
+                        log.error("http exception: ", e);
 		}catch(DME2Exception e){			
 			mrConsumerResponse.setResponseCode(e.getErrorCode());
 			mrConsumerResponse.setResponseMessage(e.getErrorMessage());
+                        log.error("DME2 exception: ", e);
 		}catch (Exception e) {			
 			mrConsumerResponse.setResponseMessage(String.valueOf(HttpStatus.SC_INTERNAL_SERVER_ERROR));
 			mrConsumerResponse.setResponseMessage(e.getMessage());
+                        log.error("exception: ", e);
 		}
 		mrConsumerResponse.setActualMessages(msgs);
 		return mrConsumerResponse;
