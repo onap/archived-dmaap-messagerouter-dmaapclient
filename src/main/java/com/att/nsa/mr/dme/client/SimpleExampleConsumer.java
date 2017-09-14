@@ -24,12 +24,17 @@ package com.att.nsa.mr.dme.client;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.att.nsa.mr.client.MRClientFactory;
 import com.att.nsa.mr.client.MRConsumer;
 
 public class SimpleExampleConsumer {
+
+	private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
 	public static void main(String[] args) {
 
@@ -72,6 +77,7 @@ public class SimpleExampleConsumer {
 			}
 		} catch (Exception x) {
 			System.err.println(x.getClass().getName() + ": " + x.getMessage());
+                    logger.error("exception: ", x);
 		}
 	}
 }
