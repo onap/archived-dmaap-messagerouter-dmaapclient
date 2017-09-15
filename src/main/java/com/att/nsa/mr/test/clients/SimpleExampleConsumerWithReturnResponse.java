@@ -26,12 +26,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.att.nsa.mr.client.MRClientFactory;
 import com.att.nsa.mr.client.MRConsumer;
 import com.att.nsa.mr.client.response.MRConsumerResponse;
 
 public class SimpleExampleConsumerWithReturnResponse {
 
+        private static final Logger LOG = LoggerFactory.getLogger(SimpleExampleConsumerWithReturnResponse.class);
 
 	static FileWriter routeWriter= null;
 	static Properties props=null;	
@@ -84,6 +88,7 @@ public class SimpleExampleConsumerWithReturnResponse {
 		catch ( Exception x )
 		{
 			System.err.println ( x.getClass().getName () + ": " + x.getMessage () );
+                    LOG.error("exception: ", x);
 		}
 	}
 
