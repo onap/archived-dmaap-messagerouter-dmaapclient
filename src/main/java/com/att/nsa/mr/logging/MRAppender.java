@@ -106,6 +106,7 @@ public class MRAppender extends AppenderSkeleton {
 		}
 	}
 
+        @Override
 	public void activateOptions() {
 		if (hosts != null && topic != null && partition != null) {
 			fPublisher = MRClientFactory.createBatchingPublisher(hosts.split(","), topic, maxBatchSize, maxAgeMs, compress);
