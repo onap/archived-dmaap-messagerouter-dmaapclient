@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.att.nsa.mr.client.MRBatchingPublisher;
 import com.att.nsa.mr.client.MRClientFactory;
 import com.att.nsa.mr.client.MRPublisher.message;
@@ -39,16 +42,20 @@ import com.att.nsa.mr.client.MRPublisher.message;
  */
 public class ConsolePublisher
 {
+
+	private static final Logger logger = LoggerFactory.getLogger(ConsolePublisher.class);
+    private ConsolePublisher() {
+    }
 	public static void main ( String[] args ) throws IOException //throws IOException, InterruptedException
 	{
 		// read the hosts(s) from the command line
-		final String hosts = ( args.length > 0 ? args[0] : "aaa.it.att.com,bbb.it.att.com,ccc.it.att.com" );
+		final String hosts = args.length > 0 ? args[0] : "aaa.it.att.com,bbb.it.att.com,ccc.it.att.com";
 
 		// read the topic name from the command line
-		final String topic = ( args.length > 1 ? args[1] : "TEST-TOPIC" );
+		final String topic = args.length > 1 ? args[1] : "TEST-TOPIC";
 
 		// read the topic name from the command line
-		final String partition = ( args.length > 2 ? args[2] : UUID.randomUUID ().toString () );
+		final String partition = args.length > 2 ? args[2] : UUID.randomUUID ().toString ();
 
 		// set up some batch limits and the compression flag
 		final int maxBatchSize = 100;
@@ -76,11 +83,11 @@ public class ConsolePublisher
 			}
 			catch ( InterruptedException e )
 			{
-				System.err.println ( "Send on close interrupted." );			
+                            logger.error( "Send on close interrupted." );
 			}
 			for ( message m : leftovers )
 			{
-				System.err.println ( "Unsent message: " + m.fMsg );
+                            logger.error( "Unsent message: " + m.fMsg );
 			}
 		}
 	}
