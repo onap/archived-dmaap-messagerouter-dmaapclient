@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 //import com.att.aft.dme2.api.util.LogMessage;
 //import com.att.aft.dme2.api.util.LogUtil;
 public class DefaultLoggingFailoverFaultHandler /*implements DME2FailoverFaultHandler*/ {
+    //TODO: This code may be enable in the future when we implement DME2FailoverFaultHandler interface
     /** The logger. */
     //private static Logger logger = DME2Constants.getLogger(DefaultLoggingFailoverFaultHandler.class.getName());
      
@@ -48,3 +49,4 @@ public class DefaultLoggingFailoverFaultHandler /*implements DME2FailoverFaultHa
 //         
 //    }
 }
+
