@@ -36,10 +36,14 @@ public class SimpleExampleConsumer {
 
 	private static final Logger logger = LoggerFactory.getLogger(SimpleExampleConsumer.class);
 
+    private SimpleExampleConsumer() {
+    }
+
 	public static void main(String[] args) {
 
 		long count = 0;
 		long nextReport = 5000;
+                String key;
 
 		final long startMs = System.currentTimeMillis();
 
@@ -48,22 +52,23 @@ public class SimpleExampleConsumer {
 			final MRConsumer cc = MRClientFactory.createConsumer("D:\\SG\\consumer.properties");
 			while (true) {
 				for (String msg : cc.fetch()) {
-
-					System.out.println("Message Received: " + msg);
+                                        logger.debug("Message Received: " + msg);
 				}
 				// Header for DME2 Call.
-				MultivaluedMap<String, Object> headersMap = MRClientFactory.HTTPHeadersMap;
-				for (String key : headersMap.keySet()) {
-					System.out.println("Header Key " + key);
-					System.out.println("Header Value " + headersMap.get(key));
+				MultivaluedMap<String, List<Object>> headersMap = MRClientFactory.HTTPHeadersMap;
+				for (MultivaluedMap.Entry<String,List<Object>> entry: headersMap.entrySet()) {
+                                    key = entry.getKey();
+                                    logger.debug("Header Key " + key);
+                                    logger.debug("Header Value " + headersMap.get(key));
 				}
 				// Header for HTTP Call.
 				
-				 Map<String, String>
-				 dme2headersMap=MRClientFactory.DME2HeadersMap; for(String key
-				  : dme2headersMap.keySet()) { System.out.println("Header Key "
-				+ key); System.out.println("Header Value " +
-				  dme2headersMap.get(key)); }
+				 Map<String, String> dme2headersMap=MRClientFactory.DME2HeadersMap;
+                                 for(Map.Entry<String,String> entry: dme2headersMap.entrySet()) {
+                                     key = entry.getKey();
+                                     logger.debug("Header Key " + key);
+                                     logger.debug("Header Value " + dme2headersMap.get(key));
+                                 }
 				 
 				if (count > nextReport) {
 					nextReport += 5000;
@@ -72,12 +77,11 @@ public class SimpleExampleConsumer {
 					final long elapsedMs = endMs - startMs;
 					final double elapsedSec = elapsedMs / 1000.0;
 					final double eps = count / elapsedSec;
-					System.out.println("Consumed " + count + " in " + elapsedSec + "; " + eps + " eps");
+					logger.error("Consumed " + count + " in " + elapsedSec + "; " + eps + " eps");
 				}
 			}
 		} catch (Exception x) {
-			System.err.println(x.getClass().getName() + ": " + x.getMessage());
-                    logger.error("exception: ", x);
+                    logger.error(x.getClass().getName() + ": " + x.getMessage());
 		}
 	}
 }
