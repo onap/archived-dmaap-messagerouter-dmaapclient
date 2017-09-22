@@ -25,8 +25,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MRClientVersionInfo
 {
+	private static final Logger logger = LoggerFactory.getLogger(MRClientVersionInfo.class);
 	public static String getVersion ()
 	{
 		return version;
@@ -48,6 +52,7 @@ public class MRClientVersionInfo
 		}
 		catch ( IOException e )
 		{
+                    logger.error("exception: ", e);
 		}
 		version = use;
 	}
