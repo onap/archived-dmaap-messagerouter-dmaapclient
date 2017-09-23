@@ -25,6 +25,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.att.nsa.apiClient.http.HttpException;
 import com.att.nsa.apiClient.http.HttpObjectNotFoundException;
 import com.att.nsa.cmdtool.Command;
@@ -35,7 +38,7 @@ import com.att.nsa.mr.client.MRTopicManager.TopicInfo;
 
 public class TopicCommand implements Command<MRCommandContext>
 {
-
+        final Logger logger = LoggerFactory.getLogger(ApiKeyCommand.class);
 	@Override
 	public String[] getMatches ()
 	{
@@ -117,10 +120,12 @@ public class TopicCommand implements Command<MRCommandContext>
 				catch ( IOException x )
 				{
 					out.println ( "Problem with request: " + x.getMessage () );
+                                    logger.error("IOException: ", x);
 				}
 				catch ( HttpObjectNotFoundException e )
 				{
 					out.println ( "Not found: " + e.getMessage () );
+                                    logger.error("HttpObjectNotFoundException: ", e);
 				}
 			}
 			else if ( parts[0].equals ( "create" ) )
@@ -135,14 +140,17 @@ public class TopicCommand implements Command<MRCommandContext>
 				catch ( HttpException e )
 				{
 					out.println ( "Problem with request: " + e.getMessage () );
+                                    logger.error("HttpException: ", e);
 				}
 				catch ( IOException e )
 				{
 					out.println ( "Problem with request: " + e.getMessage () );
+                                    logger.error("IOException: ", e);
 				}
 				catch ( NumberFormatException e )
 				{
 					out.println ( "Problem with request: " + e.getMessage () );
+                                    logger.error("NumberFormatException: ", e);
 				}
 			}
 			else if ( parts[0].equals ( "grant" ) )
@@ -161,10 +169,12 @@ public class TopicCommand implements Command<MRCommandContext>
 				catch ( HttpException e )
 				{
 					out.println ( "Problem with request: " + e.getMessage () );
+                                    logger.error("HttpException: ", e);
 				}
 				catch ( IOException e )
 				{
 					out.println ( "Problem with request: " + e.getMessage () );
+                                    logger.error("IOException: ", e);
 				}
 			}
 			else if ( parts[0].equals ( "revoke" ) )
@@ -183,10 +193,12 @@ public class TopicCommand implements Command<MRCommandContext>
 				catch ( HttpException e )
 				{
 					out.println ( "Problem with request: " + e.getMessage () );
+                                    logger.error("HttpException: ", e);
 				}
 				catch ( IOException e )
 				{
 					out.println ( "Problem with request: " + e.getMessage () );
+                                    logger.error("IOException: ", e);
 				}
 			}
 		}
