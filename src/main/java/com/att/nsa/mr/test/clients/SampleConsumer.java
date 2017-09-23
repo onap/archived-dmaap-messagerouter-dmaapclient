@@ -82,6 +82,7 @@ public class SampleConsumer {
 		catch ( Exception x )
 		{
 			System.err.println ( x.getClass().getName () + ": " + x.getMessage () );
+                    LOG.error("exception: ", x);
 		}
 	}
 }
