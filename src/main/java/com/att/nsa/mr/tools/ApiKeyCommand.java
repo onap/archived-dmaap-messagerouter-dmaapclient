@@ -24,6 +24,9 @@ package com.att.nsa.mr.tools;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.att.nsa.apiClient.credentials.ApiCredential;
 import com.att.nsa.apiClient.http.HttpException;
 import com.att.nsa.apiClient.http.HttpObjectNotFoundException;
@@ -36,7 +39,7 @@ import com.att.nsa.mr.client.MRIdentityManager.ApiKey;
 
 public class ApiKeyCommand implements Command<MRCommandContext>
 {
-
+        final Logger log = LoggerFactory.getLogger(ApiKeyCommand.class);
 	@Override
 	public String[] getMatches ()
 	{
@@ -104,18 +107,22 @@ public class ApiKeyCommand implements Command<MRCommandContext>
 		catch ( HttpObjectNotFoundException e )
 		{
 			out.println ( "Object not found: " + e.getMessage () );
+                    log.error("HttpObjectNotFoundException: ", e);
 		}
 		catch ( HttpException e )
 		{
 			out.println ( "HTTP exception: " + e.getMessage () );
+                    log.error("HttpException: ", e);
 		}
 		catch ( MRApiException e )
 		{
 			out.println ( "API exception: " + e.getMessage () );
+                    log.error("MRApiException: ", e);
 		}
 		catch ( IOException e )
 		{
 			out.println ( "IO exception: " + e.getMessage () );
+                    log.error("IOException: ", e);
 		}
 		finally
 		{
