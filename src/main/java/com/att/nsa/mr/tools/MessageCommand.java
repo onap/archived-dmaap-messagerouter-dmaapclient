@@ -26,6 +26,9 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.att.nsa.cmdtool.Command;
 import com.att.nsa.cmdtool.CommandNotReadyException;
 import com.att.nsa.mr.client.MRBatchingPublisher;
@@ -36,7 +39,7 @@ import com.att.nsa.mr.client.MRPublisher.message;
 
 public class MessageCommand implements Command<MRCommandContext>
 {
-
+        final Logger logger = LoggerFactory.getLogger(ApiKeyCommand.class);
 	@Override
 	public String[] getMatches ()
 	{
@@ -73,6 +76,7 @@ public class MessageCommand implements Command<MRCommandContext>
 			catch ( Exception e )
 			{
 				out.println ( "Problem fetching messages: " + e.getMessage() );
+                            logger.error("Problem fetching messages: ", e);
 			}
 			finally
 			{
@@ -94,6 +98,7 @@ public class MessageCommand implements Command<MRCommandContext>
 			catch ( IOException e )
 			{
 				out.println ( "Problem sending message: " + e.getMessage() );
+                            logger.error("Problem sending message: ", e);
 			}
 			finally
 			{
@@ -105,10 +110,12 @@ public class MessageCommand implements Command<MRCommandContext>
 				catch ( IOException e )
 				{
 					out.println ( "Problem sending message: " + e.getMessage() );
+                                    logger.error("Problem sending message: ", e);
 				}
 				catch ( InterruptedException e )
 				{
 					out.println ( "Problem sending message: " + e.getMessage() );
+                                    logger.error("Problem sending message: ", e);
 				}
 				if ( left != null && left.size () > 0 )
 				{
