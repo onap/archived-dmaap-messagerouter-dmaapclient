@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Bharat saraswal <bharat.saraswal@huawei.com>
+Code-Review+2: varun gudisena <vg411h@att.com>
+Verified+1: varun gudisena <vg411h@att.com>
+Submitted-by: varun gudisena <vg411h@att.com>
+Submitted-at: Sat, 23 Sep 2017 00:01:48 +0000
+Reviewed-on: http://gerrit.onap.org/r/12637
+Project: dmaap/messagerouter/dmaapclient
+Branch: refs/heads/master
