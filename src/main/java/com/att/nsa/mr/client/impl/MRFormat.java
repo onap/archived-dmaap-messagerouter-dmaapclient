@@ -28,6 +28,7 @@ enum MRFormat
 	 */
 	CAMBRIA
 	{
+                @Override
 		public String toString() { return "application/cambria"; }
 	},
 
@@ -36,6 +37,7 @@ enum MRFormat
 	 */
 	CAMBRIA_ZIP
 	{
+                @Override
 		public String toString() { return "application/cambria-zip"; }
 	},
 
@@ -44,6 +46,7 @@ enum MRFormat
 	 */
 	JSON
 	{
+                @Override
 		public String toString() { return "application/json"; }
 	}
 }
