@@ -21,7 +21,6 @@
  *******************************************************************************/
 package com.att.nsa.mr.test.clients;
 
-import java.io.IOException;
 import java.util.LinkedList;
 
 import org.slf4j.Logger;
@@ -31,12 +30,14 @@ import com.att.nsa.mr.client.MRClientFactory;
 import com.att.nsa.mr.client.MRConsumer;
 
 public class SampleConsumer {
+    private SampleConsumer() {
+    }
 	public static void main ( String[] args )
 	{
-		final Logger LOG = LoggerFactory.getLogger(SampleConsumer.class);
+		final Logger log = LoggerFactory.getLogger(SampleConsumer.class);
 
 		
-		LOG.info("Sample Consumer Class executing");
+		log.info("Sample Consumer Class executing");
 		final String topic = "com.att.app.dmaap.mr.testingTopic";
 		final String url = ( args.length > 1 ? args[1] : "localhost:8181" );
 		final String group = ( args.length > 2 ? args[2] :"grp" );
@@ -61,8 +62,7 @@ public class SampleConsumer {
 			{
 				for ( String msg : cc.fetch () )
 				{
-					//System.out.println ( "" + (++count) + ": " + msg );
-					LOG.info ( "" + (++count) + ": " + msg );
+					log.info ( "" + (++count) + ": " + msg );
 				}
 	
 				if ( count > nextReport )
@@ -73,16 +73,14 @@ public class SampleConsumer {
 					final long elapsedMs = endMs - startMs;
 					final double elapsedSec = elapsedMs / 1000.0;
 					final double eps = count / elapsedSec;
-					//System.out.println ( "Consumed " + count + " in " + elapsedSec + "; " + eps + " eps" );
-					LOG.info ( "Consumed " + count + " in " + elapsedSec + "; " + eps + " eps" );
+					log.info ( "Consumed " + count + " in " + elapsedSec + "; " + eps + " eps" );
 				}
-				LOG.info ( "" + (++count) + ": consumed message" );
+				log.info ( "" + (++count) + ": consumed message" );
 			}
 		}
 		catch ( Exception x )
 		{
-			System.err.println ( x.getClass().getName () + ": " + x.getMessage () );
-                    LOG.error("exception: ", x);
+                    log.error( x.getClass().getName () + ": " + x.getMessage () );
 		}
 	}
 }
