@@ -31,6 +31,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.att.nsa.apiClient.credentials.ApiCredential;
 import com.att.nsa.apiClient.http.HttpException;
 import com.att.nsa.apiClient.http.HttpObjectNotFoundException;
@@ -39,6 +42,7 @@ import com.att.nsa.mr.client.MRTopicManager;
 
 public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIdentityManager
 {
+	private static final Logger logger = LoggerFactory.getLogger(MRMetaClient.class);
 	public MRMetaClient ( Collection<String> baseUrls ) throws MalformedURLException
 	{
 		super ( baseUrls );
@@ -60,10 +64,12 @@ public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIden
 		catch ( HttpObjectNotFoundException e )
 		{
 			getLog().warn ( "No /topics endpoint on service." );
+                        logger.error("HttpObjectNotFoundException: ", e);
 		}
 		catch ( JSONException e )
 		{
 			getLog().warn ( "Bad /topics result from service." );
+                        logger.error("JSONException: ", e);
 		}
 		catch ( HttpException e )
 		{
