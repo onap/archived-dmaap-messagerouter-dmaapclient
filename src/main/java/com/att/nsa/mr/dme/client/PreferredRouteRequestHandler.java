@@ -29,7 +29,7 @@ import com.att.aft.dme2.api.util.DME2ExchangeRequestHandler;
 import com.att.nsa.mr.client.MRClientFactory;
 
 public class PreferredRouteRequestHandler implements DME2ExchangeRequestHandler {
-	private Logger fLog = LoggerFactory.getLogger(this.getClass().getName());
+	private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
 	@Override
 	public void handleRequest(DME2ExchangeRequestContext requestData) {
@@ -47,7 +47,7 @@ public class PreferredRouteRequestHandler implements DME2ExchangeRequestHandler 
 			MRClientFactory.prop.load(MRClientFactory.routeReader);
 
 		} catch (Exception ex) {
-			fLog.error("Request Router Error " + ex.toString());
+			logger.error("Request Router Error " + ex.toString());
 		}
 		return MRClientFactory.prop.getProperty(routeKey);
 	}
