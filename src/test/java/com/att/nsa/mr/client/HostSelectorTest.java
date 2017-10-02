@@ -46,21 +46,21 @@ public class HostSelectorTest {
 	@Test
 	public void testSelectBaseHost() {
 		
-//		HostSelector selector = new HostSelector("host");
-//				
-//		selector.selectBaseHost();
-//		assertTrue(true);
-//		
+		HostSelector selector = new HostSelector("host");
+				
+		selector.selectBaseHost();
+		assertTrue(true);
+		
 
 	}
 
 	@Test
 	public void testReportReachabilityProblem() {
 		
-/*		HostSelector selector = new HostSelector("host");
+		HostSelector selector = new HostSelector("host");
 				
 		selector.reportReachabilityProblem(100, null);
-		assertTrue(true);*/
+		assertTrue(true);
 		
 
 	}

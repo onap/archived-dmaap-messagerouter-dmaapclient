@@ -64,9 +64,9 @@ public class MRClientFactoryTest {
 	@Test
 	public void testCreateConsumer() {
 
-	/*	MRClientFactory.createConsumer("hostList hostList2", "testTopic");
-		assertTrue(true);*/
-
+		/*MRClientFactory.createConsumer("hostList hostList2", "testTopic");
+		assertTrue(true);
+*/
 	}
 
 	@Test
@@ -80,9 +80,9 @@ public class MRClientFactoryTest {
 	@Test
 	public void testCreateConsumer3() {
 
-	/*	MRClientFactory.createConsumer(hostSet, "testTopic", "filter");
-		assertTrue(true);*/
-
+		/*MRClientFactory.createConsumer(hostSet, "testTopic", "filter");
+		assertTrue(true);
+*/
 	}
 
 	@Test
@@ -112,7 +112,7 @@ public class MRClientFactoryTest {
 	@Test
 	public void testCreateConsumer7() {
 
-/*		MRClientFactory.createConsumer(hostSet, "testTopic", "CG1", "22", 100, 100, "filter", "apikey", "apisecret");
+		/*MRClientFactory.createConsumer(hostSet, "testTopic", "CG1", "22", 100, 100, "filter", "apikey", "apisecret");
 		assertTrue(true);*/
 
 	}
@@ -194,25 +194,25 @@ public class MRClientFactoryTest {
 
 	@Test
 	public void testCreateIdentityManager() {
-/*
+
 		MRClientFactory.createIdentityManager(hostSet, "apikey", "apisecret");
 
-		assertTrue(true);*/
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testCreateTopicManager() {
 
-	/*	MRClientFactory.createTopicManager(hostSet, "apikey", "apisecret");
+		MRClientFactory.createTopicManager(hostSet, "apikey", "apisecret");
 
-		assertTrue(true);*/
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testCreateConsumer8() {
-/*
+
 		try {
 			MRClientFactory.createConsumer("/consumer");
 		} catch (IOException e) {
@@ -220,35 +220,35 @@ public class MRClientFactoryTest {
 			e.printStackTrace();
 		}
 
-		assertTrue(true);*/
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testCreateConsumer9() {
 
-//		MRClientFactory.createConsumer("host", "topic", "username", "password", "group", "23", "protocolFlag",
-//				"/consumer", 1, 2);
-//
-//		assertTrue(true);
+		/*MRClientFactory.createConsumer("host", "topic", "username", "password", "group", "23", "protocolFlag",
+				"/consumer", 1, 2);
 
+		assertTrue(true);
+*/
 	}
 
 	@Test
 	public void testCreateConsumer10() {
 
-//		MRClientFactory.createConsumer("host", "topic", "username", "password", "group", "23", 1, 2, "protocolFlag",
-//				"/consumer");
-//
-//		assertTrue(true);
+		/*MRClientFactory.createConsumer("host", "topic", "username", "password", "group", "23", 1, 2, "protocolFlag",
+				"/consumer");
+
+		assertTrue(true);*/
 
 	}
 	
 	@Test
 	public void test$testInject() {
 
-/*		MRClientFactory.$testInject(null);
-		assertTrue(true);*/
+		MRClientFactory.$testInject(null);
+		assertTrue(true);
 
 	}
 

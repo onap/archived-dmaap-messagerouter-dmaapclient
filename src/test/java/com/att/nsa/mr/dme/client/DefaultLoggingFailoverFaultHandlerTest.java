@@ -53,8 +53,8 @@ public class DefaultLoggingFailoverFaultHandlerTest {
 	@Test
 	public void testHandleEndpointFailover() {
 
-//		handler.handleEndpointFailover(null);
-//		assertTrue(true);
+	/*	handler.handleEndpointFailover(null);
+		assertTrue(true);*/
 
 	}
 	

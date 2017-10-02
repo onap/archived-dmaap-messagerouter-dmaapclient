@@ -53,13 +53,13 @@ public class SimpleExamplePublisherTest {
 	@Test
 	public void testPublishMessage() {
 
-/*		try {
+		try {
 			pub.publishMessage("/producer");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertTrue(true);*/
+		assertTrue(true);
 
 	}
 

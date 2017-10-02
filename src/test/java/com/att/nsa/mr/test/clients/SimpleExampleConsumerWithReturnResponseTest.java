@@ -42,13 +42,12 @@ public class SimpleExampleConsumerWithReturnResponseTest {
 	@Test
 	public void testMain() {
 
-//		try {
-//			SimpleExampleConsumerWithReturnResponse.main(null);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		assertTrue(true);
+		/*try {
+			SimpleExampleConsumerWithReturnResponse.main(null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block			e.printStackTrace();
+		}
+		assertTrue(true);*/
 
 	}
 

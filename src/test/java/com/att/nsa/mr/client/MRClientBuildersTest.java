@@ -46,7 +46,7 @@ public class MRClientBuildersTest {
 	@Before
 	public void setUp() throws Exception {
 
-	/*	for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 10; i++) {
 			hostSet.add("host" + (i + 1));
 			hostArray[i] = "host" + (i + 1);
 		}
@@ -55,7 +55,7 @@ public class MRClientBuildersTest {
 
 		pBuilder = new MRClientBuilders.PublisherBuilder();
 
-		mrcBuilders = new MRClientBuilders();*/
+		mrcBuilders = new MRClientBuilders();
 
 	}
 
@@ -83,67 +83,67 @@ public class MRClientBuildersTest {
 	@Test
 	public void testOnTopic() {
 
-/*		builder.onTopic("testTopic");
-		assertTrue(true);*/
+		builder.onTopic("testTopic");
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testKnownAs() {
 
-	/*	builder.knownAs("CG1", "23");
+		builder.knownAs("CG1", "23");
 		assertTrue(true);
-*/
+
 	}
 
 	@Test
 	public void testAuthenticatedBy() {
 
-/*		builder.authenticatedBy("apikey", "apisecret");
-		assertTrue(true);*/
+		builder.authenticatedBy("apikey", "apisecret");
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testWaitAtServer() {
 
-//		builder.waitAtServer(100);
-//		assertTrue(true);
+		builder.waitAtServer(100);
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testReceivingAtMost() {
 
-		/*builder.receivingAtMost(100);
-		assertTrue(true);*/
+		builder.receivingAtMost(100);
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testWithServerSideFilter() {
 
-		/*builder.withServerSideFilter("filter");
-		assertTrue(true);*/
+		builder.withServerSideFilter("filter");
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testBuild() {
 
-	/*	try {
+		try {
 
 			builder.build();
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);
-		}*/
+		}
 
 	}
 
 	@Test
 	public void testUsingHosts3() {
 
-/*		pBuilder.usingHosts("testTopic");
+		/*pBuilder.usingHosts("testTopic");
 		assertTrue(true);
 */
 	}
@@ -183,68 +183,68 @@ public class MRClientBuildersTest {
 	@Test
 	public void testWithCompresion() {
 
-	/*	pBuilder.withCompresion();
-		assertTrue(true);*/
+		pBuilder.withCompresion();
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testWithoutCompresion() {
 
-	/*	pBuilder.withoutCompresion();
-		assertTrue(true);*/
+		pBuilder.withoutCompresion();
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testEnableCompresion() {
 
-	/*	pBuilder.enableCompresion(true);
-		assertTrue(true);*/
+		pBuilder.enableCompresion(true);
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testAuthenticatedBy2() {
 
-	/*	pBuilder.authenticatedBy("apikey", "apisecret");
-		assertTrue(true);*/
+		pBuilder.authenticatedBy("apikey", "apisecret");
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testBuild2() {
 
-	/*	try {
+		try {
 
 			pBuilder.build();
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);
-		}*/
+		}
 
 	}
 
 	@Test
 	public void test$testInject() {
 
-		/*try {
+		try {
 
 			mrcBuilders.$testInject(builder.build());
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);
-		}*/
+		}
 
 	}
 
 	@Test
 	public void test$testInject2() {
 
-//		try {
-//
-//			mrcBuilders.$testInject(pBuilder.build());
-//		} catch (IllegalArgumentException e) {
-//			assertTrue(true);
-//		}
+		try {
+
+			mrcBuilders.$testInject(pBuilder.build());
+		} catch (IllegalArgumentException e) {
+			assertTrue(true);
+		}
 
 	}
 }

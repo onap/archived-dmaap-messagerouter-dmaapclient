@@ -46,138 +46,138 @@ public class MRAppenderTest {
 
 	@Test
 	public void testClose() {
-		/*try {
+		try {
 			appender.close();
 		} catch (NullPointerException e) {
 			assertTrue(true);
 		}
 
 		assertTrue(true);
-*/
+
 	}
 
 	@Test
 	public void testRequiresLayout() {
-/*
+
 		appender.requiresLayout();
-		assertTrue(true);*/
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testAppend() {
 
-		/*try {
+		try {
 			appender.append(null);
 		} catch (NullPointerException e) {
 			assertTrue(true);
 		}
 
 		assertTrue(true);
-*/
+
 	}
 
 	@Test
 	public void testActivateOptions() {
 
-/*		appender.activateOptions();
-		assertTrue(true);*/
+		appender.activateOptions();
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testGetTopic() {
 
-	/*	appender.getTopic();
+		appender.getTopic();
 		assertTrue(true);
-*/
+
 	}
 
 	@Test
 	public void testSetTopic() {
 
-		/*appender.setTopic("testTopic");
+		appender.setTopic("testTopic");
 		assertTrue(true);
-*/
+
 	}
 
 	@Test
 	public void testGetPartition() {
 
-	/*	appender.getPartition();
+		appender.getPartition();
 		assertTrue(true);
-*/
+
 	}
 
 	@Test
 	public void testSetPartition() {
 
-	/*	appender.setPartition("partition");
-		assertTrue(true);*/
+		appender.setPartition("partition");
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testGetHosts() {
 
-/*		appender.getHosts();
-		assertTrue(true);*/
+		appender.getHosts();
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testSetHosts() {
-/*
+
 		appender.setHosts("hosts");
 		assertTrue(true);
-*/
+
 	}
 
 	@Test
 	public void testGetMaxBatchSize() {
 
-		/*appender.getMaxBatchSize();
-		assertTrue(true);*/
+		appender.getMaxBatchSize();
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testSetMaxBatchSize() {
 
-	/*	appender.setMaxBatchSize(20);
-		assertTrue(true);*/
+		appender.setMaxBatchSize(20);
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testGetMaxAgeMs() {
 
-		/*appender.getMaxAgeMs();
-		assertTrue(true);*/
+		appender.getMaxAgeMs();
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testSetMaxAgeMs() {
 
-		/*appender.setMaxAgeMs(15);
-		assertTrue(true);*/
+		appender.setMaxAgeMs(15);
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testIsCompress() {
 
-	/*	appender.isCompress();
-		assertTrue(true);*/
+		appender.isCompress();
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testSetCompress() {
 
-	/*	appender.setCompress(true);
-		assertTrue(true);*/
+		appender.setCompress(true);
+		assertTrue(true);
 
 	}
 

@@ -44,26 +44,26 @@ public class SimpleExamplePublisherWithResponseTest {
 	@Test
 	public void testMain() {
 
-	/*	try {
+		try {
 			SimpleExamplePublisherWithResponse.main(null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertTrue(true);*/
+		assertTrue(true);
 
 	}
 	
 	@Test
 	public void testPublishMessage() {
 
-	/*	try {
+		try {
 			pub.publishMessage("/producer", 100);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertTrue(true);*/
+		assertTrue(true);
 
 	}
 }

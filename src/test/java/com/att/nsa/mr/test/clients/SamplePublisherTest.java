@@ -42,14 +42,14 @@ public class SamplePublisherTest {
 	@Test
 	public void testMain() {
 
-	/*	try {
+		try {
 			SamplePublisher.main(null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertTrue(true);
-*/
+
 	}
 
 }

@@ -42,13 +42,13 @@ public class SimpleExampleConsumerTest {
 	@Test
 	public void testMain() {
 
-		/*try {
+		try {
 			SimpleExampleConsumer.main(null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertTrue(true);*/
+		assertTrue(true);
 
 	}
 

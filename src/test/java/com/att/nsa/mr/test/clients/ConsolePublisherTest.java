@@ -42,13 +42,13 @@ public class ConsolePublisherTest {
 	@Test
 	public void testMain() {
 
-//		try {
-//			ConsolePublisher.main(null);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		assertTrue(true);
+		try {
+			ConsolePublisher.main(null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertTrue(true);
 
 	}
 

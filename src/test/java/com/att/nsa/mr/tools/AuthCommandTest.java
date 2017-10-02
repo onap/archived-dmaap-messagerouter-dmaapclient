@@ -80,7 +80,7 @@ public class AuthCommandTest {
 	@Test
 	public void testExecute() {
 		
-	/*	try {
+		try {
 			command.execute(parts, new MRCommandContext(), new PrintStream("/filename"));
 		} catch (CommandNotReadyException e) {
 			// TODO Auto-generated catch block
@@ -89,7 +89,7 @@ public class AuthCommandTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertTrue(true);*/
+		assertTrue(true);
 
 	}
 	
@@ -97,7 +97,7 @@ public class AuthCommandTest {
 	@Test
 	public void testDisplayHelp() {
 		
-/*		try {
+		try {
 			command.displayHelp(new PrintStream("/filename"));
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
@@ -106,7 +106,7 @@ public class AuthCommandTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertTrue(true);*/
+		assertTrue(true);
 
 	}
 	

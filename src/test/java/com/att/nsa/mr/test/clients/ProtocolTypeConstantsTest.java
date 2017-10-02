@@ -35,7 +35,7 @@ public class ProtocolTypeConstantsTest {
 
 	@Before
 	public void setUp() throws Exception {
-		//constants = new ProtocolTypeConstants();
+		// constants = new ProtocolTypeConstants();
 
 	}
 
@@ -47,13 +47,13 @@ public class ProtocolTypeConstantsTest {
 	@Test
 	public void testGetValue() {
 
-//		try {
-//			constants.getValue();
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		assertTrue(true);
+		try {
+			constants.getValue();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertTrue(true);
 
 	}
 	

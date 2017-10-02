@@ -43,7 +43,7 @@ public class SimpleExamplePublisherTest {
 
 	@Test
 	public void testPublishMessage() {
-	/*	try {
+		try {
 			pub.publishMessage("/producer");
 		} catch (NullPointerException e) {
 			assertTrue(true);
@@ -58,20 +58,20 @@ public class SimpleExamplePublisherTest {
 			e.printStackTrace();
 		}
 
-		assertTrue(true);*/
+		assertTrue(true);
 
 	}
 	
 	@Test
 	public void testMain() {
 
-//		try {
-//			SimpleExamplePublisher.main(null);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		assertTrue(true);
+		try {
+			SimpleExamplePublisher.main(null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertTrue(true);
 
 	}
 
