@@ -67,16 +67,16 @@ public class MRClientBuildersTest {
 	@Test
 	public void testUsingHosts() {
 
-		/*builder.usingHosts("hostList");
-		assertTrue(true);*/
+		builder.usingHosts("hostList");
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testUsingHosts2() {
 
-		/*builder.usingHosts(hostSet);
-		assertTrue(true);*/
+		builder.usingHosts(hostSet);
+		assertTrue(true);
 
 	}
 
@@ -143,40 +143,40 @@ public class MRClientBuildersTest {
 	@Test
 	public void testUsingHosts3() {
 
-		/*pBuilder.usingHosts("testTopic");
+		pBuilder.usingHosts("testTopic");
 		assertTrue(true);
-*/
+
 	}
 
 	@Test
 	public void testUsingHosts4() {
 
-/*		pBuilder.usingHosts(hostArray);
-		assertTrue(true);*/
+		pBuilder.usingHosts(hostArray);
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testUsingHosts5() {
 
-/*		pBuilder.usingHosts(hostSet);
-		assertTrue(true);*/
+		pBuilder.usingHosts(hostSet);
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testOnTopic2() {
 
-	/*	pBuilder.onTopic("testTopic");
-		assertTrue(true);*/
+		pBuilder.onTopic("testTopic");
+		assertTrue(true);
 
 	}
 
 	@Test
 	public void testLimitBatch() {
 
-		/*pBuilder.limitBatch(100, 10);
-		assertTrue(true);*/
+		pBuilder.limitBatch(100, 10);
+		assertTrue(true);
 
 	}
 
