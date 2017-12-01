@@ -116,6 +116,7 @@ public class MessageCommand implements Command<MRCommandContext>
 				{
 					out.println ( "Problem sending message: " + e.getMessage() );
                                     logger.error("Problem sending message: ", e);
+                                    Thread.currentThread().interrupt();
 				}
 				if ( left != null && left.size () > 0 )
 				{
