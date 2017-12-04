@@ -84,6 +84,7 @@ public class ConsolePublisher
 			catch ( InterruptedException e )
 			{
                             logger.error( "Send on close interrupted." );
+                            Thread.currentThread().interrupt();
 			}
 			for ( message m : leftovers )
 			{
