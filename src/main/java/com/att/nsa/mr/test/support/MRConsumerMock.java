@@ -71,6 +71,7 @@ public class MRConsumerMock implements MRConsumer
 			}
 			catch ( InterruptedException e )
 			{
+				Thread.currentThread().interrupt();
 				throw new IOException ( e );
 			}
 		}
