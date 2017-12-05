@@ -66,6 +66,7 @@ public class HostSelector
     if (signature == null) {
       return;
     }
+    if(signature!=null && !baseHosts.isEmpty()) {
     int index = Math.abs(signature.hashCode()) % baseHosts.size();
 
     Iterator it = this.fBaseHosts.iterator();
@@ -74,6 +75,7 @@ public class HostSelector
       it.next();
     }
     this.fIdealHost = ((String)it.next());
+    }
   }
 
   public String selectBaseHost()
