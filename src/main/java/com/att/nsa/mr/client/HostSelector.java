@@ -144,8 +144,12 @@ public class HostSelector
     }
     else
     {
+      int index = 0;
+      int value = new Random().nextInt();
       Vector v = new Vector(workingSet);
-      int index = Math.abs(new Random().nextInt()) % workingSet.size();
+      if(value!=0) {
+      index = Math.abs(value) % workingSet.size();
+      }
       selection = (String)v.elementAt(index);
     }
 
