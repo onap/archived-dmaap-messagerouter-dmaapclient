@@ -32,9 +32,9 @@ public interface MRClient
 	 */
 	public class MRApiException extends Exception
 	{
+		private static final long serialVersionUID = 1L;
 		public MRApiException ( String msg ) { super ( msg ); }
 		public MRApiException ( String msg, Throwable t ) { super ( msg, t ); }
-		private static final long serialVersionUID = 1L;
 	}
 
 	/**
