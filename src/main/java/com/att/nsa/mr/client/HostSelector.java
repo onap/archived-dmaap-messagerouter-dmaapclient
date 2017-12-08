@@ -66,16 +66,17 @@ public class HostSelector
     if (signature == null) {
       return;
     }
-    if(signature!=null && !baseHosts.isEmpty()) {
-    int index = Math.abs(signature.hashCode()) % baseHosts.size();
-
+    int index = 0 ;
+    int value = signature.hashCode();
+    if(value!=0) {
+    index = Math.abs(value) % baseHosts.size();
+    }
     Iterator it = this.fBaseHosts.iterator();
     while (index-- > 0)
     {
       it.next();
     }
     this.fIdealHost = ((String)it.next());
-    }
   }
 
   public String selectBaseHost()
