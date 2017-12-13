@@ -167,6 +167,7 @@ public class MRBatchPublisher implements MRBatchingPublisher
 		catch ( InterruptedException e )
 		{
 			fLog.warn ( "Possible message loss. " + e.getMessage(), e );
+			Thread.currentThread().interrupt();
 		}
 		catch ( IOException e )
 		{
