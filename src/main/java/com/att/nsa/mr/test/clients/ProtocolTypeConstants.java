@@ -29,11 +29,9 @@ package com.att.nsa.mr.test.clients;
  *
  */
 public enum ProtocolTypeConstants {
-	
-	DME2("DME2"),
-	AAF_AUTH("HTTPAAF"),
-	AUTH_KEY("HTTPAUTH");
-	
+
+	DME2("DME2"), AAF_AUTH("HTTPAAF"), AUTH_KEY("HTTPAUTH"), HTTPNOAUTH("HTTPNOAUTH");
+
 	private String value;
 
 	private ProtocolTypeConstants(String value) {

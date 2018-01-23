@@ -33,57 +33,52 @@ import org.slf4j.LoggerFactory;
 import com.att.nsa.mr.client.MRClientFactory;
 import com.att.nsa.mr.client.MRConsumer;
 
-public class SimpleExampleConsumer
-{
+public class SimpleExampleConsumer {
 
-	static FileWriter routeWriter= null;
-	static Properties props=null;	
-	static FileReader routeReader=null;
-	public static void main ( String[] args )
-	{
+	static FileWriter routeWriter = null;
+	static Properties props = null;
+	static FileReader routeReader = null;
+
+	public static void main(String[] args) {
 		final Logger LOG = LoggerFactory.getLogger(SimpleExampleConsumer.class);
-	
+
 		long count = 0;
 		long nextReport = 5000;
 
-		final long startMs = System.currentTimeMillis ();
-				
-		try
-		{
-			String routeFilePath="/src/main/resources/dme2/preferredRoute.txt";
-						        
-			
-			File fo= new File(routeFilePath);
-			if(!fo.exists()){
-					routeWriter=new FileWriter(new File (routeFilePath));
-			}	
-			routeReader= new FileReader(new File (routeFilePath));
-			props= new Properties();
-			final MRConsumer cc = MRClientFactory.createConsumer ( "/src/main/resources/dme2/consumer.properties" );
-			while ( true )
-			{
-				for ( String msg : cc.fetch () )
-				{
-					//System.out.println ( "" + (++count) + ": " + msg );
+		final long startMs = System.currentTimeMillis();
+
+		try {
+			String routeFilePath = "/src/main/resources/dme2/preferredRoute.txt";
+
+			File fo = new File(routeFilePath);
+			if (!fo.exists()) {
+				routeWriter = new FileWriter(new File(routeFilePath));
+			}
+			routeReader = new FileReader(new File(routeFilePath));
+			props = new Properties();
+			final MRConsumer cc = MRClientFactory.createConsumer("/src/main/resources/dme2/consumer.properties");
+			int i = 0;
+			while (i < 10) {
+				Thread.sleep(2);
+				i++;
+				for (String msg : cc.fetch()) {
+					// System.out.println ( "" + (++count) + ": " + msg );
 					System.out.println(msg);
 				}
-	
-				if ( count > nextReport )
-				{
+
+				if (count > nextReport) {
 					nextReport += 5000;
-	
-					final long endMs = System.currentTimeMillis ();
+
+					final long endMs = System.currentTimeMillis();
 					final long elapsedMs = endMs - startMs;
 					final double elapsedSec = elapsedMs / 1000.0;
 					final double eps = count / elapsedSec;
-					System.out.println ( "Consumed " + count + " in " + elapsedSec + "; " + eps + " eps" );
+					System.out.println("Consumed " + count + " in " + elapsedSec + "; " + eps + " eps");
 				}
 			}
-		}
-		catch ( Exception x )
-		{
-			System.err.println ( x.getClass().getName () + ": " + x.getMessage () );
-                    LOG.error("exception: ", x);
+		} catch (Exception x) {
+			System.err.println(x.getClass().getName() + ": " + x.getMessage());
+			LOG.error("exception: ", x);
 		}
 	}
 }

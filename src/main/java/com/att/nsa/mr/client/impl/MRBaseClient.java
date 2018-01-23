@@ -50,286 +50,318 @@ import com.att.nsa.mr.client.MRClientFactory;
 import com.att.nsa.mr.test.clients.ProtocolTypeConstants;
 //import com.fasterxml.jackson.core.JsonProcessingException;
 
-public class MRBaseClient extends HttpClient implements MRClient 
-{
-	
+public class MRBaseClient extends HttpClient implements MRClient {
+
 	private static final String MR_AUTH_CONSTANT = "X-CambriaAuth";
 	private static final String MR_DATE_CONSTANT = "X-CambriaDate";
-	
-	protected MRBaseClient ( Collection<String> hosts ) throws MalformedURLException
-	{
-		super ( ConnectionType.HTTP, hosts, MRConstants.kStdMRServicePort );
-		
-		fLog = LoggerFactory.getLogger ( this.getClass().getName () );
+
+	protected MRBaseClient(Collection<String> hosts) throws MalformedURLException {
+		super(ConnectionType.HTTP, hosts, MRConstants.kStdMRServicePort);
+
+		fLog = LoggerFactory.getLogger(this.getClass().getName());
 	}
 
-	protected MRBaseClient ( Collection<String> hosts, int stdSvcPort ) throws MalformedURLException {
-		super ( ConnectionType.HTTP,hosts, stdSvcPort);
+	protected MRBaseClient(Collection<String> hosts, int stdSvcPort) throws MalformedURLException {
+		super(ConnectionType.HTTP, hosts, stdSvcPort);
 
-		fLog = LoggerFactory.getLogger ( this.getClass().getName () );
+		fLog = LoggerFactory.getLogger(this.getClass().getName());
 	}
 
-	protected MRBaseClient ( Collection<String> hosts, String clientSignature ) throws MalformedURLException
-	{
-		super(ConnectionType.HTTP, hosts, MRConstants.kStdMRServicePort, clientSignature, CacheUse.NONE, 1, 1L, TimeUnit.MILLISECONDS, 32, 32, 600000);
+	protected MRBaseClient(Collection<String> hosts, String clientSignature) throws MalformedURLException {
+		super(ConnectionType.HTTP, hosts, MRConstants.kStdMRServicePort, clientSignature, CacheUse.NONE, 1, 1L,
+				TimeUnit.MILLISECONDS, 32, 32, 600000);
 
-		fLog = LoggerFactory.getLogger ( this.getClass().getName () );
+		fLog = LoggerFactory.getLogger(this.getClass().getName());
 	}
-
 
 	@Override
-	public void close ()
-	{
+	public void close() {
 	}
 
-	protected Set<String> jsonArrayToSet ( JSONArray a )
-	{
-		if ( a == null ) return null;
+	protected Set<String> jsonArrayToSet(JSONArray a) {
+		if (a == null)
+			return null;
 
-		final TreeSet<String> set = new TreeSet<String> ();
-		for ( int i=0; i<a.length (); i++ )
-		{
-			set.add ( a.getString ( i ));
+		final TreeSet<String> set = new TreeSet<String>();
+		for (int i = 0; i < a.length(); i++) {
+			set.add(a.getString(i));
 		}
 		return set;
 	}
 
-	public void logTo ( Logger log )
-	{
+	public void logTo(Logger log) {
 		fLog = log;
-		replaceLogger ( log );
+		replaceLogger(log);
 	}
 
-	protected Logger getLog ()
-	{
+	protected Logger getLog() {
 		return fLog;
 	}
 
 	private Logger fLog;
-	
-	public JSONObject post(final String path, final byte[] data, final String contentType, final String username, final String password, final String protocolFlag) throws HttpException, JSONException{
+
+	public JSONObject post(final String path, final byte[] data, final String contentType, final String username,
+			final String password, final String protocolFlag) throws HttpException, JSONException {
 		if ((null != username && null != password)) {
 			WebTarget target = null;
 
 			Response response = null;
-			
+
 			target = getTarget(path, username, password);
-			String encoding = Base64.encodeAsString(username+":"+password);
-			
-			
-			response = target.request().header("Authorization", "Basic " + encoding).post(Entity.entity(data, contentType));
-			
+			String encoding = Base64.encodeAsString(username + ":" + password);
+
+			response = target.request().header("Authorization", "Basic " + encoding)
+					.post(Entity.entity(data, contentType));
+
 			return getResponseDataInJson(response);
 		} else {
-			throw new HttpException("Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
+			throw new HttpException(
+					"Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
 		}
 	}
-	public String postWithResponse(final String path, final byte[] data, final String contentType, final String username, final String password, final String protocolFlag) throws HttpException, JSONException{
+
+	public String postWithResponse(final String path, final byte[] data, final String contentType,
+			final String username, final String password, final String protocolFlag)
+			throws HttpException, JSONException {
 		String responseData = null;
 		if ((null != username && null != password)) {
 			WebTarget target = null;
 
 			Response response = null;
-			
+
 			target = getTarget(path, username, password);
-			String encoding = Base64.encodeAsString(username+":"+password);
-			
-			
-			response = target.request().header("Authorization", "Basic " + encoding).post(Entity.entity(data, contentType));
-			
+			String encoding = Base64.encodeAsString(username + ":" + password);
+
+			response = target.request().header("Authorization", "Basic " + encoding)
+					.post(Entity.entity(data, contentType));
+
 			responseData = response.readEntity(String.class);
 			return responseData;
 		} else {
-			throw new HttpException("Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
+			throw new HttpException(
+					"Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
 		}
 	}
-	public JSONObject postAuth(final String path, final byte[] data, final String contentType, final String authKey,final String authDate,final String username, final String password, final String protocolFlag) throws HttpException, JSONException{
+
+	public JSONObject postAuth(final String path, final byte[] data, final String contentType, final String authKey,
+			final String authDate, final String username, final String password, final String protocolFlag)
+			throws HttpException, JSONException {
 		if ((null != username && null != password)) {
 			WebTarget target = null;
 
 			Response response = null;
-				target= getTarget(path,username, password);
-				response = target.request()
-						.header(MR_AUTH_CONSTANT, authKey)
-						.header(MR_DATE_CONSTANT, authDate)
-						.post(Entity.entity(data, contentType));
-				
+			target = getTarget(path, username, password);
+			response = target.request().header(MR_AUTH_CONSTANT, authKey).header(MR_DATE_CONSTANT, authDate)
+					.post(Entity.entity(data, contentType));
+
 			return getResponseDataInJson(response);
 		} else {
-			throw new HttpException("Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
+			throw new HttpException(
+					"Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
 		}
 	}
-	public String postAuthwithResponse(final String path, final byte[] data, final String contentType, final String authKey,final String authDate,final String username, final String password, final String protocolFlag) throws HttpException, JSONException{
+
+	public String postAuthwithResponse(final String path, final byte[] data, final String contentType,
+			final String authKey, final String authDate, final String username, final String password,
+			final String protocolFlag) throws HttpException, JSONException {
 		String responseData = null;
 		if ((null != username && null != password)) {
 			WebTarget target = null;
 
 			Response response = null;
-				target= getTarget(path,username, password);
-				response = target.request()
-						.header(MR_AUTH_CONSTANT, authKey)
-						.header(MR_DATE_CONSTANT, authDate)
-						.post(Entity.entity(data, contentType));
-				responseData = response.readEntity(String.class);
-				return responseData;
-			
+			target = getTarget(path, username, password);
+			response = target.request().header(MR_AUTH_CONSTANT, authKey).header(MR_DATE_CONSTANT, authDate)
+					.post(Entity.entity(data, contentType));
+			responseData = response.readEntity(String.class);
+			return responseData;
+
 		} else {
-			throw new HttpException("Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
+			throw new HttpException(
+					"Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
 		}
 	}
 
-
-	public JSONObject get(final String path, final String username, final String password, final String protocolFlag) throws HttpException, JSONException {
+	public JSONObject get(final String path, final String username, final String password, final String protocolFlag)
+			throws HttpException, JSONException {
 		if (null != username && null != password) {
-			
+
 			WebTarget target = null;
 
 			Response response = null;
 			if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
-				target=getTarget(path);
-				response = target.request()
-						.header(MR_AUTH_CONSTANT, username)
-						.header(MR_DATE_CONSTANT, password)
-						.get();
+				target = getTarget(path);
+				response = target.request().header(MR_AUTH_CONSTANT, username).header(MR_DATE_CONSTANT, password).get();
 			} else {
 				target = getTarget(path, username, password);
-				String encoding = Base64.encodeAsString(username+":"+password);
-				
-				response = target.request().header("Authorization", "Basic " + encoding).get();	
-						
+				String encoding = Base64.encodeAsString(username + ":" + password);
+
+				response = target.request().header("Authorization", "Basic " + encoding).get();
+
 			}
 			return getResponseDataInJson(response);
 		} else {
-			throw new HttpException("Authentication Failed: Username/password/AuthKey/Authdate parameter(s) cannot be null or empty.");
+			throw new HttpException(
+					"Authentication Failed: Username/password/AuthKey/Authdate parameter(s) cannot be null or empty.");
 		}
 	}
-	
-	
-	public String getResponse(final String path, final String username, final String password, final String protocolFlag) throws HttpException, JSONException {
+
+	public String getResponse(final String path, final String username, final String password,
+			final String protocolFlag) throws HttpException, JSONException {
 		String responseData = null;
 		if (null != username && null != password) {
-			
+
 			WebTarget target = null;
 
 			Response response = null;
 			if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
-				target=getTarget(path);
-				response = target.request()
-						.header(MR_AUTH_CONSTANT, username)
-						.header(MR_DATE_CONSTANT, password)
-						.get();
+				target = getTarget(path);
+				response = target.request().header(MR_AUTH_CONSTANT, username).header(MR_DATE_CONSTANT, password).get();
 			} else {
 				target = getTarget(path, username, password);
-				String encoding = Base64.encodeAsString(username+":"+password);				
-				response = target.request().header("Authorization", "Basic " + encoding).get();							
+				String encoding = Base64.encodeAsString(username + ":" + password);
+				response = target.request().header("Authorization", "Basic " + encoding).get();
 			}
-			MRClientFactory.HTTPHeadersMap=response.getHeaders();
-		
-			String transactionid=response.getHeaderString("transactionid");
-				if (transactionid!=null && !transactionid.equalsIgnoreCase("")) {
-					fLog.info("TransactionId : " + transactionid);
+			MRClientFactory.HTTPHeadersMap = response.getHeaders();
+
+			String transactionid = response.getHeaderString("transactionid");
+			if (transactionid != null && !transactionid.equalsIgnoreCase("")) {
+				fLog.info("TransactionId : " + transactionid);
 			}
-			
+
 			responseData = response.readEntity(String.class);
 			return responseData;
 		} else {
-			throw new HttpException("Authentication Failed: Username/password/AuthKey/Authdate parameter(s) cannot be null or empty.");
+			throw new HttpException(
+					"Authentication Failed: Username/password/AuthKey/Authdate parameter(s) cannot be null or empty.");
 		}
 	}
-	
-	public JSONObject getAuth(final String path, final String authKey, final String authDate,final String username, final String password, final String protocolFlag) throws HttpException, JSONException {
+
+	public JSONObject getAuth(final String path, final String authKey, final String authDate, final String username,
+			final String password, final String protocolFlag) throws HttpException, JSONException {
 		if (null != username && null != password) {
-			
+
 			WebTarget target = null;
 
 			Response response = null;
-				target=getTarget(path, username, password);
-				response = target.request()
-						.header(MR_AUTH_CONSTANT, authKey)
-						.header(MR_DATE_CONSTANT, authDate)
-						.get();
-						
+			target = getTarget(path, username, password);
+			response = target.request().header(MR_AUTH_CONSTANT, authKey).header(MR_DATE_CONSTANT, authDate).get();
+
 			return getResponseDataInJson(response);
 		} else {
-			throw new HttpException("Authentication Failed: Username/password/AuthKey/Authdate parameter(s) cannot be null or empty.");
+			throw new HttpException(
+					"Authentication Failed: Username/password/AuthKey/Authdate parameter(s) cannot be null or empty.");
 		}
 	}
-	
-	public String getAuthResponse(final String path, final String authKey, final String authDate,final String username, final String password, final String protocolFlag) throws HttpException, JSONException {
-		String responseData = null;
+
+	public JSONObject getNoAuth(final String path, final String username, final String password,
+			final String protocolFlag) throws HttpException, JSONException {
 		if (null != username && null != password) {
-			
+
 			WebTarget target = null;
 
 			Response response = null;
-				target=getTarget(path, username, password);
-				response = target.request()
-						.header(MR_AUTH_CONSTANT, authKey)
-						.header(MR_DATE_CONSTANT, authDate)
-						.get();
-				
-				MRClientFactory.HTTPHeadersMap=response.getHeaders();
-				
-				String transactionid=response.getHeaderString("transactionid");
-					if (transactionid!=null && !transactionid.equalsIgnoreCase("")) {
-						fLog.info("TransactionId : " + transactionid);
-				}
-						
-				responseData = response.readEntity(String.class);
-				return responseData;
+			target = getTarget(path, username, password);
+			response = target.request().get();
+
+			return getResponseDataInJson(response);
 		} else {
-			throw new HttpException("Authentication Failed: Username/password/AuthKey/Authdate parameter(s) cannot be null or empty.");
+			throw new HttpException(
+					"Authentication Failed: Username/password/AuthKey/Authdate parameter(s) cannot be null or empty.");
 		}
+	}
+
+	public String getAuthResponse(final String path, final String authKey, final String authDate, final String username,
+			final String password, final String protocolFlag) throws HttpException, JSONException {
+		String responseData = null;
+		if (null != username && null != password) {
+
+			WebTarget target = null;
+
+			Response response = null;
+			target = getTarget(path, username, password);
+			response = target.request().header(MR_AUTH_CONSTANT, authKey).header(MR_DATE_CONSTANT, authDate).get();
+
+			MRClientFactory.HTTPHeadersMap = response.getHeaders();
+
+			String transactionid = response.getHeaderString("transactionid");
+			if (transactionid != null && !transactionid.equalsIgnoreCase("")) {
+				fLog.info("TransactionId : " + transactionid);
+			}
+
+			responseData = response.readEntity(String.class);
+			return responseData;
+		} else {
+			throw new HttpException(
+					"Authentication Failed: Username/password/AuthKey/Authdate parameter(s) cannot be null or empty.");
+		}
+	}
+
+	public String getNoAuthResponse(String path, final String username, final String password,
+			final String protocolFlag) throws HttpException, JSONException {
+		String responseData = null;
+
+		WebTarget target = null;
+
+		Response response = null;
+		target = getTarget(path, username, password);
+		response = target.request().get();
+
+		MRClientFactory.HTTPHeadersMap = response.getHeaders();
+
+		String transactionid = response.getHeaderString("transactionid");
+		if (transactionid != null && !transactionid.equalsIgnoreCase("")) {
+			fLog.info("TransactionId : " + transactionid);
+		}
+
+		responseData = response.readEntity(String.class);
+		return responseData;
+
 	}
 
 	private WebTarget getTarget(final String path, final String username, final String password) {
 
 		Client client = ClientBuilder.newClient();
 
-		
-			// Using UNIVERSAL as it supports both BASIC and DIGEST authentication types.
-			HttpAuthenticationFeature feature = HttpAuthenticationFeature.universal(username, password);
-			client.register(feature);
-		
+		// Using UNIVERSAL as it supports both BASIC and DIGEST authentication
+		// types.
+		HttpAuthenticationFeature feature = HttpAuthenticationFeature.universal(username, password);
+		client.register(feature);
+
 		return client.target(path);
 	}
-
 
 	private WebTarget getTarget(final String path) {
 
 		Client client = ClientBuilder.newClient();
 		return client.target(path);
 	}
+
 	private JSONObject getResponseDataInJson(Response response) throws JSONException {
 		try {
-			MRClientFactory.HTTPHeadersMap=response.getHeaders();
-		//	fLog.info("DMAAP response status: " + response.getStatus());
-			
-						
-			//MultivaluedMap<String, Object> headersMap = response.getHeaders();
-			//for(String key : headersMap.keySet()) {
-			String transactionid=response.getHeaderString("transactionid");
-			if (transactionid!=null && !transactionid.equalsIgnoreCase("")) {
+			MRClientFactory.HTTPHeadersMap = response.getHeaders();
+			// fLog.info("DMAAP response status: " + response.getStatus());
+
+			// MultivaluedMap<String, Object> headersMap =
+			// response.getHeaders();
+			// for(String key : headersMap.keySet()) {
+			String transactionid = response.getHeaderString("transactionid");
+			if (transactionid != null && !transactionid.equalsIgnoreCase("")) {
 				fLog.info("TransactionId : " + transactionid);
 			}
 
-			/*final String responseData = response.readEntity(String.class);
-			JSONTokener jsonTokener = new JSONTokener(responseData);
-			JSONObject jsonObject = null;
-			final char firstChar = jsonTokener.next();
-			jsonTokener.back();
-			if ('[' == firstChar) {
-				JSONArray jsonArray = new JSONArray(jsonTokener);
-				jsonObject = new JSONObject();
-				jsonObject.put("result", jsonArray);
-			} else {
-				jsonObject = new JSONObject(jsonTokener);
-			}
+			/*
+			 * final String responseData = response.readEntity(String.class);
+			 * JSONTokener jsonTokener = new JSONTokener(responseData);
+			 * JSONObject jsonObject = null; final char firstChar =
+			 * jsonTokener.next(); jsonTokener.back(); if ('[' == firstChar) {
+			 * JSONArray jsonArray = new JSONArray(jsonTokener); jsonObject =
+			 * new JSONObject(); jsonObject.put("result", jsonArray); } else {
+			 * jsonObject = new JSONObject(jsonTokener); }
+			 * 
+			 * return jsonObject;
+			 */
 
-			return jsonObject;*/
-			
-
-			if(response.getStatus()==403) {
+			if (response.getStatus() == 403) {
 				JSONObject jsonObject = null;
 				jsonObject = new JSONObject();
 				JSONArray jsonArray = new JSONArray();
@@ -339,11 +371,11 @@ public class MRBaseClient extends HttpClient implements MRClient
 				return jsonObject;
 			}
 			String responseData = response.readEntity(String.class);
-				
+
 			JSONTokener jsonTokener = new JSONTokener(responseData);
 			JSONObject jsonObject = null;
 			final char firstChar = jsonTokener.next();
-	    	jsonTokener.back();
+			jsonTokener.back();
 			if ('[' == firstChar) {
 				JSONArray jsonArray = new JSONArray(jsonTokener);
 				jsonObject = new JSONObject();
@@ -361,35 +393,35 @@ public class MRBaseClient extends HttpClient implements MRClient
 		}
 
 	}
-	
-	public String getHTTPErrorResponseMessage(String responseString){
-		
+
+	public String getHTTPErrorResponseMessage(String responseString) {
+
 		String response = null;
 		int beginIndex = 0;
 		int endIndex = 0;
-		if(responseString.contains("<body>")){
-			
-			beginIndex = responseString.indexOf("body>")+5;
+		if (responseString.contains("<body>")) {
+
+			beginIndex = responseString.indexOf("body>") + 5;
 			endIndex = responseString.indexOf("</body");
-			response = responseString.substring(beginIndex,endIndex);
+			response = responseString.substring(beginIndex, endIndex);
 		}
-		
+
 		return response;
-		
+
 	}
-	
-	public String getHTTPErrorResponseCode(String responseString){
-		
+
+	public String getHTTPErrorResponseCode(String responseString) {
+
 		String response = null;
 		int beginIndex = 0;
 		int endIndex = 0;
-		if(responseString.contains("<title>")){
-			beginIndex = responseString.indexOf("title>")+6;
+		if (responseString.contains("<title>")) {
+			beginIndex = responseString.indexOf("title>") + 6;
 			endIndex = responseString.indexOf("</title");
-			response = responseString.substring(beginIndex,endIndex);
+			response = responseString.substring(beginIndex, endIndex);
 		}
-				
-		return response;		
+
+		return response;
 	}
-	
+
 }
