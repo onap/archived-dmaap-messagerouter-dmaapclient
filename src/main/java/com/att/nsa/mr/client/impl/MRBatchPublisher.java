@@ -260,6 +260,7 @@ public class MRBatchPublisher implements MRBatchingPublisher
 			catch ( IOException e )
 			{
 				fLog.warn ( "MR background send: " + e.getMessage () );
+				fLog.error( "IOException " + e );
 			}
 		}
 
