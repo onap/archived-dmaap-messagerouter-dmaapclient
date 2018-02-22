@@ -1,31 +1,21 @@
-<!--
-     ============LICENSE_START=======================================================
-     org.onap.dmaap
-     ================================================================================
-     Copyright © 2017 AT&T Intellectual Property. All rights reserved.
-     ================================================================================
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-           http://www.apache.org/licenses/LICENSE-2.0
-     
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
-     ============LICENSE_END=========================================================
-   
-     ECOMP is a trademark and service mark of AT&T Intellectual Property.
-     
- -->
+<!-- ============LICENSE_START======================================================= 
+	org.onap.dmaap ================================================================================ 
+	Copyright © 2017 AT&T Intellectual Property. All rights reserved. ================================================================================ 
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+	use this file except in compliance with the License. You may obtain a copy 
+	of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. ============LICENSE_END========================================================= 
+	ECOMP is a trademark and service mark of AT&T Intellectual Property. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.onap.dmaap.messagerouter.dmaapclient</groupId>
 	<artifactId>dmaapClient</artifactId>
 	<packaging>jar</packaging>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>1.1.2-SNAPSHOT</version>
 	<name>dmaap-messagerouter-dmaapclient</name>
 	<description>Client library for MR event routing API</description>
 	<url>https://github.com/att/dmaap-framework</url>
@@ -40,21 +30,23 @@
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<jersey.version>2.22.1</jersey.version>
+		<version.jackson.core>2.6.7.1</version.jackson.core>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
-		<!--  SONAR  -->
-		 <jacoco.version>0.7.7.201606060606</jacoco.version>
-	    <sonar-jacoco-listeners.version>3.2</sonar-jacoco-listeners.version>
-	    <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-	    <!-- Default Sonar configuration -->
-	    <sonar.jacoco.reportPath>target/code-coverage/jacoco-ut.exec</sonar.jacoco.reportPath>
-	    <sonar.jacoco.itReportPath>target/code-coverage/jacoco-it.exec</sonar.jacoco.itReportPath>
-	    <!-- Note: This list should match jacoco-maven-plugin's exclusion list below -->
-	    <sonar.exclusions>**/gen/**,**/generated-sources/**,**/yang-gen**,**/pax/**</sonar.exclusions>
-	    <sitePath>/content/sites/site/org/onap/dmaap/messagerouter/dmaapclient/${project.artifactId}/${project.version}</sitePath>
+
+		<!-- SONAR -->
+		<jacoco.version>0.7.7.201606060606</jacoco.version>
+		<sonar-jacoco-listeners.version>3.2</sonar-jacoco-listeners.version>
+		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+		<!-- Default Sonar configuration -->
+		<sonar.jacoco.reportPath>target/code-coverage/jacoco-ut.exec</sonar.jacoco.reportPath>
+		<sonar.jacoco.itReportPath>target/code-coverage/jacoco-it.exec</sonar.jacoco.itReportPath>
+		<!-- Note: This list should match jacoco-maven-plugin's exclusion list 
+			below -->
+		<sonar.exclusions>**/gen/**,**/generated-sources/**,**/yang-gen**,**/pax/**</sonar.exclusions>
+		<sitePath>/content/sites/site/org/onap/dmaap/messagerouter/dmaapclient/${project.artifactId}/${project.version}</sitePath>
 		<nexusproxy>https://nexus.onap.org</nexusproxy>
 	</properties>
-	
+
 	<distributionManagement>
 		<site>
 			<id>ecomp-site</id>
@@ -62,28 +54,43 @@
 		</site>
 	</distributionManagement>
 
-	 <licenses>
-	  <license>
-	    <name>Apache License Version 2.0</name>
-	  </license>
+	<licenses>
+		<license>
+			<name>Apache License Version 2.0</name>
+		</license>
 	</licenses>
 
 	<developers>
-	   <developer>
-	     <name>Rajashree</name>
-	     <email></email>
-	     <organization>ATT</organization>
-	     <organizationUrl>www.att.com</organizationUrl>
-	   </developer>
-	   <developer>
-	     <name>Ramkumar</name>
-	     <email></email>
-	     <organization>ATT</organization>
-	     <organizationUrl>www.att.com</organizationUrl>
-	   </developer>
-	 </developers>
+		<developer>
+			<name>Rajashree</name>
+			<email></email>
+			<organization>ATT</organization>
+			<organizationUrl>www.att.com</organizationUrl>
+		</developer>
+		<developer>
+			<name>Ramkumar</name>
+			<email></email>
+			<organization>ATT</organization>
+			<organizationUrl>www.att.com</organizationUrl>
+		</developer>
+	</developers>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.8.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.8.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient-cache</artifactId>
+			<version>4.5.3</version>
+		</dependency>
 		<dependency>
 			<groupId>com.att.nsa</groupId>
 			<artifactId>saClientLibrary</artifactId>
@@ -99,7 +106,7 @@
 		<dependency>
 			<groupId>com.att.aft</groupId>
 			<artifactId>dme2</artifactId>
-			<version>3.1.200</version>
+			<version>3.1.200-oss</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.sun.jersey</groupId>
@@ -154,12 +161,12 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>com.github.tomakehurst</groupId>
-		    <artifactId>wiremock</artifactId>
-		    <version>2.5.0</version>
-		    <scope>test</scope>
+			<groupId>com.github.tomakehurst</groupId>
+			<artifactId>wiremock</artifactId>
+			<version>2.5.0</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -167,7 +174,7 @@
 			<version>1.9.5</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>
@@ -258,92 +265,82 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-		<plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>${jacoco.version}</version>
-          <configuration>
-            <!-- Note: This exclusion list should match <sonar.exclusions>
-         property above -->
-            <excludes>
-              <exclude>**/gen/**</exclude>
-              <exclude>**/generated-sources/**</exclude>
-              <exclude>**/yang-gen/**</exclude>
-              <exclude>**/pax/**</exclude>
-            </excludes>
-          </configuration>
-          <executions>
-            <!--
-        Prepares the property pointing to the JaCoCo runtime agent which
-        is passed as VM argument when Maven the Surefire plugin is executed.
-        -->
-            <execution>
-              <id>pre-unit-test</id>
-              <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-              <configuration>
-                <!-- Sets the path to the file which contains the execution data. -->
-                <destFile>${project.build.directory}/code-coverage/jacoco-ut.exec</destFile>
-                <!--
-            Sets the name of the property containing the settings
-            for JaCoCo runtime agent.
-        -->
-                <propertyName>surefireArgLine</propertyName>
-              </configuration>
-            </execution>
-            <!--
-        Ensures that the code coverage report for unit tests is created after
-        unit tests have been run.
-        -->
-            <execution>
-              <id>post-unit-test</id>
-              <phase>test</phase>
-              <goals>
-                <goal>report</goal>
-              </goals>
-              <configuration>
-                <!-- Sets the path to the file which contains the execution data. -->
-                <dataFile>${project.build.directory}/code-coverage/jacoco-ut.exec</dataFile>
-                <!-- Sets the output directory for the code coverage report. -->
-                <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
-              </configuration>
-            </execution>
-            <execution>
-              <id>pre-integration-test</id>
-              <phase>pre-integration-test</phase>
-              <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-              <configuration>
-                <!-- Sets the path to the file which contains the execution data. -->
-                <destFile>${project.build.directory}/code-coverage/jacoco-it.exec</destFile>
-                <!--
-            Sets the name of the property containing the settings
-            for JaCoCo runtime agent.
-        -->
-                <propertyName>failsafeArgLine</propertyName>
-              </configuration>
-            </execution>
-            <!--
-        Ensures that the code coverage report for integration tests after
-        integration tests have been run.
-        -->
-            <execution>
-              <id>post-integration-test</id>
-              <phase>post-integration-test</phase>
-              <goals>
-                <goal>report</goal>
-              </goals>
-              <configuration>
-                <!-- Sets the path to the file which contains the execution data. -->
-                <dataFile>${project.build.directory}/code-coverage/jacoco-it.exec</dataFile>
-                <!-- Sets the output directory for the code coverage report. -->
-                <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<configuration>
+					<!-- Note: This exclusion list should match <sonar.exclusions> property 
+						above -->
+					<excludes>
+						<exclude>**/gen/**</exclude>
+						<exclude>**/generated-sources/**</exclude>
+						<exclude>**/yang-gen/**</exclude>
+						<exclude>**/pax/**</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<!-- Prepares the property pointing to the JaCoCo runtime agent which 
+						is passed as VM argument when Maven the Surefire plugin is executed. -->
+					<execution>
+						<id>pre-unit-test</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<!-- Sets the path to the file which contains the execution data. -->
+							<destFile>${project.build.directory}/code-coverage/jacoco-ut.exec</destFile>
+							<!-- Sets the name of the property containing the settings for JaCoCo 
+								runtime agent. -->
+							<propertyName>surefireArgLine</propertyName>
+						</configuration>
+					</execution>
+					<!-- Ensures that the code coverage report for unit tests is created 
+						after unit tests have been run. -->
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<!-- Sets the path to the file which contains the execution data. -->
+							<dataFile>${project.build.directory}/code-coverage/jacoco-ut.exec</dataFile>
+							<!-- Sets the output directory for the code coverage report. -->
+							<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>pre-integration-test</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<!-- Sets the path to the file which contains the execution data. -->
+							<destFile>${project.build.directory}/code-coverage/jacoco-it.exec</destFile>
+							<!-- Sets the name of the property containing the settings for JaCoCo 
+								runtime agent. -->
+							<propertyName>failsafeArgLine</propertyName>
+						</configuration>
+					</execution>
+					<!-- Ensures that the code coverage report for integration tests after 
+						integration tests have been run. -->
+					<execution>
+						<id>post-integration-test</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<!-- Sets the path to the file which contains the execution data. -->
+							<dataFile>${project.build.directory}/code-coverage/jacoco-it.exec</dataFile>
+							<!-- Sets the output directory for the code coverage report. -->
+							<outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
