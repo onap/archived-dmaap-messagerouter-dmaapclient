@@ -47,7 +47,7 @@ import com.att.nsa.mr.client.MRTopicManager.TopicInfo;
 import com.att.nsa.mr.client.MRTopicManager;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({MRClientFactory.class })
+@PrepareForTest({ MRClientFactory.class })
 public class TopicCommandTest {
 	@InjectMocks
 	private TopicCommand command;
@@ -55,16 +55,17 @@ public class TopicCommandTest {
 	private MRTopicManager tm;
 	@Mock
 	private TopicInfo ti;
-	
+	@Mock
+	private PrintStream printStream;
 
 	@Before
 	public void setUp() throws Exception {
-		
+
 		MockitoAnnotations.initMocks(this);
 		PowerMockito.mockStatic(MRClientFactory.class);
 		PowerMockito.when(MRClientFactory.createTopicManager(Arrays.asList("localhost"), null, null)).thenReturn(tm);
 		PowerMockito.when(tm.getTopicMetadata("testtopic")).thenReturn(ti);
-		
+
 	}
 
 	@After
@@ -79,7 +80,7 @@ public class TopicCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
 	public void testCheckReady() {
 
@@ -92,145 +93,132 @@ public class TopicCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
 	public void testExecute() {
-		
-		 String[] parts1 = {"create","testtopic","1","1"};
-		 String[] parts2 = {"grant","write","read","1"};
-		 String[] parts3 = {"revoke","write","read","1"};
-		 String[] parts4 = {"list","testtopic","1","1"};
-		 List<String[]> parts= Arrays.asList(parts1,parts2,parts3,parts4);
-		 for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
+
+		String[] parts1 = { "create", "testtopic", "1", "1" };
+		String[] parts2 = { "grant", "write", "read", "1" };
+		String[] parts3 = { "revoke", "write", "read", "1" };
+		String[] parts4 = { "list", "testtopic", "1", "1" };
+		List<String[]> parts = Arrays.asList(parts1, parts2, parts3, parts4);
+		for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
 			String[] part = (String[]) iterator.next();
-			
+
 			try {
-				PrintStream printStream = new PrintStream(System.out);
 				command.execute(part, new MRCommandContext(), printStream);
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			assertTrue(true);
-			
+
 		}
 
 	}
-	
+
 	@Test
 	public void testExecute_error() {
-		
-		 String[] parts1 = {"create","testtopic","1","1"};
-		 String[] parts2 = {"grant","write","read","1"};
-		 String[] parts3 = {"revoke","write","read","1"};
-		 String[] parts4 = {"list","testtopic","1","1"};
-		 List<String[]> parts= Arrays.asList(parts1,parts2,parts3,parts4);
-		 for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
+
+		String[] parts1 = { "create", "testtopic", "1", "1" };
+		String[] parts2 = { "grant", "write", "read", "1" };
+		String[] parts3 = { "revoke", "write", "read", "1" };
+		String[] parts4 = { "list", "testtopic", "1", "1" };
+		List<String[]> parts = Arrays.asList(parts1, parts2, parts3, parts4);
+		for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
 			String[] part = (String[]) iterator.next();
-			
+
 			try {
-				PrintStream printStream = new PrintStream(System.out);
 				command.execute(part, new MRCommandContext(), printStream);
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			assertTrue(true);
-			
+
 		}
-		
 
 	}
-	
+
 	@Test
 	public void testExecute_error_1() throws com.att.nsa.apiClient.http.HttpException, IOException {
 		PowerMockito.when(tm.getTopicMetadata("testtopic")).thenThrow(new IOException("error"));
-		PowerMockito.doThrow(new IOException()).when(tm).createTopic("testtopic","", 1, 1 );
+		PowerMockito.doThrow(new IOException()).when(tm).createTopic("testtopic", "", 1, 1);
 		PowerMockito.doThrow(new IOException()).when(tm).revokeProducer("read", "1");
-		 String[] parts1 = {"create","testtopic","1","1"};
-		 String[] parts2 = {"grant","read","read","1"};
-		 String[] parts3 = {"revoke","write","read","1"};
-		 String[] parts4 = {"list","testtopic","1","1"};
-		 List<String[]> parts= Arrays.asList(parts1,parts2,parts3,parts4);
-		 for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
+		String[] parts1 = { "create", "testtopic", "1", "1" };
+		String[] parts2 = { "grant", "read", "read", "1" };
+		String[] parts3 = { "revoke", "write", "read", "1" };
+		String[] parts4 = { "list", "testtopic", "1", "1" };
+		List<String[]> parts = Arrays.asList(parts1, parts2, parts3, parts4);
+		for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
 			String[] part = (String[]) iterator.next();
-			
+
 			try {
-				PrintStream printStream = new PrintStream(System.out);
 				command.execute(part, new MRCommandContext(), printStream);
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			assertTrue(true);
-			
+
 		}
-		
 
 	}
-	
+
 	@Test
 	public void testExecute_error_2() throws com.att.nsa.apiClient.http.HttpException, IOException {
 		PowerMockito.when(tm.getTopicMetadata("testtopic")).thenThrow(new HttpObjectNotFoundException("error"));
-		PowerMockito.doThrow(new HttpException(500,"error")).when(tm).createTopic("testtopic","", 1, 1 );
-		PowerMockito.doThrow(new HttpException(500,"error")).when(tm).revokeConsumer("read", "1");
-		PowerMockito.doThrow(new HttpException(500,"error")).when(tm).allowConsumer("read","1");
-		 String[] parts1 = {"create","testtopic","1","1"};
-		 String[] parts2 = {"grant","write","write","1"};
-		 String[] parts3 = {"revoke","read","read","1"};
-		 String[] parts4 = {"list","testtopic","1","1"};
-		 List<String[]> parts= Arrays.asList(parts1,parts2,parts3,parts4);
-		 for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
+		PowerMockito.doThrow(new HttpException(500, "error")).when(tm).createTopic("testtopic", "", 1, 1);
+		PowerMockito.doThrow(new HttpException(500, "error")).when(tm).revokeConsumer("read", "1");
+		PowerMockito.doThrow(new HttpException(500, "error")).when(tm).allowConsumer("read", "1");
+		String[] parts1 = { "create", "testtopic", "1", "1" };
+		String[] parts2 = { "grant", "write", "write", "1" };
+		String[] parts3 = { "revoke", "read", "read", "1" };
+		String[] parts4 = { "list", "testtopic", "1", "1" };
+		List<String[]> parts = Arrays.asList(parts1, parts2, parts3, parts4);
+		for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
 			String[] part = (String[]) iterator.next();
-			
+
 			try {
-				PrintStream printStream = new PrintStream(System.out);
 				command.execute(part, new MRCommandContext(), printStream);
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			assertTrue(true);
-			
+
 		}
-		
 
 	}
+
 	@Test
 	public void testExecute_error_3() throws com.att.nsa.apiClient.http.HttpException, IOException {
-		PowerMockito.doThrow(new HttpException(500,"error")).when(tm).createTopic("testtopic","", 1, 1 );
-		PowerMockito.doThrow(new HttpException(500,"error")).when(tm).allowProducer("read","1");
-		 String[] parts1 = {"create","testtopic","1a","1a"};
-		 String[] parts2 = {"grant","write","read","1"};
-		 List<String[]> parts= Arrays.asList(parts1,parts2);
-		 for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
+		PowerMockito.doThrow(new HttpException(500, "error")).when(tm).createTopic("testtopic", "", 1, 1);
+		PowerMockito.doThrow(new HttpException(500, "error")).when(tm).allowProducer("read", "1");
+		String[] parts1 = { "create", "testtopic", "1a", "1a" };
+		String[] parts2 = { "grant", "write", "read", "1" };
+		List<String[]> parts = Arrays.asList(parts1, parts2);
+		for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
 			String[] part = (String[]) iterator.next();
-			
+
 			try {
-				PrintStream printStream = new PrintStream(System.out);
 				command.execute(part, new MRCommandContext(), printStream);
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			assertTrue(true);
-			
+
 		}
-		
 
 	}
-	
-	
+
 	@Test
 	public void testDisplayHelp() {
 
-		PrintStream printStream = new PrintStream(System.out);
 		command.displayHelp(printStream);
 		assertTrue(true);
 
 	}
-	
-	
-	
-	
+
 }

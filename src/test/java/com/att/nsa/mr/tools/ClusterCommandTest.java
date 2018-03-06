@@ -23,11 +23,8 @@ package com.att.nsa.mr.tools;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -40,15 +37,15 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.att.nsa.cmdtool.CommandNotReadyException;
-import com.att.nsa.mr.client.HostSelector;
-import com.att.nsa.mr.client.MRPublisher.message;
-import com.att.nsa.mr.test.support.MRBatchingPublisherMock.Entry;
+
 @RunWith(PowerMockRunner.class)
 public class ClusterCommandTest {
 	@InjectMocks
 	private ClusterCommand command;
 	@Mock
 	private MRCommandContext context;
+	@Mock
+	private PrintStream printStream;
 
 	@Before
 	public void setUp() throws Exception {
@@ -68,7 +65,7 @@ public class ClusterCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
 	public void testCheckReady() {
 
@@ -81,36 +78,29 @@ public class ClusterCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
 	public void testExecute() throws FileNotFoundException, CommandNotReadyException {
-		 String[] parts = {"create","testtopic","1","1"};
-			PrintStream printStream = new PrintStream(System.out);
-			command.execute(parts, context,printStream);
+		String[] parts = { "create", "testtopic", "1", "1" };
+		command.execute(parts, context, printStream);
 		assertTrue(true);
 
 	}
+
 	@Test
 	public void testExecute1() throws FileNotFoundException, CommandNotReadyException {
 		String[] parts = {};
-			PrintStream printStream = new PrintStream(System.out);
-			command.execute(parts, context,printStream);
+		command.execute(parts, context, printStream);
 		assertTrue(true);
 
 	}
-	
-	
+
 	@Test
 	public void testDisplayHelp() {
-		
-			PrintStream printStream = new PrintStream(System.out);
-			command.displayHelp(printStream);
+
+		command.displayHelp(printStream);
 		assertTrue(true);
 
 	}
-	
-	
-	
-	
-	
+
 }

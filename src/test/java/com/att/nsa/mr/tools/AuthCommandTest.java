@@ -22,29 +22,29 @@ package com.att.nsa.mr.tools;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.att.nsa.cmdtool.CommandNotReadyException;
-import com.att.nsa.mr.client.HostSelector;
-import com.att.nsa.mr.client.MRPublisher.message;
-import com.att.nsa.mr.test.support.MRBatchingPublisherMock.Entry;
 
+@RunWith(PowerMockRunner.class)
 public class AuthCommandTest {
+	@InjectMocks
 	private AuthCommand command = null;
-	
+	@Mock
+	private PrintStream printStream;
 
 	@Before
 	public void setUp() throws Exception {
-		command = new AuthCommand();
-		
+		MockitoAnnotations.initMocks(this);
 
 	}
 
@@ -60,7 +60,7 @@ public class AuthCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
 	public void testCheckReady() {
 
@@ -73,48 +73,41 @@ public class AuthCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
 	public void testExecute() {
-		
+
 		try {
 			String[] parts = new String[5];
-			PrintStream printStream = new PrintStream(System.out);
 			command.execute(parts, new MRCommandContext(), printStream);
 		} catch (CommandNotReadyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 		assertTrue(true);
 
 	}
+
 	@Test
 	public void testExecute1() {
-		
+
 		try {
-			String[] parts = {"userName","password"};
-			PrintStream printStream = new PrintStream(System.out);
+			String[] parts = { "userName", "password" };
 			command.execute(parts, new MRCommandContext(), printStream);
 		} catch (CommandNotReadyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 		assertTrue(true);
 
 	}
-	
-	
+
 	@Test
 	public void testDisplayHelp() {
-		
-			PrintStream printStream = new PrintStream(System.out);
-			command.displayHelp(printStream);
+
+		command.displayHelp(printStream);
 		assertTrue(true);
 
 	}
-	
-	
-	
-	
-	
+
 }

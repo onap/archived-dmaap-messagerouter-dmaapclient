@@ -62,6 +62,8 @@ public class ApiKeyCommandTest {
 	private ApiKey key;
 	@Mock
 	private ApiCredential ac;
+	@Mock
+	private PrintStream printStream;
 
 	@Before
 	public void setUp() throws Exception {
@@ -111,7 +113,7 @@ public class ApiKeyCommandTest {
 			String[] part = (String[]) iterator.next();
 
 			try {
-				command.execute(part, new MRCommandContext(), MrToolsUtils.getPrintStream());
+				command.execute(part, new MRCommandContext(), printStream);
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -132,7 +134,7 @@ public class ApiKeyCommandTest {
 			String[] part = (String[]) iterator.next();
 
 			try {
-				command.execute(part, new MRCommandContext(), MrToolsUtils.getPrintStream());
+				command.execute(part, new MRCommandContext(), printStream);
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -153,7 +155,7 @@ public class ApiKeyCommandTest {
 			String[] part = (String[]) iterator.next();
 
 			try {
-				command.execute(part, new MRCommandContext(), MrToolsUtils.getPrintStream());
+				command.execute(part, new MRCommandContext(),printStream);
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -174,7 +176,7 @@ public class ApiKeyCommandTest {
 			String[] part = (String[]) iterator.next();
 
 			try {
-				command.execute(part, new MRCommandContext(), MrToolsUtils.getPrintStream());
+				command.execute(part, new MRCommandContext(), printStream);
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -195,7 +197,7 @@ public class ApiKeyCommandTest {
 			String[] part = (String[]) iterator.next();
 
 			try {
-				command.execute(part, new MRCommandContext(), MrToolsUtils.getPrintStream());
+				command.execute(part, new MRCommandContext(), printStream);
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -208,7 +210,7 @@ public class ApiKeyCommandTest {
 	 @Test
 	public void testDisplayHelp() {
 
-		command.displayHelp(MrToolsUtils.getPrintStream());
+		command.displayHelp(printStream);
 		assertTrue(true);
 
 	}

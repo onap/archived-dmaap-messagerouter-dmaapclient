@@ -22,10 +22,8 @@ package com.att.nsa.mr.tools;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -43,13 +41,10 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.att.nsa.cmdtool.CommandNotReadyException;
-import com.att.nsa.mr.client.HostSelector;
 import com.att.nsa.mr.client.MRBatchingPublisher;
 import com.att.nsa.mr.client.MRClientFactory;
 import com.att.nsa.mr.client.MRConsumer;
-import com.att.nsa.mr.client.MRPublisher.message;
 import com.att.nsa.mr.client.MRTopicManager.TopicInfo;
-import com.att.nsa.mr.test.support.MRBatchingPublisherMock.Entry;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ MRClientFactory.class, ToolsUtil.class })
@@ -64,14 +59,16 @@ public class MessageCommandTest {
 	private MRBatchingPublisher pub;
 	@Mock
 	private MRConsumer cc;
+	@Mock
+	private PrintStream printStream;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		PowerMockito.mockStatic(MRClientFactory.class);
 		PowerMockito.mockStatic(ToolsUtil.class);
-		PowerMockito.when(MRClientFactory.createConsumer(Arrays.asList("localhost"), "testtopic", "2", "3", -1, -1, null, null, null))
-				.thenReturn(cc);
+		PowerMockito.when(MRClientFactory.createConsumer(Arrays.asList("localhost"), "testtopic", "2", "3", -1, -1,
+				null, null, null)).thenReturn(cc);
 
 	}
 
@@ -87,7 +84,7 @@ public class MessageCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
 	public void testCheckReady() {
 
@@ -100,16 +97,15 @@ public class MessageCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
 	public void testExecute() {
-		
+
 		String[] parts1 = { "read", "testtopic", "2", "3" };
 		String[] parts2 = { "write", "testtopic", "2", "3" };
 		List<String[]> parts = Arrays.asList(parts1, parts2);
 		for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
 			String[] part = (String[]) iterator.next();
-			PrintStream printStream = new PrintStream(System.out);
 
 			MRCommandContext context = new MRCommandContext();
 			PowerMockito.when(ToolsUtil.createBatchPublisher(context, "testtopic")).thenReturn(pub);
@@ -122,7 +118,7 @@ public class MessageCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
 	public void testExecute_error1() {
 		try {
@@ -139,7 +135,6 @@ public class MessageCommandTest {
 		List<String[]> parts = Arrays.asList(parts1, parts2);
 		for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
 			String[] part = (String[]) iterator.next();
-			PrintStream printStream = new PrintStream(System.out);
 
 			MRCommandContext context = new MRCommandContext();
 			PowerMockito.when(ToolsUtil.createBatchPublisher(context, "testtopic")).thenReturn(pub);
@@ -155,8 +150,8 @@ public class MessageCommandTest {
 	}
 
 	@Test
-	public void testExecute_error2()  {
-				try {
+	public void testExecute_error2() {
+		try {
 			PowerMockito.doThrow(new IOException()).when(pub).close(500, TimeUnit.MILLISECONDS);
 			PowerMockito.doThrow(new IOException()).when(pub).send("2", "3");
 
@@ -172,7 +167,6 @@ public class MessageCommandTest {
 		List<String[]> parts = Arrays.asList(parts1, parts2);
 		for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
 			String[] part = (String[]) iterator.next();
-			PrintStream printStream = new PrintStream(System.out);
 
 			MRCommandContext context = new MRCommandContext();
 			PowerMockito.when(ToolsUtil.createBatchPublisher(context, "testtopic")).thenReturn(pub);
@@ -187,51 +181,34 @@ public class MessageCommandTest {
 
 	}
 
-	/*@Test
-	public void testExecute_error3()  {
-		
-		try {
-			PowerMockito.doThrow(new IOException()).when(pub).send("2", "3");
-			PowerMockito.doThrow(new InterruptedException()).when(pub).close(500, TimeUnit.MILLISECONDS);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String[] parts1 = { "read", "testtopic", "2", "3" };
-		String[] parts2 = { "write", "testtopic", "2", "3" };
-		List<String[]> parts = Arrays.asList(parts1, parts2);
-		for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
-			String[] part = (String[]) iterator.next();
-			PrintStream printStream = new PrintStream(System.out);
+	/*
+	 * @Test public void testExecute_error3() {
+	 * 
+	 * try { PowerMockito.doThrow(new IOException()).when(pub).send("2", "3");
+	 * PowerMockito.doThrow(new InterruptedException()).when(pub).close(500,
+	 * TimeUnit.MILLISECONDS); } catch (IOException e) { // TODO Auto-generated
+	 * catch block e.printStackTrace(); } catch (InterruptedException e) { //
+	 * TODO Auto-generated catch block e.printStackTrace(); } String[] parts1 =
+	 * { "read", "testtopic", "2", "3" }; String[] parts2 = { "write",
+	 * "testtopic", "2", "3" }; List<String[]> parts = Arrays.asList(parts1,
+	 * parts2); for (Iterator iterator = parts.iterator(); iterator.hasNext();)
+	 * { String[] part = (String[]) iterator.next(); PrintStream printStream =
+	 * new PrintStream(System.out);
+	 * 
+	 * MRCommandContext context = new MRCommandContext();
+	 * PowerMockito.when(ToolsUtil.createBatchPublisher(context,
+	 * "testtopic")).thenReturn(pub); try { command.execute(part, context,
+	 * printStream); } catch (CommandNotReadyException e) { // TODO
+	 * Auto-generated catch block e.printStackTrace(); } } assertTrue(true);
+	 * 
+	 * }
+	 */
 
-			MRCommandContext context = new MRCommandContext();
-			PowerMockito.when(ToolsUtil.createBatchPublisher(context, "testtopic")).thenReturn(pub);
-			try {
-				command.execute(part, context, printStream);
-			} catch (CommandNotReadyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		assertTrue(true);
-
-	}
-*/
-	
-	
 	@Test
 	public void testDisplayHelp() {
-		
-			PrintStream printStream = new PrintStream(System.out);
-			command.displayHelp(printStream);
+
+		command.displayHelp(printStream);
 
 	}
-	
-	
-	
-	
-	
+
 }
