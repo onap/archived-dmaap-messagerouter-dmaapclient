@@ -67,7 +67,6 @@ public class ApiKeyCommandTest {
 
 	@Before
 	public void setUp() throws Exception {
-		command = new ApiKeyCommand();
 		MockitoAnnotations.initMocks(this);
 		PowerMockito.mockStatic(MRClientFactory.class);
 		PowerMockito.when(MRClientFactory.createIdentityManager(Arrays.asList("localhost"), null, null)).thenReturn(tm);
