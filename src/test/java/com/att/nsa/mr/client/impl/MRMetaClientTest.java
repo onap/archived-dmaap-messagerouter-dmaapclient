@@ -32,9 +32,11 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.junit.Assert.assertTrue;
 
 import com.att.nsa.apiClient.http.HttpException;
 import com.att.nsa.apiClient.http.HttpObjectNotFoundException;
+import com.att.nsa.mr.client.MRClient.MRApiException;
 import com.att.nsa.mr.client.MRTopicManager.TopicInfo;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
@@ -101,6 +103,26 @@ public class MRMetaClientTest {
 		} catch (IOException | HttpException e) {
 			e.printStackTrace();
 		}
+	}
+	@Test
+	public void testupdateApiKey(){
+		final Collection<String> hosts = new LinkedList<String> ();
+		hosts.add ( "localhost:" + wireMock.port() );
+		
+		MRMetaClient c;
+		try {
+			c = new MRMetaClient(hosts);
+			c.updateCurrentApiKey("test@onap.com", "test email");
+		}catch (HttpException e) {
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (NullPointerException e) {
+			assertTrue(true);
+		}
+		
 	}
 
 	

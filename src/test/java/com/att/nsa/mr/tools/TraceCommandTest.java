@@ -22,32 +22,33 @@ package com.att.nsa.mr.tools;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.att.nsa.cmdtool.CommandNotReadyException;
-import com.att.nsa.mr.client.HostSelector;
-import com.att.nsa.mr.client.MRPublisher.message;
-import com.att.nsa.mr.test.support.MRBatchingPublisherMock.Entry;
 
+@RunWith(PowerMockRunner.class)
 public class TraceCommandTest {
-	private TraceCommand command = null;
+	@InjectMocks
+	private TraceCommand command;
 	private String[] parts = new String[5];
+	@Mock
+	private PrintStream printStream;
 
 	@Before
 	public void setUp() throws Exception {
-		command = new TraceCommand();
-		
-		for (int i  = 0; i < parts.length; i++) {
+		MockitoAnnotations.initMocks(this);
+		for (int i = 0; i < parts.length; i++) {
 			parts[i] = "String" + (i + 1);
-		} 
+		}
 
 	}
 
@@ -63,7 +64,7 @@ public class TraceCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
 	public void testCheckReady() {
 
@@ -76,41 +77,26 @@ public class TraceCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
 	public void testExecute() {
-		
+
 		try {
-			command.execute(parts, new MRCommandContext(), new PrintStream("/filename"));
+			command.execute(parts, new MRCommandContext(), printStream);
 		} catch (CommandNotReadyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		assertTrue(true);
 
 	}
-	
-	
+
 	@Test
 	public void testDisplayHelp() {
-		
-		try {
-			command.displayHelp(new PrintStream("/filename"));
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		command.displayHelp(printStream);
 		assertTrue(true);
 
 	}
-	
-	
-	
-	
+
 }

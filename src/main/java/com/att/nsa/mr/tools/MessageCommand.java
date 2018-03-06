@@ -85,12 +85,7 @@ public class MessageCommand implements Command<MRCommandContext>
 		}
 		else
 		{
-			final MRBatchingPublisher pub = new PublisherBuilder ().
-				usingHosts ( context.getCluster () ).
-				onTopic ( parts[1] ).
-				authenticatedBy ( context.getApiKey(), context.getApiPwd() ).
-				build ()
-			;
+			final MRBatchingPublisher pub=ToolsUtil.createBatchPublisher(context, parts[1]);
 			try
 			{
 				pub.send ( parts[2], parts[3] );

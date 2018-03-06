@@ -23,11 +23,13 @@ package com.att.nsa.mr.client.impl;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Properties;
 
 import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import com.att.nsa.mr.client.MRClientFactory;
 import com.att.nsa.mr.client.impl.MRConstants;
 import com.att.nsa.mr.client.impl.MRConsumerImpl;
 
@@ -91,5 +93,20 @@ public class MRConsumerImplTest extends TestCase
 		final MRConsumerImpl c = new MRConsumerImpl ( hosts, "topic", "cg", "cid", -1, -1, "{ \"foo\"=\"bar\"bar\" }", null, null );
 		final String url = c.createUrlPath (MRConstants.makeConsumerUrl ( "localhost:8080", "topic", "cg", "cid","http" ), -1, -1 );
 		assertEquals ( "http://localhost:8080/events/"  + "topic/cg/cid?filter=%7B+%22foo%22%3D%22bar%22bar%22+%7D", url );
+	}
+	
+	@Test
+	public void testFetchWithReturnConsumerResponse () throws IOException
+	{
+		final LinkedList<String> hosts = new LinkedList<String> ();
+		hosts.add ( "localhost:8080" );
+		Properties properties = new Properties();
+		properties.load(MRSimplerBatchConsumerTest.class.getClassLoader().getResourceAsStream("dme2/consumer.properties"));
+		
+		final MRConsumerImpl c = new MRConsumerImpl ( hosts, "topic", "cg", "cid", -1, -1, "{ \"foo\"=\"bar\"bar\" }", null, null );
+		c.fetchWithReturnConsumerResponse();
+	    c.setProtocolFlag("HTTPAAF");
+		c.fetchWithReturnConsumerResponse();
+		assertTrue(true);
 	}
 }
