@@ -39,15 +39,12 @@ import com.att.nsa.mr.test.support.MRBatchingPublisherMock.Entry;
 
 public class AuthCommandTest {
 	private AuthCommand command = null;
-	private String[] parts = new String[5];
+	
 
 	@Before
 	public void setUp() throws Exception {
 		command = new AuthCommand();
 		
-		for (int i  = 0; i < parts.length; i++) {
-			parts[i] = "String" + (i + 1);
-		} 
 
 	}
 
@@ -81,14 +78,27 @@ public class AuthCommandTest {
 	public void testExecute() {
 		
 		try {
-			command.execute(parts, new MRCommandContext(), new PrintStream("/filename"));
+			String[] parts = new String[5];
+			PrintStream printStream = new PrintStream(System.out);
+			command.execute(parts, new MRCommandContext(), printStream);
 		} catch (CommandNotReadyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (FileNotFoundException e) {
+		} 
+		assertTrue(true);
+
+	}
+	@Test
+	public void testExecute1() {
+		
+		try {
+			String[] parts = {"userName","password"};
+			PrintStream printStream = new PrintStream(System.out);
+			command.execute(parts, new MRCommandContext(), printStream);
+		} catch (CommandNotReadyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 		assertTrue(true);
 
 	}
@@ -97,15 +107,8 @@ public class AuthCommandTest {
 	@Test
 	public void testDisplayHelp() {
 		
-		try {
-			command.displayHelp(new PrintStream("/filename"));
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			PrintStream printStream = new PrintStream(System.out);
+			command.displayHelp(printStream);
 		assertTrue(true);
 
 	}

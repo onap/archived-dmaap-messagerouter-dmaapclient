@@ -45,10 +45,9 @@ public class SimpleExamplePublisherWithResponseTest {
 	public void testMain() {
 
 		try {
-			SimpleExamplePublisherWithResponse.main(null);
+			SimpleExamplePublisherWithResponse.main( new String[0]);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			assertTrue(true);
 		}
 		assertTrue(true);
 
