@@ -79,7 +79,7 @@ public class ApiKeyCommandTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testGetMatches() {
 
 		command.getMatches();
@@ -87,7 +87,7 @@ public class ApiKeyCommandTest {
 
 	}
 
-	//@Test
+	@Test
 	public void testCheckReady() {
 
 		try {
@@ -100,7 +100,7 @@ public class ApiKeyCommandTest {
 
 	}
 
-	// @Test
+	 @Test
 	public void testExecute() {
 
 		String[] parts1 = { "create", "testtopic", "1" };
@@ -111,8 +111,7 @@ public class ApiKeyCommandTest {
 			String[] part = (String[]) iterator.next();
 
 			try {
-				PrintStream printStream = new PrintStream(System.out);
-				command.execute(part, new MRCommandContext(), printStream);
+				command.execute(part, new MRCommandContext(), MrToolsUtils.getPrintStream());
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -122,7 +121,7 @@ public class ApiKeyCommandTest {
 		}
 	}
 
-	// @Test
+	 @Test
 	public void testExecute_error1() throws HttpObjectNotFoundException, HttpException, MRApiException, IOException {
 		PowerMockito.when(tm.getApiKey("testtopic")).thenThrow(new IOException("error"));
 		String[] parts1 = { "create", "testtopic", "1" };
@@ -133,8 +132,7 @@ public class ApiKeyCommandTest {
 			String[] part = (String[]) iterator.next();
 
 			try {
-				PrintStream printStream = new PrintStream(System.out);
-				command.execute(part, new MRCommandContext(), printStream);
+				command.execute(part, new MRCommandContext(), MrToolsUtils.getPrintStream());
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -144,7 +142,7 @@ public class ApiKeyCommandTest {
 
 	}
 
-	// @Test
+	 @Test
 	public void testExecute_error2() throws HttpObjectNotFoundException, HttpException, MRApiException, IOException {
 		PowerMockito.when(tm.getApiKey("testtopic")).thenThrow(new MRApiException("error"));
 		String[] parts1 = { "create", "testtopic", "1" };
@@ -155,8 +153,7 @@ public class ApiKeyCommandTest {
 			String[] part = (String[]) iterator.next();
 
 			try {
-				PrintStream printStream = new PrintStream(System.out);
-				command.execute(part, new MRCommandContext(), printStream);
+				command.execute(part, new MRCommandContext(), MrToolsUtils.getPrintStream());
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -166,7 +163,7 @@ public class ApiKeyCommandTest {
 		}
 	}
 
-	// @Test
+	 @Test
 	public void testExecute_error3() throws HttpObjectNotFoundException, HttpException, MRApiException, IOException {
 		PowerMockito.when(tm.getApiKey("testtopic")).thenThrow(new HttpException(500, "error"));
 		String[] parts1 = { "create", "testtopic", "1" };
@@ -177,8 +174,7 @@ public class ApiKeyCommandTest {
 			String[] part = (String[]) iterator.next();
 
 			try {
-				PrintStream printStream = new PrintStream(System.out);
-				command.execute(part, new MRCommandContext(), printStream);
+				command.execute(part, new MRCommandContext(), MrToolsUtils.getPrintStream());
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -188,7 +184,7 @@ public class ApiKeyCommandTest {
 
 	}
 
-	// @Test
+	 @Test
 	public void testExecute_error4() throws HttpObjectNotFoundException, HttpException, MRApiException, IOException {
 		PowerMockito.when(tm.getApiKey("testtopic")).thenThrow(new HttpObjectNotFoundException("error"));
 		String[] parts1 = { "create", "testtopic", "1" };
@@ -199,8 +195,7 @@ public class ApiKeyCommandTest {
 			String[] part = (String[]) iterator.next();
 
 			try {
-				PrintStream printStream = new PrintStream(System.out);
-				command.execute(part, new MRCommandContext(), printStream);
+				command.execute(part, new MRCommandContext(), MrToolsUtils.getPrintStream());
 			} catch (CommandNotReadyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -210,11 +205,10 @@ public class ApiKeyCommandTest {
 		}
 	}
 
-	// @Test
+	 @Test
 	public void testDisplayHelp() {
 
-		PrintStream printStream = new PrintStream(System.out);
-		command.displayHelp(printStream);
+		command.displayHelp(MrToolsUtils.getPrintStream());
 		assertTrue(true);
 
 	}
