@@ -22,32 +22,56 @@ package com.att.nsa.mr.tools;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+import com.att.nsa.apiClient.credentials.ApiCredential;
+import com.att.nsa.apiClient.http.HttpException;
+import com.att.nsa.apiClient.http.HttpObjectNotFoundException;
 import com.att.nsa.cmdtool.CommandNotReadyException;
-import com.att.nsa.mr.client.HostSelector;
-import com.att.nsa.mr.client.MRPublisher.message;
-import com.att.nsa.mr.test.support.MRBatchingPublisherMock.Entry;
+import com.att.nsa.mr.client.MRClient.MRApiException;
+import com.att.nsa.mr.client.MRClientFactory;
+import com.att.nsa.mr.client.MRIdentityManager;
+import com.att.nsa.mr.client.MRIdentityManager.ApiKey;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({MRClientFactory.class })
 public class ApiKeyCommandTest {
-	private ApiKeyCommand command = null;
-	private String[] parts = new String[5];
+	
+	@InjectMocks
+	private ApiKeyCommand command;
+	@Mock
+	private MRIdentityManager tm;
+	@Mock
+	private ApiKey ti;
+	@Mock
+	private ApiKey key ;
+	@Mock
+	private ApiCredential ac;
+	
 
 	@Before
 	public void setUp() throws Exception {
 		command = new ApiKeyCommand();
-		
-		for (int i  = 0; i < parts.length; i++) {
-			parts[i] = "String" + (i + 1);
-		} 
+		MockitoAnnotations.initMocks(this);
+		PowerMockito.mockStatic(MRClientFactory.class);
+		PowerMockito.when(MRClientFactory.createIdentityManager(Arrays.asList("localhost"), null, null)).thenReturn(tm);
+		PowerMockito.when(tm.getApiKey("testtopic")).thenReturn(key);
+		PowerMockito.when(tm.createApiKey("testtopic","1")).thenReturn(ac);
 
 	}
 
@@ -79,33 +103,119 @@ public class ApiKeyCommandTest {
 	
 	@Test
 	public void testExecute() {
+			
+	 String[] parts1 = {"create","testtopic","1"};
+	 String[] parts2 = {"list","testtopic","1"};
+	 String[] parts3 = {"revoke","write","read"};
+	 List<String[]> parts= Arrays.asList(parts1,parts2,parts3);
+	 for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
+		String[] part = (String[]) iterator.next();
 		
 		try {
-			command.execute(parts, new MRCommandContext(), new PrintStream("/filename"));
+			PrintStream printStream = new PrintStream(System.out);
+			command.execute(part, new MRCommandContext(),printStream);
 		} catch (CommandNotReadyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertTrue(true);
-
+		
 	}
+	}
+	
+	@Test
+	public void testExecute_error1() throws HttpObjectNotFoundException, HttpException, MRApiException, IOException {
+		PowerMockito.when(tm.getApiKey("testtopic")).thenThrow(new IOException("error"));	
+	 String[] parts1 = {"create","testtopic","1"};
+	 String[] parts2 = {"list","testtopic","1"};
+	 String[] parts3 = {"revoke","write","read"};
+	 List<String[]> parts= Arrays.asList(parts1,parts2,parts3);
+	 for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
+		String[] part = (String[]) iterator.next();
+		
+		try {
+			PrintStream printStream = new PrintStream(System.out);
+			command.execute(part, new MRCommandContext(),printStream);
+		} catch (CommandNotReadyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertTrue(true);
+	 }
+		
+	}
+	 @Test
+		public void testExecute_error2() throws HttpObjectNotFoundException, HttpException, MRApiException, IOException {
+		 PowerMockito.when(tm.getApiKey("testtopic")).thenThrow(new MRApiException("error"));			
+		 String[] parts1 = {"create","testtopic","1"};
+		 String[] parts2 = {"list","testtopic","1"};
+		 String[] parts3 = {"revoke","write","read"};
+		 List<String[]> parts= Arrays.asList(parts1,parts2,parts3);
+		 for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
+			String[] part = (String[]) iterator.next();
+			
+			try {
+				PrintStream printStream = new PrintStream(System.out);
+				command.execute(part, new MRCommandContext(),printStream);
+			} catch (CommandNotReadyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			assertTrue(true);
+			
+		 }
+		}
+		 @Test
+			public void testExecute_error3() throws HttpObjectNotFoundException, HttpException, MRApiException, IOException {
+			 PowerMockito.when(tm.getApiKey("testtopic")).thenThrow(new HttpException(500,"error"));		
+			 String[] parts1 = {"create","testtopic","1"};
+			 String[] parts2 = {"list","testtopic","1"};
+			 String[] parts3 = {"revoke","write","read"};
+			 List<String[]> parts= Arrays.asList(parts1,parts2,parts3);
+			 for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
+				String[] part = (String[]) iterator.next();
+				
+				try {
+					PrintStream printStream = new PrintStream(System.out);
+					command.execute(part, new MRCommandContext(),printStream);
+				} catch (CommandNotReadyException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				assertTrue(true);
+			 }
+				
+			}
+			 @Test
+				public void testExecute_error4() throws HttpObjectNotFoundException, HttpException, MRApiException, IOException {
+				 PowerMockito.when(tm.getApiKey("testtopic")).thenThrow(new HttpObjectNotFoundException("error"));	
+				 String[] parts1 = {"create","testtopic","1"};
+				 String[] parts2 = {"list","testtopic","1"};
+				 String[] parts3 = {"revoke","write","read"};
+				 List<String[]> parts= Arrays.asList(parts1,parts2,parts3);
+				 for (Iterator iterator = parts.iterator(); iterator.hasNext();) {
+					String[] part = (String[]) iterator.next();
+					
+					try {
+						PrintStream printStream = new PrintStream(System.out);
+						command.execute(part, new MRCommandContext(),printStream);
+					} catch (CommandNotReadyException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					assertTrue(true);
+					
+				}
+	}
+
+
 	
 	
 	@Test
 	public void testDisplayHelp() {
 		
-		try {
-			command.displayHelp(new PrintStream("/filename"));
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			PrintStream printStream = new PrintStream(System.out);
+			command.displayHelp(printStream);
 		assertTrue(true);
 
 	}

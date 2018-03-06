@@ -44,10 +44,10 @@ public class TraceCommandTest {
 	@Before
 	public void setUp() throws Exception {
 		command = new TraceCommand();
-		
-		for (int i  = 0; i < parts.length; i++) {
+
+		for (int i = 0; i < parts.length; i++) {
 			parts[i] = "String" + (i + 1);
-		} 
+		}
 
 	}
 
@@ -63,7 +63,7 @@ public class TraceCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
 	public void testCheckReady() {
 
@@ -76,41 +76,26 @@ public class TraceCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
 	public void testExecute() {
-		
+
 		try {
-			command.execute(parts, new MRCommandContext(), new PrintStream("/filename"));
+			command.execute(parts, new MRCommandContext(), new PrintStream(System.out));
 		} catch (CommandNotReadyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		assertTrue(true);
 
 	}
-	
-	
+
 	@Test
 	public void testDisplayHelp() {
-		
-		try {
-			command.displayHelp(new PrintStream("/filename"));
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		command.displayHelp(new PrintStream(System.out));
 		assertTrue(true);
 
 	}
-	
-	
-	
-	
+
 }

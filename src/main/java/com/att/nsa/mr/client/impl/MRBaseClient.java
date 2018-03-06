@@ -27,14 +27,10 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import org.apache.http.HttpException;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.glassfish.jersey.internal.util.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,8 +48,6 @@ import com.att.nsa.mr.test.clients.ProtocolTypeConstants;
 
 public class MRBaseClient extends HttpClient implements MRClient {
 
-	private static final String MR_AUTH_CONSTANT = "X-CambriaAuth";
-	private static final String MR_DATE_CONSTANT = "X-CambriaDate";
 
 	protected MRBaseClient(Collection<String> hosts) throws MalformedURLException {
 		super(ConnectionType.HTTP, hosts, MRConstants.kStdMRServicePort);
@@ -103,15 +97,12 @@ public class MRBaseClient extends HttpClient implements MRClient {
 	public JSONObject post(final String path, final byte[] data, final String contentType, final String username,
 			final String password, final String protocolFlag) throws HttpException, JSONException {
 		if ((null != username && null != password)) {
-			WebTarget target = null;
-
-			Response response = null;
-
-			target = getTarget(path, username, password);
+			WebTarget target=null;
+			Response response=null;
+			target = DmaapClientUtil.getTarget(path, username, password);
 			String encoding = Base64.encodeAsString(username + ":" + password);
 
-			response = target.request().header("Authorization", "Basic " + encoding)
-					.post(Entity.entity(data, contentType));
+			response = DmaapClientUtil.getResponsewtBasicAuth(target, encoding);
 
 			return getResponseDataInJson(response);
 		} else {
@@ -125,17 +116,14 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			throws HttpException, JSONException {
 		String responseData = null;
 		if ((null != username && null != password)) {
-			WebTarget target = null;
-
-			Response response = null;
-
-			target = getTarget(path, username, password);
+			WebTarget target=null;
+			Response response=null;
+			target = DmaapClientUtil.getTarget(path, username, password);
 			String encoding = Base64.encodeAsString(username + ":" + password);
 
-			response = target.request().header("Authorization", "Basic " + encoding)
-					.post(Entity.entity(data, contentType));
+			response = DmaapClientUtil.getResponsewtBasicAuth(target, encoding);
 
-			responseData = response.readEntity(String.class);
+			responseData = (String)response.getEntity();
 			return responseData;
 		} else {
 			throw new HttpException(
@@ -147,13 +135,10 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			final String authDate, final String username, final String password, final String protocolFlag)
 			throws HttpException, JSONException {
 		if ((null != username && null != password)) {
-			WebTarget target = null;
-
-			Response response = null;
-			target = getTarget(path, username, password);
-			response = target.request().header(MR_AUTH_CONSTANT, authKey).header(MR_DATE_CONSTANT, authDate)
-					.post(Entity.entity(data, contentType));
-
+			WebTarget target=null;
+			Response response=null;
+			target = DmaapClientUtil.getTarget(path, username, password);
+			response =DmaapClientUtil.postResponsewtCambriaAuth(target, authKey, authDate, data, contentType);
 			return getResponseDataInJson(response);
 		} else {
 			throw new HttpException(
@@ -166,13 +151,11 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			final String protocolFlag) throws HttpException, JSONException {
 		String responseData = null;
 		if ((null != username && null != password)) {
-			WebTarget target = null;
-
-			Response response = null;
-			target = getTarget(path, username, password);
-			response = target.request().header(MR_AUTH_CONSTANT, authKey).header(MR_DATE_CONSTANT, authDate)
-					.post(Entity.entity(data, contentType));
-			responseData = response.readEntity(String.class);
+			WebTarget target=null;
+			Response response=null;
+			target = DmaapClientUtil.getTarget(path, username, password);
+			response = DmaapClientUtil.postResponsewtCambriaAuth(target, authKey, authDate, data, contentType);
+			responseData = (String)response.getEntity();
 			return responseData;
 
 		} else {
@@ -185,17 +168,17 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			throws HttpException, JSONException {
 		if (null != username && null != password) {
 
-			WebTarget target = null;
-
-			Response response = null;
+			 WebTarget target=null;
+			 Response response=null;
+			 
 			if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
-				target = getTarget(path);
-				response = target.request().header(MR_AUTH_CONSTANT, username).header(MR_DATE_CONSTANT, password).get();
+				target = DmaapClientUtil.getTarget(path);
+				response = DmaapClientUtil.getResponsewtCambriaAuth(target, username, password);
 			} else {
-				target = getTarget(path, username, password);
+				target = DmaapClientUtil.getTarget(path, username, password);
 				String encoding = Base64.encodeAsString(username + ":" + password);
 
-				response = target.request().header("Authorization", "Basic " + encoding).get();
+				response = DmaapClientUtil.getResponsewtBasicAuth(target, encoding);
 
 			}
 			return getResponseDataInJson(response);
@@ -209,17 +192,15 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			final String protocolFlag) throws HttpException, JSONException {
 		String responseData = null;
 		if (null != username && null != password) {
-
-			WebTarget target = null;
-
-			Response response = null;
+			WebTarget target=null;
+			Response response=null;
 			if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
-				target = getTarget(path);
-				response = target.request().header(MR_AUTH_CONSTANT, username).header(MR_DATE_CONSTANT, password).get();
+				target = DmaapClientUtil.getTarget(path);
+				response = DmaapClientUtil.getResponsewtCambriaAuth(target, username, password);
 			} else {
-				target = getTarget(path, username, password);
+				target = DmaapClientUtil.getTarget(path, username, password);
 				String encoding = Base64.encodeAsString(username + ":" + password);
-				response = target.request().header("Authorization", "Basic " + encoding).get();
+				response = DmaapClientUtil.getResponsewtBasicAuth(target, encoding);
 			}
 			MRClientFactory.HTTPHeadersMap = response.getHeaders();
 
@@ -228,7 +209,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 				fLog.info("TransactionId : " + transactionid);
 			}
 
-			responseData = response.readEntity(String.class);
+			responseData = (String)response.getEntity();
 			return responseData;
 		} else {
 			throw new HttpException(
@@ -239,12 +220,10 @@ public class MRBaseClient extends HttpClient implements MRClient {
 	public JSONObject getAuth(final String path, final String authKey, final String authDate, final String username,
 			final String password, final String protocolFlag) throws HttpException, JSONException {
 		if (null != username && null != password) {
-
-			WebTarget target = null;
-
-			Response response = null;
-			target = getTarget(path, username, password);
-			response = target.request().header(MR_AUTH_CONSTANT, authKey).header(MR_DATE_CONSTANT, authDate).get();
+			WebTarget target=null;
+			Response response=null;
+			target = DmaapClientUtil.getTarget(path, username, password);
+			response = DmaapClientUtil.getResponsewtCambriaAuth(target, authKey, authDate);
 
 			return getResponseDataInJson(response);
 		} else {
@@ -256,12 +235,10 @@ public class MRBaseClient extends HttpClient implements MRClient {
 	public JSONObject getNoAuth(final String path, final String username, final String password,
 			final String protocolFlag) throws HttpException, JSONException {
 		if (null != username && null != password) {
-
-			WebTarget target = null;
-
-			Response response = null;
-			target = getTarget(path, username, password);
-			response = target.request().get();
+			WebTarget target=null;
+			Response response=null;
+			target = DmaapClientUtil.getTarget(path, username, password);
+			response = DmaapClientUtil.getResponsewtNoAuth(target);
 
 			return getResponseDataInJson(response);
 		} else {
@@ -274,12 +251,10 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			final String password, final String protocolFlag) throws HttpException, JSONException {
 		String responseData = null;
 		if (null != username && null != password) {
-
-			WebTarget target = null;
-
-			Response response = null;
-			target = getTarget(path, username, password);
-			response = target.request().header(MR_AUTH_CONSTANT, authKey).header(MR_DATE_CONSTANT, authDate).get();
+			WebTarget target=null;
+			Response response=null;
+			target = DmaapClientUtil.getTarget(path, username, password);
+			response = DmaapClientUtil.getResponsewtCambriaAuth(target, authKey, authDate);
 
 			MRClientFactory.HTTPHeadersMap = response.getHeaders();
 
@@ -288,7 +263,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 				fLog.info("TransactionId : " + transactionid);
 			}
 
-			responseData = response.readEntity(String.class);
+			responseData = (String)response.getEntity();
 			return responseData;
 		} else {
 			throw new HttpException(
@@ -299,12 +274,10 @@ public class MRBaseClient extends HttpClient implements MRClient {
 	public String getNoAuthResponse(String path, final String username, final String password,
 			final String protocolFlag) throws HttpException, JSONException {
 		String responseData = null;
-
-		WebTarget target = null;
-
-		Response response = null;
-		target = getTarget(path, username, password);
-		response = target.request().get();
+		WebTarget target=null;
+		Response response=null;
+		target = DmaapClientUtil.getTarget(path, username, password);
+		response = DmaapClientUtil.getResponsewtNoAuth(target);
 
 		MRClientFactory.HTTPHeadersMap = response.getHeaders();
 
@@ -313,28 +286,11 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			fLog.info("TransactionId : " + transactionid);
 		}
 
-		responseData = response.readEntity(String.class);
+		responseData = (String)response.getEntity();
 		return responseData;
 
 	}
 
-	private WebTarget getTarget(final String path, final String username, final String password) {
-
-		Client client = ClientBuilder.newClient();
-
-		// Using UNIVERSAL as it supports both BASIC and DIGEST authentication
-		// types.
-		HttpAuthenticationFeature feature = HttpAuthenticationFeature.universal(username, password);
-		client.register(feature);
-
-		return client.target(path);
-	}
-
-	private WebTarget getTarget(final String path) {
-
-		Client client = ClientBuilder.newClient();
-		return client.target(path);
-	}
 
 	private JSONObject getResponseDataInJson(Response response) throws JSONException {
 		try {
@@ -370,7 +326,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 				jsonObject.put("status", response.getStatus());
 				return jsonObject;
 			}
-			String responseData = response.readEntity(String.class);
+			String responseData = (String)response.getEntity();
 
 			JSONTokener jsonTokener = new JSONTokener(responseData);
 			JSONObject jsonObject = null;
