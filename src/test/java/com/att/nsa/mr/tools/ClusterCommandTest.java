@@ -23,32 +23,34 @@ package com.att.nsa.mr.tools;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.att.nsa.cmdtool.CommandNotReadyException;
-import com.att.nsa.mr.client.HostSelector;
-import com.att.nsa.mr.client.MRPublisher.message;
-import com.att.nsa.mr.test.support.MRBatchingPublisherMock.Entry;
 
+@RunWith(PowerMockRunner.class)
 public class ClusterCommandTest {
-	private ClusterCommand command = null;
-	private String[] parts = new String[5];
+	@InjectMocks
+	private ClusterCommand command;
+	@Mock
+	private MRCommandContext context;
+	@Mock
+	private PrintStream printStream;
 
 	@Before
 	public void setUp() throws Exception {
-		command = new ClusterCommand();
-		
-		for (int i  = 0; i < parts.length; i++) {
-			parts[i] = "String" + (i + 1);
-		} 
-
+		MockitoAnnotations.initMocks(this);
+		PowerMockito.when(context.getCluster()).thenReturn(Arrays.asList("localhost"));
 	}
 
 	@After
@@ -63,12 +65,12 @@ public class ClusterCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
 	public void testCheckReady() {
 
 		try {
-			command.checkReady(new MRCommandContext());
+			command.checkReady(context);
 		} catch (CommandNotReadyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,42 +78,29 @@ public class ClusterCommandTest {
 		assertTrue(true);
 
 	}
-	
+
 	@Test
-	public void testExecute() {
-		
-		try {
-			command.execute(parts, new MRCommandContext(), new PrintStream("/filename"));
-		} catch (CommandNotReadyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void testExecute() throws FileNotFoundException, CommandNotReadyException {
+		String[] parts = { "create", "testtopic", "1", "1" };
+		command.execute(parts, context, printStream);
 		assertTrue(true);
 
 	}
-	
-	
+
+	@Test
+	public void testExecute1() throws FileNotFoundException, CommandNotReadyException {
+		String[] parts = {};
+		command.execute(parts, context, printStream);
+		assertTrue(true);
+
+	}
+
 	@Test
 	public void testDisplayHelp() {
-		
-		try {
-			command.displayHelp(new PrintStream("/filename"));
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		command.displayHelp(printStream);
 		assertTrue(true);
 
 	}
-	
-	
-	
-	
-	
+
 }

@@ -43,10 +43,10 @@ public class SamplePublisherTest {
 	public void testMain() {
 
 		try {
-			SamplePublisher.main(null);
+			SamplePublisher.main( new String[0]);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			assertTrue(true);
 		}
 		assertTrue(true);
 
