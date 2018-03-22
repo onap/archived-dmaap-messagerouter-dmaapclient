@@ -258,6 +258,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 				} catch (JSONException e) {
 					// unexpected response
 					reportProblemWithResponse();
+					log.error("exception: ", e);
 				} catch (HttpException e) {
 					throw new IOException(e);
 				}
