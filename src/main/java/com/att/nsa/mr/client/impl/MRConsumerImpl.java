@@ -298,7 +298,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 
 			return jsonObject;
 		} catch (JSONException excp) {
-			// log.error("DMAAP - Error reading response data.", excp);
+			 log.error("DMAAP - Error reading response data.", excp);
 			return null;
 		}
 
