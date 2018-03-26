@@ -465,7 +465,7 @@ public class MRBatchPublisher implements MRBatchingPublisher
 		}
 		catch ( IOException e )
 		{
-			log.warn ( "Problem posting to MR: " + e.getMessage() );
+			log.warn ( "Problem posting to MR: " + e.getMessage(),e );
 		}
 
 		log.info ( "MR response (" + (System.currentTimeMillis ()-startMs) + " ms): OK" );
