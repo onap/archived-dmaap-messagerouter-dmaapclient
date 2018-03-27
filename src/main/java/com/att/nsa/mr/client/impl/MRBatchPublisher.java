@@ -445,7 +445,7 @@ public class MRBatchPublisher implements MRBatchingPublisher
 		}
 		catch ( IOException e )
 		{
-			log.warn ( "Problem writing stream to post: " + e.getMessage () );
+			log.warn ( "Problem writing stream to post: " + e.getMessage (),e );
 			return false;
 		}
 
