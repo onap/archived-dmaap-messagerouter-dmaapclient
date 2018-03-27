@@ -66,7 +66,7 @@ public class MRClientFactory {
 	public static FileWriter routeWriter = null;
 	public static Properties prop = null;
 
-	// routeReader= new FileReader(new File (routeFilePath));
+	
 	// props= new Properties();
 	/**
 	 * Create a consumer instance with the default timeout and no limit on
