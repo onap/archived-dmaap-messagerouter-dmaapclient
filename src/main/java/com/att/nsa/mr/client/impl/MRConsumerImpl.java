@@ -573,7 +573,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 			MRClientFactory.prop.load(new FileReader(new File(MRClientFactory.routeFilePath)));
 
 		} catch (Exception ex) {
-			log.error("Reply Router Error " + ex.toString());
+			log.error("Reply Router Error " + ex);
 		}
 		String routeOffer = MRClientFactory.prop.getProperty(routeKey);
 		return routeOffer;
