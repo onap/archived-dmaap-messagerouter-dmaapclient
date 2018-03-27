@@ -507,7 +507,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 				}
 				adds.append("filter=").append(URLEncoder.encode(fFilter, "UTF-8"));
 			} catch (UnsupportedEncodingException e) {
-				throw new RuntimeException(e.getMessage() + "....say whaaaat?!");
+				log.error("exception at createUrlPath ()  :  ", e);
 			}
 		}
 		if (adds.length() > 0) {
