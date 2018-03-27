@@ -67,7 +67,7 @@ public class PreferredRouteReplyHandler implements DME2ExchangeReplyHandler {
 			routeWriter.close();
 		
 		}catch(Exception ex){
-			fLog.error("Reply Router Error " + ex.toString() );
+			fLog.error("Reply Router Error " + ex);
 		}
 		
 	}
