@@ -657,7 +657,6 @@ public class MRClientFactory {
 		sub.setProps(props);
 		sub.setHost(props.getProperty("host"));
 		sub.setProtocolFlag(props.getProperty("TransportType"));
-		// sub.setConsumerFilePath(consumerFilePath);
 		sub.setfFilter(props.getProperty("filter"));
 		routeFilePath = props.getProperty("DME2preferredRouterFilePath");
 		routeReader = new FileReader(new File(routeFilePath));
