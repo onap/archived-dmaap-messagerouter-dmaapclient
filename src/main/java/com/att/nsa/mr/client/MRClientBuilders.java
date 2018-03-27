@@ -362,7 +362,7 @@ public class MRClientBuilders
 		 */
 		public T build ()
 		{
-			if ( fHosts == null || fHosts.size() == 0 )
+			 if ( fHosts.isEmpty() ) 
 			{
 				throw new IllegalArgumentException ( "You must provide at least one host and a topic name." );
 			}
