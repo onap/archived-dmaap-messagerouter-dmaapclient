@@ -461,7 +461,7 @@ public class MRBatchPublisher implements MRBatchingPublisher
 		}
 		catch ( HttpException e )
 		{
-			log.warn ( "Problem posting to MR: " + e.getMessage() );
+			log.warn ( "Problem posting to MR: " + e.getMessage(),e );
 		}
 		catch ( IOException e )
 		{
