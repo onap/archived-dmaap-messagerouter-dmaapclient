@@ -54,7 +54,7 @@ public class HostSelector
 
   public HostSelector(Collection<String> baseHosts, String signature)
   {
-    if (baseHosts.size() < 1)
+    if (baseHosts.isEmpty())
     {
       throw new IllegalArgumentException("At least one host must be provided.");
     }
