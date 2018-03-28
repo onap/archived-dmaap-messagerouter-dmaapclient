@@ -413,7 +413,7 @@ public class MRBatchPublisher implements MRBatchingPublisher
 	private static boolean doSend ( LinkedList<TimestampedMessage> toSend, HttpClient client, String topic, boolean compress, Logger log )
 	{
 		// it's possible for this call to be made with an empty list. in this case, just return.
-		if ( toSend.size() < 1 )
+		if ( toSend.isEmpty()  )
 		{
 			return true;
 		}
