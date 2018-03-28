@@ -44,7 +44,6 @@ import com.att.nsa.apiClient.http.HttpClient;
 import com.att.nsa.mr.client.MRClient;
 import com.att.nsa.mr.client.MRClientFactory;
 import com.att.nsa.mr.test.clients.ProtocolTypeConstants;
-//import com.fasterxml.jackson.core.JsonProcessingException;
 
 public class MRBaseClient extends HttpClient implements MRClient {
 
