@@ -319,7 +319,7 @@ public class MRBatchPublisher implements MRBatchingPublisher
 			fReadLock.lock ();
 			try
 			{
-				if ( fNextBatch.size () > 0 )
+				if ( fNextBatch.isEmpty() )
 				{
 					final long nowMs = System.currentTimeMillis ();
 					shouldSend = ( force || fNextBatch.size() >= fMaxBatchSize );
