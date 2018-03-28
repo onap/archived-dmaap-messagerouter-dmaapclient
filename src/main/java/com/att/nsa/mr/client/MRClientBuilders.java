@@ -235,7 +235,7 @@ public class MRClientBuilders
 		 */
 		public MRBatchingPublisher build ()
 		{
-			if ( fHosts == null || fHosts.size() == 0 || fTopic == null )
+			if ( fHosts == null || fHosts.isEmpty() || fTopic == null )
 			{
 				throw new IllegalArgumentException ( "You must provide at least one host and a topic name." );
 			}
