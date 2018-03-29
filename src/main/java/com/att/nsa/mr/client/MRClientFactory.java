@@ -539,7 +539,7 @@ public class MRClientFactory {
 		try {
 			cim = new MRMetaClient(hostSet);
 		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
+			throw new IllegalArgumentException(e);
 		}
 		cim.setApiCredentials(apiKey, apiSecret);
 		return cim;
