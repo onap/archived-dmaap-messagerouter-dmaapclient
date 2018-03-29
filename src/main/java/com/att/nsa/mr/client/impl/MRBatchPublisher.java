@@ -158,7 +158,7 @@ public class MRBatchPublisher implements MRBatchingPublisher
 		try
 		{
 			final List<message> remains = close ( Long.MAX_VALUE, TimeUnit.MILLISECONDS );
-			if ( remains.size() > 0 )
+			if ( remains.isEmpty() )
 			{
 				fLog.warn ( "Closing publisher with " + remains.size() + " messages unsent. "
 					+ "(Consider using the alternate close method to capture unsent messages in this case.)" );
