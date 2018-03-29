@@ -34,7 +34,6 @@ class MRConstants
 	private static final String PROTOCOL = "http";
 	public static final String context = "/";
 	public static final String kBasePath = "events/";
-	//public static final int kStdMRServicePort = 3904;
 	public static final int kStdMRServicePort = 8080;
 
 	public static String escape ( String s )
