@@ -81,7 +81,7 @@ public class SampleConsumer {
 		catch ( Exception x )
 		{
                     log.error( x.getClass().getName () + ": " + x.getMessage () );
-                    throw new RuntimeException(x);
+                    throw new IllegalArgumentException(x);
 		}
 	}
 }
