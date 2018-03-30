@@ -131,7 +131,7 @@ public class MRClientBuilders
 			try {
 				return new MRConsumerImpl ( fHosts, fTopic, fGroup, fId, fTimeoutMs, fLimit, fFilter, fApiKey, fApiSecret );
 			} catch (MalformedURLException e) {
-				throw new RuntimeException(e);
+				throw new IllegalArgumentException(e);
 			}
 		}
 
