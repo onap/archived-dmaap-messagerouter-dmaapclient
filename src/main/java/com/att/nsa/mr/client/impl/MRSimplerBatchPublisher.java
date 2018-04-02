@@ -105,7 +105,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 					return new MRSimplerBatchPublisher(fUrls, fTopic, fMaxBatchSize, fMaxBatchAgeMs, fCompress,
 							fAllowSelfSignedCerts, threadOccuranceTime);
 				} catch (MalformedURLException e) {
-					throw new RuntimeException(e);
+					throw new IllegalArgumentException(e);
 				}
 			} else {
 				try {
