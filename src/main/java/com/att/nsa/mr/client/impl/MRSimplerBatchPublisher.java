@@ -775,7 +775,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 		} catch (Exception x) {
 
 			getLog().warn(x.getMessage(), x);
-			throw new Exception(x.getMessage());
+			throw new IllegalArgumentException(x.getMessage());
 		}
 	}
 
