@@ -44,7 +44,7 @@ class MRConstants
 		}
 		catch ( UnsupportedEncodingException e )
 		{
-			throw new RuntimeException ( e );
+			throw new IllegalArgumentException(e);
 		}
 	}
 
