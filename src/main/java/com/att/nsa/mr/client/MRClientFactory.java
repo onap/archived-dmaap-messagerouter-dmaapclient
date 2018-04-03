@@ -602,7 +602,7 @@ public class MRClientFactory {
 		try {
 			sub = new MRConsumerImpl(MRConsumerImpl.stringToList(host), topic, group, id, i, j, null, null, null);
 		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
+			throw new IllegalArgumentException(e);
 		}
 		sub.setUsername(username);
 		sub.setPassword(password);
