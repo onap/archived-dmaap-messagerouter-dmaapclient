@@ -75,7 +75,7 @@ public class MRBatchPublisher implements MRBatchingPublisher
 		try {
 			fSender = new Sender ( baseUrls, topic, maxBatchSize, maxAgeMs, compress );
 		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
+			throw new IllegalArgumentException(e);
 		}
 
 		// FIXME: this strategy needs an overhaul -- why not just run a thread that knows how to wait for
