@@ -562,7 +562,7 @@ public class MRClientFactory {
 		try {
 			tmi = new MRMetaClient(hostSet);
 		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
+			throw new IllegalArgumentException(e);
 		}
 		tmi.setApiCredentials(apiKey, apiSecret);
 		return tmi;
