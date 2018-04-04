@@ -279,7 +279,7 @@ public class MRClientBuilders
 		protected MRIdentityManager constructClient ( Collection<String> hosts ) { try {
 			return new MRMetaClient ( hosts );
 		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
+			throw new IllegalArgumentException(e);
 		} }
 	}
 
