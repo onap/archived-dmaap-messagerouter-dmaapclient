@@ -1,0 +1,7 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: varun gudisena <vg411h@att.com>
+Submitted-by: varun gudisena <vg411h@att.com>
+Submitted-at: Thu, 05 Apr 2018 13:31:38 +0000
+Reviewed-on: https://gerrit.onap.org/r/40685
+Project: dmaap/messagerouter/dmaapclient
+Branch: refs/heads/master
