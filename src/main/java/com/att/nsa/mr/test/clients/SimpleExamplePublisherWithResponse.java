@@ -61,7 +61,7 @@ import com.att.nsa.mr.client.response.MRPublisherResponse;
 			}
 		}
 		
-		public void publishMessage ( String producerFilePath , int count ) throws IOException, InterruptedException, Exception
+		public void publishMessage ( String producerFilePath , int count ) throws IOException, InterruptedException
 		{
 			// create our publisher
 			final MRBatchingPublisher pub = MRClientFactory.createBatchingPublisher (producerFilePath,true);	
