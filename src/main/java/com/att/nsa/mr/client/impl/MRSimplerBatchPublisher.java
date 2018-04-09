@@ -377,6 +377,23 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 				fPending.clear();
 				return true;
 			}
+			
+			if (ProtocolTypeConstants.HTTPNOAUTH.getValue().equalsIgnoreCase(protocolFlag)) {
+				getLog().info("sending " + fPending.size() + " msgs to " + httpurl + ". Oldest: "
+						+ (nowMs - fPending.peek().timestamp) + " ms");
+				final JSONObject result = postNoAuth(httpurl, baseStream.toByteArray(), contentType);
+
+				// Here we are checking for error response. If HTTP status
+				// code is not within the http success response code
+				// then we consider this as error and return false
+				if (result.getInt("status") < 200 || result.getInt("status") > 299) {
+					return false;
+				}
+				final String logLine = "MR reply ok (" + (Clock.now() - startMs) + " ms):" + result.toString();
+				getLog().info(logLine);
+				fPending.clear();
+				return true;
+			}
 		} catch (IllegalArgumentException x) {
 			getLog().warn(x.getMessage(), x);
 		} catch (IOException x) {

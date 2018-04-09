@@ -109,6 +109,20 @@ public class MRBaseClient extends HttpClient implements MRClient {
 					"Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
 		}
 	}
+	
+	public JSONObject postNoAuth(final String path, final byte[] data, String contentType)
+			throws HttpException, JSONException {
+		WebTarget target = null;
+		Response response = null;
+		if (contentType == null) {
+			contentType = "text/pain";
+		}
+		target = DmaapClientUtil.getTarget(path);
+
+		response = DmaapClientUtil.postResponsewtNoAuth(target, data, contentType);
+
+		return getResponseDataInJson(response);
+	}
 
 	public String postWithResponse(final String path, final byte[] data, final String contentType,
 			final String username, final String password, final String protocolFlag)
