@@ -70,5 +70,10 @@ public class DmaapClientUtil {
 		return target.request().get();
 
 	}
+	
+	public static Response postResponsewtNoAuth(WebTarget target, byte[] data, String contentType) {
+		return target.request().post(Entity.entity(data, contentType));
+
+	}
 
 }

@@ -122,12 +122,28 @@ public class MRBaseClient extends HttpClient implements MRClient {
 
 			response = DmaapClientUtil.getResponsewtBasicAuth(target, encoding);
 
-			responseData = (String)response.getEntity();
+			responseData = (String)response.readEntity(String.class);
 			return responseData;
 		} else {
 			throw new HttpException(
 					"Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
 		}
+	}
+	
+	public String postNoAuthWithResponse(final String path, final byte[] data, String contentType)
+			throws HttpException, JSONException {
+
+		String responseData = null;
+		WebTarget target = null;
+		Response response = null;
+		if (contentType == null) {
+			contentType = "text/pain";
+		}
+		target = DmaapClientUtil.getTarget(path);
+
+		response = DmaapClientUtil.postResponsewtNoAuth(target, data, contentType);
+		responseData = (String) response.readEntity(String.class);
+		return responseData;
 	}
 
 	public JSONObject postAuth(final String path, final byte[] data, final String contentType, final String authKey,
@@ -154,7 +170,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			Response response=null;
 			target = DmaapClientUtil.getTarget(path, username, password);
 			response = DmaapClientUtil.postResponsewtCambriaAuth(target, authKey, authDate, data, contentType);
-			responseData = (String)response.getEntity();
+			responseData = (String)response.readEntity(String.class);
 			return responseData;
 
 		} else {
@@ -208,7 +224,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 				fLog.info("TransactionId : " + transactionid);
 			}
 
-			responseData = (String)response.getEntity();
+			responseData = (String)response.readEntity(String.class);
 			return responseData;
 		} else {
 			throw new HttpException(
@@ -262,7 +278,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 				fLog.info("TransactionId : " + transactionid);
 			}
 
-			responseData = (String)response.getEntity();
+			responseData = (String)response.readEntity(String.class);
 			return responseData;
 		} else {
 			throw new HttpException(
@@ -285,7 +301,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			fLog.info("TransactionId : " + transactionid);
 		}
 
-		responseData = (String)response.getEntity();
+		responseData = (String)response.readEntity(String.class);
 		return responseData;
 
 	}
@@ -325,7 +341,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 				jsonObject.put("status", response.getStatus());
 				return jsonObject;
 			}
-			String responseData = (String)response.getEntity();
+			String responseData = (String)response.readEntity(String.class);
 
 			JSONTokener jsonTokener = new JSONTokener(responseData);
 			JSONObject jsonObject = null;
