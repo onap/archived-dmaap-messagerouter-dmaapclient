@@ -48,7 +48,7 @@ public class SimpleExamplePublisher {
 	static String transport = null;
 	static String messageCount = null;
 
-	public void publishMessage(String producerFilePath) throws IOException, InterruptedException, Exception {
+	public void publishMessage(String producerFilePath) throws IOException, InterruptedException {
 
 		// create our publisher
 		
