@@ -305,8 +305,8 @@ public class MRBaseClientTest {
 		PowerMockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
 		PowerMockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
-				Base64.encodeAsString("username:password"))).thenReturn(response);
+		PowerMockito.when(DmaapClientUtil.postResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
+				Base64.encodeAsString("username:password"), new String("{\"test\":\"test\"}").getBytes(), "application/json")).thenReturn(response);
 
 		mrBaseClient.post("/path", new String("{\"test\":\"test\"}").getBytes(), "application/json", "username",
 				"password", "HTTPAUTH");
@@ -378,8 +378,8 @@ public class MRBaseClientTest {
 		PowerMockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
 		PowerMockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
-				Base64.encodeAsString("username:password"))).thenReturn(response);
+		PowerMockito.when(DmaapClientUtil.postResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
+				Base64.encodeAsString("username:password"), new String("{\"test\":\"test\"}").getBytes(), "application/json")).thenReturn(response);
 
 		mrBaseClient.postWithResponse("/path", new String("{\"test\":\"test\"}").getBytes(), "application/json",
 				"username", "password", "HTTPAUTH");

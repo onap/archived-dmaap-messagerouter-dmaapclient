@@ -64,6 +64,12 @@ public class DmaapClientUtil {
 		return target.request().header("Authorization", "Basic " + authHeader).get();
 
 	}
+	
+	public static Response postResponsewtBasicAuth(WebTarget target, String authHeader,byte[] data,String contentType) {
+
+		return target.request().header("Authorization", "Basic " + authHeader).post(Entity.entity(data, contentType));
+
+	}
 
 	public static Response getResponsewtNoAuth(WebTarget target) {
 

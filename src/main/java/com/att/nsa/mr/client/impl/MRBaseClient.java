@@ -101,7 +101,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			target = DmaapClientUtil.getTarget(path, username, password);
 			String encoding = Base64.encodeAsString(username + ":" + password);
 
-			response = DmaapClientUtil.getResponsewtBasicAuth(target, encoding);
+			response = DmaapClientUtil.postResponsewtBasicAuth(target, encoding,data, contentType);
 
 			return getResponseDataInJson(response);
 		} else {
@@ -134,7 +134,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			target = DmaapClientUtil.getTarget(path, username, password);
 			String encoding = Base64.encodeAsString(username + ":" + password);
 
-			response = DmaapClientUtil.getResponsewtBasicAuth(target, encoding);
+			response = DmaapClientUtil.postResponsewtBasicAuth(target, encoding,data, contentType);
 
 			responseData = (String)response.readEntity(String.class);
 			return responseData;
