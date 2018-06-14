@@ -67,6 +67,14 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 			fUrls = baseUrls;
 			return this;
 		}
+		
+		public Builder againstUrlsOrServiceName ( Collection<String> baseUrls, Collection<String> serviceName, String transportype )		
+		{		
+			fUrls = baseUrls;		
+			fServiceName = serviceName;		
+			fTransportype = transportype;		
+			return this;		
+		}
 
 		public Builder onTopic(String topic) {
 			fTopic = topic;
@@ -119,6 +127,8 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 		}
 
 		private Collection<String> fUrls;
+		private Collection<String> fServiceName;		
+		private String fTransportype;	
 		private String fTopic;
 		private int fMaxBatchSize = 100;
 		private long fMaxBatchAgeMs = 1000;
@@ -278,7 +288,9 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 
 		final long nowMs = Clock.now();
 
-		host = this.fHostSelector.selectBaseHost();
+		if (this.fHostSelector != null) {
+			host = this.fHostSelector.selectBaseHost();
+		}
 
 		final String httpurl = MRConstants.makeUrl(host, fTopic, props.getProperty("Protocol"),
 				props.getProperty("partition"));
@@ -796,7 +808,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 			sender.setSubContext(subContextPath);
 			sender.setCredentials(dmeuser, dmepassword);
 			sender.setHeaders(DMETimeOuts);
-			if (handlers.equalsIgnoreCase("yes")) {
+			if (handlers != null &&handlers.equalsIgnoreCase("yes")) {
 				sender.addHeader("AFT_DME2_EXCHANGE_REQUEST_HANDLERS",
 						props.getProperty("AFT_DME2_EXCHANGE_REQUEST_HANDLERS"));
 				sender.addHeader("AFT_DME2_EXCHANGE_REPLY_HANDLERS",

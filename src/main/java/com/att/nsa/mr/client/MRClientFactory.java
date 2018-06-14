@@ -39,6 +39,7 @@ import com.att.nsa.mr.client.impl.MRConsumerImpl;
 import com.att.nsa.mr.client.impl.MRMetaClient;
 import com.att.nsa.mr.client.impl.MRSimplerBatchPublisher;
 import com.att.nsa.mr.test.clients.ProtocolTypeConstants;
+import com.att.nsa.mr.tools.ValidatorUtil;
 
 /**
  * A factory for MR clients.<br/>
@@ -483,7 +484,7 @@ public class MRClientFactory {
 		MRSimplerBatchPublisher pub;
 		if (withResponse) {
 			pub = new MRSimplerBatchPublisher.Builder()
-					.againstUrls(MRConsumerImpl.stringToList(props.getProperty("host")))
+					.againstUrlsOrServiceName(MRConsumerImpl.stringToList(props.getProperty("host")),MRConsumerImpl.stringToList(props.getProperty("ServiceName")), props.getProperty("TransportType"))
 					.onTopic(props.getProperty("topic"))
 					.batchTo(Integer.parseInt(props.getProperty("maxBatchSize")),
 							Integer.parseInt(props.getProperty("maxAgeMs").toString()))
@@ -492,7 +493,7 @@ public class MRClientFactory {
 					.withResponse(withResponse).build();
 		} else {
 			pub = new MRSimplerBatchPublisher.Builder()
-					.againstUrls(MRConsumerImpl.stringToList(props.getProperty("host")))
+					.againstUrlsOrServiceName(MRConsumerImpl.stringToList(props.getProperty("host")), MRConsumerImpl.stringToList(props.getProperty("ServiceName")), props.getProperty("TransportType"))
 					.onTopic(props.getProperty("topic"))
 					.batchTo(Integer.parseInt(props.getProperty("maxBatchSize")),
 							Integer.parseInt(props.getProperty("maxAgeMs").toString()))
@@ -512,13 +513,16 @@ public class MRClientFactory {
 		}
 		pub.setProtocolFlag(props.getProperty("TransportType"));
 		pub.setProps(props);
-		routeFilePath = props.getProperty("DME2preferredRouterFilePath");
-		routeReader = new FileReader(new File(routeFilePath));
 		prop = new Properties();
-		File fo = new File(routeFilePath);
-		if (!fo.exists()) {
-			routeWriter = new FileWriter(new File(routeFilePath));
+		if (props.getProperty("TransportType").equalsIgnoreCase(ProtocolTypeConstants.DME2.getValue())) {
+			routeFilePath = props.getProperty("DME2preferredRouterFilePath");
+			routeReader = new FileReader(new File(routeFilePath));
+			File fo = new File(routeFilePath);
+			if (!fo.exists()) {
+				routeWriter = new FileWriter(new File(routeFilePath));
+			}
 		}
+		// pub.setContentType(contentType);
 		return pub;
 	}
 
@@ -623,6 +627,7 @@ public class MRClientFactory {
 
 	public static MRConsumer createConsumer(Properties props) throws FileNotFoundException, IOException {
 		int timeout;
+		ValidatorUtil.validateSubscriber(props);
 		if (props.getProperty("timeout") != null)
 			timeout = Integer.parseInt(props.getProperty("timeout"));
 		else
