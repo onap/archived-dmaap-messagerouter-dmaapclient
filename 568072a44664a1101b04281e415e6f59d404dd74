@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_38e987b7",
+        "filename": "src/test/java/com/att/nsa/mr/tools/ToolsUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 2813
+      },
+      "writtenOn": "2018-06-20T20:13:15Z",
+      "side": 1,
+      "message": "From this construction you can define it as Array.asList with inlining strings in Immutable list",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 70
+      },
+      "revId": "568072a44664a1101b04281e415e6f59d404dd74",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d8cf4356",
+        "filename": "src/test/java/com/att/nsa/mr/tools/ToolsUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 2813
+      },
+      "writtenOn": "2018-06-20T20:13:15Z",
+      "side": 1,
+      "message": "This can be static ?",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 49
+      },
+      "revId": "568072a44664a1101b04281e415e6f59d404dd74",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
