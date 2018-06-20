@@ -23,8 +23,11 @@ package com.att.nsa.mr.tools;
 import com.att.nsa.mr.client.MRBatchingPublisher;
 import com.att.nsa.mr.client.MRClientBuilders.PublisherBuilder;
 
-public class ToolsUtil {
-	
+public final class ToolsUtil {
+
+    private ToolsUtil() {
+    }
+
 	public static MRBatchingPublisher createBatchPublisher(MRCommandContext context,String topicName){
 		
 		return new PublisherBuilder ().
