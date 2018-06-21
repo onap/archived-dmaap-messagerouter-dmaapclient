@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_b8511732",
+        "filename": "src/test/java/com/att/nsa/mr/tools/ToolsUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 3395
+      },
+      "writtenOn": "2018-06-21T06:43:48Z",
+      "side": 1,
+      "message": "Right. In Java 10 it would be just List.of(.....)",
+      "parentUuid": "5a93c517_38e987b7",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 70
+      },
+      "revId": "568072a44664a1101b04281e415e6f59d404dd74",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_d8cf4356",
         "filename": "src/test/java/com/att/nsa/mr/tools/ToolsUtilTest.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-06-20T20:13:15Z",
       "side": 1,
       "message": "This can be static ?",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 49
+      },
+      "revId": "568072a44664a1101b04281e415e6f59d404dd74",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_58301307",
+        "filename": "src/test/java/com/att/nsa/mr/tools/ToolsUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 3395
+      },
+      "writtenOn": "2018-06-21T06:43:48Z",
+      "side": 1,
+      "message": "It can be.",
+      "parentUuid": "5a93c517_d8cf4356",
       "range": {
         "startLine": 38,
         "startChar": 4,
