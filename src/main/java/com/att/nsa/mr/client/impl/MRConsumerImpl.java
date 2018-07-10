@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
@@ -350,6 +351,12 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
         }
         mrConsumerResponse.setActualMessages(msgs);
         return mrConsumerResponse;
+    }
+
+    @Override
+    protected void reportProblemWithResponse() {
+        log.warn("There was a problem with the server response. Blacklisting for 3 minutes.");
+        fHostSelector.reportReachabilityProblem(3, TimeUnit.MINUTES);
     }
 
     private void createMRConsumerResponse(String reply, MRConsumerResponse mrConsumerResponse) {
