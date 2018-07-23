@@ -1,0 +1,7 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Ram Koya <rk541m@att.com>
+Submitted-by: Ram Koya <rk541m@att.com>
+Submitted-at: Mon, 23 Jul 2018 19:01:29 +0000
+Reviewed-on: https://gerrit.onap.org/r/56103
+Project: dmaap/messagerouter/dmaapclient
+Branch: refs/heads/master
