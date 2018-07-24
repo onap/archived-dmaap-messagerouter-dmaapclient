@@ -60,9 +60,7 @@ public class PreferredRouteReplyHandler implements DME2ExchangeReplyHandler {
 	}
 	public void routeWriter(String routeKey, String routeValue){
 
-		try{
-		
-			FileWriter	routeWriter=new FileWriter(new File (MRSimplerBatchPublisher.routerFilePath));
+		try(FileWriter	routeWriter=new FileWriter(new File (MRSimplerBatchPublisher.routerFilePath))){
 			routeWriter.write(routeKey+"="+routeValue);
 			routeWriter.close();
 		
