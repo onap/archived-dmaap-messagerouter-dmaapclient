@@ -324,7 +324,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 	private JSONObject getResponseDataInJson(Response response) throws JSONException {
 		try {
 			MRClientFactory.HTTPHeadersMap = response.getHeaders();
-			// fLog.info("DMAAP response status: " + response.getStatus());
+			
 
 			// MultivaluedMap<String, Object> headersMap =
 			// response.getHeaders();
