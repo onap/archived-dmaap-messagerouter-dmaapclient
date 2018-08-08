@@ -127,7 +127,7 @@ public class HostSelector
       workingSet.remove(be.getHost());
     }
 
-    if (workingSet.size() == 0)
+    if (workingSet.isEmpty())
     {
       log.warn("All hosts were blacklisted; reverting to full set of hosts.");
       workingSet.addAll(this.fBaseHosts);
