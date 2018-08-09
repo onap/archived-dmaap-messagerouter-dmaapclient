@@ -334,17 +334,6 @@ public class MRBaseClient extends HttpClient implements MRClient {
 				fLog.info("TransactionId : " + transactionid);
 			}
 
-			/*
-			 * final String responseData = response.readEntity(String.class);
-			 * JSONTokener jsonTokener = new JSONTokener(responseData);
-			 * JSONObject jsonObject = null; final char firstChar =
-			 * jsonTokener.next(); jsonTokener.back(); if ('[' == firstChar) {
-			 * JSONArray jsonArray = new JSONArray(jsonTokener); jsonObject =
-			 * new JSONObject(); jsonObject.put("result", jsonArray); } else {
-			 * jsonObject = new JSONObject(jsonTokener); }
-			 * 
-			 * return jsonObject;
-			 */
 
 			if (response.getStatus() == 403) {
 				JSONObject jsonObject = null;
