@@ -134,7 +134,7 @@ public class MRBatchPublisher implements MRBatchingPublisher
 	@Override
 	public int send ( Collection<message> msgs ) throws IOException
 	{
-		if ( msgs.size() > 0 )
+		if ( msgs.isEmpty() )
 		{
 			fSender.queue ( msgs );
 		}
