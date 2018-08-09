@@ -522,7 +522,6 @@ public class MRClientFactory {
 				routeWriter = new FileWriter(new File(routeFilePath));
 			}
 		}
-		// pub.setContentType(contentType);
 		return pub;
 	}
 
