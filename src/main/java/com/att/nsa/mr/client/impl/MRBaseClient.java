@@ -94,7 +94,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 	private Logger fLog;
 
 	public JSONObject post(final String path, final byte[] data, final String contentType, final String username,
-			final String password, final String protocolFlag) throws HttpException, JSONException {
+			final String password, final String protocalFlag) throws HttpException, JSONException {
 		if ((null != username && null != password)) {
 			WebTarget target=null;
 			Response response=null;
@@ -327,7 +327,6 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			
 
 			// MultivaluedMap<String, Object> headersMap =
-			// response.getHeaders();
 			// for(String key : headersMap.keySet()) {
 			String transactionid = response.getHeaderString("transactionid");
 			if (transactionid != null && !transactionid.equalsIgnoreCase("")) {
