@@ -296,11 +296,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 				props.getProperty("partition"));
 
 		try {
-			/*
-			 * final String contentType = fCompress ?
-			 * MRFormat.CAMBRIA_ZIP.toString () : MRFormat.CAMBRIA.toString () ;
-			 */
-
+			
 			final ByteArrayOutputStream baseStream = new ByteArrayOutputStream();
 			OutputStream os = baseStream;
 			final String contentType = props.getProperty("contenttype");
