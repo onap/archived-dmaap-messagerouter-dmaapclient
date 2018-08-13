@@ -794,7 +794,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 
 			// SSL changes
 			// System.setProperty("AFT_DME2_CLIENT_SSL_INCLUDE_PROTOCOLS",
-			// "SSLv3,TLSv1,TLSv1.1");
+			
 			System.setProperty("AFT_DME2_CLIENT_SSL_INCLUDE_PROTOCOLS", "TLSv1.1,TLSv1.2");
 			System.setProperty("AFT_DME2_CLIENT_IGNORE_SSL_CONFIG", "false");
 			System.setProperty("AFT_DME2_CLIENT_KEYSTORE_PASSWORD", "changeit");
