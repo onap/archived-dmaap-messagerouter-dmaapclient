@@ -730,10 +730,6 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 	private void DME2Configue() throws Exception {
 		try {
 
-			/*
-			 * FileReader reader = new FileReader(new File (producerFilePath));
-			 * Properties props = new Properties(); props.load(reader);
-			 */
 			latitude = props.getProperty("Latitude");
 			longitude = props.getProperty("Longitude");
 			version = props.getProperty("Version");
