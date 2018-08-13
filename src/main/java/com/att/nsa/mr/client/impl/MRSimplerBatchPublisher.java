@@ -177,7 +177,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 	public void close() {
 		try {
 			final List<message> remains = close(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-			if (remains.size() > 0) {
+			if (remains.isEmpty()) {
 				getLog().warn("Closing publisher with " + remains.size() + " messages unsent. "
 						+ "Consider using MRBatchingPublisher.close( long timeout, TimeUnit timeoutUnits ) to recapture unsent messages on close.");
 			}
