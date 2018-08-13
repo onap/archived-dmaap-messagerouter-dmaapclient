@@ -742,12 +742,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 			partner = props.getProperty("Partner");
 			routeOffer = props.getProperty("routeOffer");
 			subContextPath = props.getProperty("SubContextPath") + fTopic;
-			/*
-			 * if(props.getProperty("partition")!=null &&
-			 * !props.getProperty("partition").equalsIgnoreCase("")){
-			 * subContextPath=subContextPath+"?partitionKey="+props.getProperty(
-			 * "partition"); }
-			 */
+			
 			protocol = props.getProperty("Protocol");
 			methodType = props.getProperty("MethodType");
 			dmeuser = props.getProperty("username");
