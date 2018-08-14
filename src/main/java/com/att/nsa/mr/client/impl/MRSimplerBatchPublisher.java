@@ -602,7 +602,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 		}
 
 		finally {
-			if (fPending.size() > 0) {
+			if (fPending.isEmpty()) {
 				getLog().warn("Send failed, " + fPending.size() + " message to send.");
 				pubResponse.setPendingMsgs(fPending.size());
 			}
