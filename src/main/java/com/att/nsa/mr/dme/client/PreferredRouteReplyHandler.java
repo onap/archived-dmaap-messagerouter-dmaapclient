@@ -52,7 +52,7 @@ public class PreferredRouteReplyHandler implements DME2ExchangeReplyHandler {
 	
 	@Override public void handleFault(DME2ExchangeFaultContext responseData) {
 		// TODO Auto-generated method stub
- //StaticCache.getInstance().setHandleFaultInvoked(true);
+ 
  }
 	@Override public void handleEndpointFault(DME2ExchangeFaultContext responseData) {
 		// TODO Auto-generated method stub
