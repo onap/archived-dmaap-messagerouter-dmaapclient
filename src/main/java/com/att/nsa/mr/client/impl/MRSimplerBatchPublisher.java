@@ -418,7 +418,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 	public synchronized MRPublisherResponse sendBatchWithResponse() {
 		// it's possible for this call to be made with an empty list. in this
 		// case, just return.
-		if (fPending.size() < 1) {
+		if (fPending.isEmpty()) {
 			pubResponse.setResponseCode(String.valueOf(HttpStatus.SC_BAD_REQUEST));
 			pubResponse.setResponseMessage("No Messages to send");
 			return pubResponse;
