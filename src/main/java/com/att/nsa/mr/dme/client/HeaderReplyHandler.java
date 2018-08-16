@@ -35,7 +35,7 @@ import com.att.nsa.mr.client.impl.MRSimplerBatchPublisher;
 
 
 
-//public class HeaderReplyHandler implements DME2ReplyHandler {
+
 	
 	public class HeaderReplyHandler implements DME2ExchangeReplyHandler {
 	
