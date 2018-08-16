@@ -235,7 +235,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 
 	private synchronized boolean shouldSendNow() {
 		boolean shouldSend = false;
-		if (fPending.size() > 0) {
+		if (fPending.isEmpty()) {
 			final long nowMs = Clock.now();
 
 			shouldSend = (fPending.size() >= fMaxBatchSize);
