@@ -48,7 +48,7 @@ import com.att.nsa.mr.client.impl.MRSimplerBatchPublisher;
  }
 	@Override public void handleEndpointFault(DME2ExchangeFaultContext responseData) {
 		// TODO Auto-generated method stub
-		//StaticCache.getInstance().setHandleEndpointFaultInvoked(true); 
+ 
 	}
 @Override public void handleReply(DME2ExchangeResponseContext responseData) {
 		
