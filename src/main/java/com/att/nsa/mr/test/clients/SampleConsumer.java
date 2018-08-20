@@ -41,7 +41,7 @@ public class SampleConsumer {
 		final String topic = "com.att.app.dmaap.mr.testingTopic";
 		final String url = ( args.length > 1 ? args[1] : "localhost:8181" );
 		final String group = ( args.length > 2 ? args[2] :"grp" );
-		/*final String id = ( args.length > 3 ? args[3] : "0" );*/
+		
 		final String id = ( args.length > 3 ? args[3] : "1" );
 
 		long count = 0;
@@ -49,7 +49,7 @@ public class SampleConsumer {
 
 		final long startMs = System.currentTimeMillis ();
 
-		final LinkedList<String> urlList = new LinkedList<String> ();
+		final LinkedList<String> urlList = new LinkedList<> ();
 		for ( String u : url.split ( "," ) )
 		{
 			urlList.add ( u );
