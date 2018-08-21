@@ -42,7 +42,7 @@ public class SamplePublisher {
 		final String hosts = ( args.length > 0 ? args[0] : "localhost:8181" );
 
 		// read the topic name from the command line
-		//final String topic = ( args.length > 1 ? args[1] : "MY-EXAMPLE-TOPIC" );
+		
 		final String topic = ( args.length > 1 ? args[1] : "com.att.app.dmaap.mr.testingTopic" );
 
 		// set up some batch limits and the compression flag
@@ -74,7 +74,7 @@ public class SamplePublisher {
 		// publisher interface allows the app to get the set of unsent messages. It could
 		// write them to disk, for example, to try to send them later.
 		final List<message> stuck = pub.close ( 20, TimeUnit.SECONDS );
-		if ( stuck.size () > 0 )
+		if ( stuck.isEmpty())
 		{
 			LOG.warn ( stuck.size() + " messages unsent" );
 		}
