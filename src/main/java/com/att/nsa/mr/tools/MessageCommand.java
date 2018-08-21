@@ -113,7 +113,7 @@ public class MessageCommand implements Command<MRCommandContext>
                                     logger.error("Problem sending message: ", e);
                                     Thread.currentThread().interrupt();
 				}
-				if ( left != null && left.size () > 0 )
+				if ( left != null && left.isEmpty() )
 				{
 					out.println ( left.size() + " messages not sent." );
 				}
