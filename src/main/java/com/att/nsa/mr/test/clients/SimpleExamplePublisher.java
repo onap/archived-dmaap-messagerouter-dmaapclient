@@ -54,12 +54,12 @@ public class SimpleExamplePublisher
 		// publish some messages
 		final JSONObject msg1 = new JSONObject ();
 		msg1.put ( "Name", "Sprint" );
-		//msg1.put ( "greeting", "Hello  .." );
+		
 		pub.send ( "First cambria messge" );
 		pub.send ( "MyPartitionKey", msg1.toString () );
 
 		final JSONObject msg2 = new JSONObject ();
-		//msg2.put ( "mrclient1", System.currentTimeMillis () );
+		
 		
         
 		// ...
@@ -68,7 +68,7 @@ public class SimpleExamplePublisher
 		// publisher interface allows the app to get the set of unsent messages. It could
 		// write them to disk, for example, to try to send them later.
 		final List<message> stuck = pub.close ( 20, TimeUnit.SECONDS );
-		if ( stuck.size () > 0 )
+		if ( stuck.isEmpty() )
 		{
 			System.err.println ( stuck.size() + " messages unsent" );
 		}
