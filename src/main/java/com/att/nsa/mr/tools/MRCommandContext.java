@@ -36,7 +36,7 @@ public class MRCommandContext implements CommandContext
 		fApiKey = null;
 		fApiPwd = null;
 
-		fCluster = new LinkedList<String> ();
+		fCluster = new LinkedList<> ();
 		fCluster.add ( "localhost" );
 	}
 
@@ -62,7 +62,7 @@ public class MRCommandContext implements CommandContext
 
 	public Collection<String> getCluster ()
 	{
-		return new LinkedList<String> ( fCluster );
+		return new LinkedList<> ( fCluster );
 	}
 
 	public void clearCluster ()
