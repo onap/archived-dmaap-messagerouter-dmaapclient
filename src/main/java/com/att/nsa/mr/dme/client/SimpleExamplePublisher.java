@@ -122,11 +122,11 @@ public class SimpleExamplePublisher {
 		messageSize = args[2];
 		transport = args[3];
 		messageCount = args[4];
-		/*String producerFilePath = null;
-		content = null;
-		messageSize =null;
-		transport =null;
-		messageCount = null;*/
+		
+		
+		
+		
+		
 		SimpleExamplePublisher publisher = new SimpleExamplePublisher();
 
 		publisher.publishMessage("D:\\SG\\producer.properties");
