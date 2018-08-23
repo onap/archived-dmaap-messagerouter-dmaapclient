@@ -61,7 +61,7 @@ public class MRBatchingPublisherMock implements MRBatchingPublisher
 
 	public MRBatchingPublisherMock ()
 	{
-		fCaptures = new LinkedList<Entry> ();
+		fCaptures = new LinkedList<> ();
 	}
 
 	public interface Listener
@@ -85,7 +85,7 @@ public class MRBatchingPublisherMock implements MRBatchingPublisher
 
 	public List<Entry> getCaptures ( MessageFilter filter )
 	{
-		final LinkedList<Entry> result = new LinkedList<Entry> ();
+		final LinkedList<Entry> result = new LinkedList<> ();
 		for ( Entry capture : fCaptures )
 		{
 			if ( filter.match ( capture.fMessage ) )
@@ -151,7 +151,7 @@ public class MRBatchingPublisherMock implements MRBatchingPublisher
 	@Override
 	public List<message> close ( long timeout, TimeUnit timeoutUnits )
 	{
-		return new LinkedList<message> ();
+		return new LinkedList<> ();
 	}
 
 	@Override
@@ -175,7 +175,7 @@ public class MRBatchingPublisherMock implements MRBatchingPublisher
 	}
 
 	private final LinkedList<Entry> fCaptures;
-	private LinkedList<Listener> fListeners = new LinkedList<Listener> ();
+	private LinkedList<Listener> fListeners = new LinkedList<> ();
 	@Override
 	public MRPublisherResponse sendBatchWithResponse() {
 		// TODO Auto-generated method stub
