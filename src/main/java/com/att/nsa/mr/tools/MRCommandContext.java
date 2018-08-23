@@ -57,7 +57,7 @@ public class MRCommandContext implements CommandContext
 	
 	public boolean checkClusterReady ()
 	{
-		return ( fCluster.size () != 0 );
+		return ( fCluster.isEmpty());
 	}
 
 	public Collection<String> getCluster ()
