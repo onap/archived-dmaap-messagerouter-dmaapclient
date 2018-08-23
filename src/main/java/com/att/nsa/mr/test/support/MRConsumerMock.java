@@ -47,7 +47,7 @@ public class MRConsumerMock implements MRConsumer
 			fWaitMs = waitMs;
 			fStatusCode = statusCode;
 			fStatusMsg = null;
-			fMsgs = new LinkedList<String> ( msgs );
+			fMsgs = new LinkedList<> ( msgs );
 		}
 
 		public Entry ( long waitMs, int statusCode, String statusMsg )
@@ -84,7 +84,7 @@ public class MRConsumerMock implements MRConsumer
 
 	public MRConsumerMock ()
 	{
-		fReplies = new LinkedList<Entry> ();
+		fReplies = new LinkedList<> ();
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class MRConsumerMock implements MRConsumer
 
 	public void addDelayedMsg ( long delay, String msg )
 	{
-		final LinkedList<String> list = new LinkedList<String> ();
+		final LinkedList<String> list = new LinkedList<> ();
 		list.add ( msg );
 		add ( new Entry ( delay, 200, list ) );
 	}
@@ -126,7 +126,7 @@ public class MRConsumerMock implements MRConsumer
 
 	public void addDelayedMsgGroup ( long delay, List<String> msgs )
 	{
-		final LinkedList<String> list = new LinkedList<String> ( msgs );
+		final LinkedList<String> list = new LinkedList<> ( msgs );
 		add ( new Entry ( delay, 200, list ) );
 	}
 
