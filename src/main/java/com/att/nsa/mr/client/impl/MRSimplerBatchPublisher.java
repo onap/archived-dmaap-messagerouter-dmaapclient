@@ -864,6 +864,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 				send(false);
 			}
 		}, 100, threadOccuranceTime, TimeUnit.MILLISECONDS);
+		pubResponse = new MRPublisherResponse();
 	}
 
 	private static class TimestampedMessage extends message {

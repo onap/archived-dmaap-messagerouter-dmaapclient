@@ -657,11 +657,13 @@ public class MRClientFactory {
 			sub.setUsername(props.getProperty("username"));
 			sub.setPassword(props.getProperty("password"));
 		}
-		sub.setRouterFilePath(props.getProperty("DME2preferredRouterFilePath"));
+		
 		sub.setProps(props);
 		sub.setHost(props.getProperty("host"));
 		sub.setProtocolFlag(props.getProperty("TransportType"));
 		sub.setfFilter(props.getProperty("filter"));
+		if (props.getProperty("TransportType").equalsIgnoreCase(ProtocolTypeConstants.DME2.getValue())) {
+		sub.setRouterFilePath(props.getProperty("DME2preferredRouterFilePath"));
 		routeFilePath = props.getProperty("DME2preferredRouterFilePath");
 		routeReader = new FileReader(new File(routeFilePath));
 		prop = new Properties();
@@ -669,6 +671,8 @@ public class MRClientFactory {
 		if (!fo.exists()) {
 			routeWriter = new FileWriter(new File(routeFilePath));
 		}
+		}
+		
 		return sub;
 	}
 }

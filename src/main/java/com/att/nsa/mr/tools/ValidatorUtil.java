@@ -64,10 +64,6 @@ public class ValidatorUtil {
 		if (id == null || id.isEmpty()) {
 			throw new IllegalArgumentException ( "Consumer (Id)  is needed" );
 		}
-		String sessionstickinessrequired  = props.getProperty("sessionstickinessrequired");
-		if (sessionstickinessrequired == null || sessionstickinessrequired.isEmpty()) {
-			throw new IllegalArgumentException ( "sessionstickinessrequired  is needed" );
-		}
 	}
 	
 	private  static void validateForDME2(Properties props) {
@@ -132,6 +128,10 @@ public class ValidatorUtil {
 		if (subContextPath == null || subContextPath.isEmpty()) {
 			throw new IllegalArgumentException ( "SubContextPath is needed" );
 		}
+		String sessionstickinessrequired  = props.getProperty("sessionstickinessrequired");
+		if (sessionstickinessrequired == null || sessionstickinessrequired.isEmpty()) {
+			throw new IllegalArgumentException ( "sessionstickinessrequired  is needed" );
+		}
 	}
 	
 	private  static void validateForNonDME2(Properties props) {
@@ -144,14 +144,11 @@ public class ValidatorUtil {
 		if (topic == null || topic.isEmpty()) {
 			throw new IllegalArgumentException ( "topic is needed" );
 		}
-		String methodType  = props.getProperty("MethodType");
-		if (methodType == null || methodType.isEmpty()) {
-			throw new IllegalArgumentException ( "MethodType is needed" );
-		}
 		String contenttype  = props.getProperty("contenttype");
 		if (contenttype == null || contenttype.isEmpty()) {
 			throw new IllegalArgumentException ( "contenttype is needed" );
 		}
+		if (!ProtocolTypeConstants.HTTPNOAUTH.getValue().equalsIgnoreCase(transportType)){
 		String username  = props.getProperty("username");
 		if (username == null || username.isEmpty()) {
 			throw new IllegalArgumentException ( "username is needed" );
@@ -159,6 +156,7 @@ public class ValidatorUtil {
 		String password  = props.getProperty("password");
 		if (password == null || password.isEmpty()) {
 			throw new IllegalArgumentException ( "password is needed" );
+		}
 		}
 		if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(transportType)) {
 			String authKey  = props.getProperty("authKey");
