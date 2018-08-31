@@ -165,7 +165,7 @@ public class ValidatorUtil {
 			}
 			String authDate  = props.getProperty("authDate");
 			if (authDate == null || authDate.isEmpty()) {
-				throw new IllegalArgumentException ( "password is needed" );
+				throw new IllegalArgumentException ( "authDate is needed" );
 			}
 			
 		}
