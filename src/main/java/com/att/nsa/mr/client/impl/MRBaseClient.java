@@ -261,19 +261,14 @@ public class MRBaseClient extends HttpClient implements MRClient {
 		}
 	}
 
-	public JSONObject getNoAuth(final String path, final String username, final String password,
-			final String protocolFlag) throws HttpException, JSONException {
-		if (null != username && null != password) {
-			WebTarget target=null;
-			Response response=null;
-			target = DmaapClientUtil.getTarget(path, username, password);
-			response = DmaapClientUtil.getResponsewtNoAuth(target);
+	public JSONObject getNoAuth(final String path) throws HttpException, JSONException {
 
-			return getResponseDataInJson(response);
-		} else {
-			throw new HttpException(
-					"Authentication Failed: Username/password/AuthKey/Authdate parameter(s) cannot be null or empty.");
-		}
+		WebTarget target = null;
+		Response response = null;
+		target = DmaapClientUtil.getTarget(path);
+		response = DmaapClientUtil.getResponsewtNoAuth(target);
+
+		return getResponseDataInJson(response);
 	}
 
 	public String getAuthResponse(final String path, final String authKey, final String authDate, final String username,

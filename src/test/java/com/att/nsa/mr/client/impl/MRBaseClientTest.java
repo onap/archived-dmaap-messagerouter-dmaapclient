@@ -448,21 +448,11 @@ public class MRBaseClientTest {
 		PowerMockito.when(response.getHeaders()).thenReturn(map);
 
 		PowerMockito.when(DmaapClientUtil.getResponsewtNoAuth(DmaapClientUtil.getTarget("/path"))).thenReturn(response);
-		mrBaseClient.getNoAuth("/path", "username", "password", "HTTPAUTH");
+		mrBaseClient.getNoAuth("/path");
 		assertTrue(true);
 
 	}
 
-	@Test(expected = HttpException.class)
-	public void testGetNoAuth_error() throws JSONException, HttpException {
-
-		ResponseBuilder responseBuilder = Response.ok();
-		PowerMockito.when(DmaapClientUtil.getResponsewtNoAuth(DmaapClientUtil.getTarget("/path"))).thenReturn(
-				responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
-		mrBaseClient.getNoAuth("/path", null, null, "HTTPAUTH");
-		assertTrue(true);
-
-	}
 
 	@Test
 	public void testGetHTTPErrorResponseMessage() {

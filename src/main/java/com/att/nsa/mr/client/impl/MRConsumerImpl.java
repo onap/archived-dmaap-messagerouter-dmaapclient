@@ -200,7 +200,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
                         fGroup, fId, props.getProperty("Protocol")), timeoutMs, limit);
 
                 try {
-                    final JSONObject o = getNoAuth(urlPath, username, password, protocolFlag);
+                    final JSONObject o = getNoAuth(urlPath);
                     if (o != null) {
                         final JSONArray a = o.getJSONArray("result");
                         if (a != null) {
