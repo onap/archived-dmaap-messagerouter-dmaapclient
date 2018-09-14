@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ *  Modifications Copyright © 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -38,218 +40,213 @@ import com.att.nsa.mr.client.MRClientFactory;
 
 public class MRClientFactoryTest {
 
-	private Collection<String> hostSet = new ArrayList<String>();
+    private Collection<String> hostSet = new ArrayList<String>();
 
-	private MRClientFactory factory = null;
+    private String[] hostArray = new String[10];
 
-	private String[] hostArray = new String[10];
+    @Before
+    public void setUp() throws Exception {
 
-	@Before
-	public void setUp() throws Exception {
+        for (int i = 0; i < 10; i++) {
+            hostSet.add("host" + (i + 1));
+            hostArray[i] = "host" + (i + 1);
+        }
+    }
 
-		for (int i = 0; i < 10; i++) {
-			hostSet.add("host" + (i + 1));
-			hostArray[i] = "host" + (i + 1);
-		}
+    @After
+    public void tearDown() throws Exception {
 
-		factory = new MRClientFactory();
+    }
 
-	}
+    @Test
+    public void testCreateConsumer() {
 
-	@After
-	public void tearDown() throws Exception {
+        MRClientFactory.createConsumer("hostList hostList2", "testTopic");
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateConsumer() {
+    @Test
+    public void testCreateConsumer2() {
 
-		MRClientFactory.createConsumer("hostList hostList2", "testTopic");
-		assertTrue(true);
+        MRClientFactory.createConsumer(hostSet, "testTopic");
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateConsumer2() {
+    @Test
+    public void testCreateConsumer3() {
 
-		MRClientFactory.createConsumer(hostSet, "testTopic");
-		assertTrue(true);
+        MRClientFactory.createConsumer(hostSet, "testTopic", "filter");
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateConsumer3() {
+    @Test
+    public void testCreateConsumer4() {
 
-		MRClientFactory.createConsumer(hostSet, "testTopic", "filter");
-		assertTrue(true);
+        MRClientFactory.createConsumer(hostSet, "testTopic", "CG1", "22");
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateConsumer4() {
+    @Test
+    public void testCreateConsumer5() {
 
-		MRClientFactory.createConsumer(hostSet, "testTopic", "CG1", "22");
-		assertTrue(true);
+        MRClientFactory.createConsumer(hostSet, "testTopic", "CG1", "22", 100, 100);
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateConsumer5() {
+    @Test
+    public void testCreateConsumer6() {
 
-		MRClientFactory.createConsumer(hostSet, "testTopic", "CG1", "22", 100, 100);
-		assertTrue(true);
+        MRClientFactory.createConsumer("hostList", "testTopic", "CG1", "22", 100, 100, "filter", "apikey", "apisecret");
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateConsumer6() {
+    @Test
+    public void testCreateConsumer7() {
 
-		MRClientFactory.createConsumer("hostList", "testTopic", "CG1", "22", 100, 100, "filter", "apikey", "apisecret");
-		assertTrue(true);
+        MRClientFactory.createConsumer(hostSet, "testTopic", "CG1", "22", 100, 100, "filter", "apikey", "apisecret");
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateConsumer7() {
+    @Test
+    public void testCreateSimplePublisher() {
 
-		MRClientFactory.createConsumer(hostSet, "testTopic", "CG1", "22", 100, 100, "filter", "apikey", "apisecret");
-		assertTrue(true);
+        MRClientFactory.createSimplePublisher("hostList", "testTopic");
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateSimplePublisher() {
+    @Test
+    public void testCreateBatchingPublisher1() {
 
-		MRClientFactory.createSimplePublisher("hostList", "testTopic");
-		assertTrue(true);
+        MRClientFactory.createBatchingPublisher("hostList", "testTopic", 100, 10);
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateBatchingPublisher1() {
+    @Test
+    public void testCreateBatchingPublisher2() {
 
-		MRClientFactory.createBatchingPublisher("hostList", "testTopic", 100, 10);
-		assertTrue(true);
+        MRClientFactory.createBatchingPublisher("hostList", "testTopic", 100, 10, true);
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateBatchingPublisher2() {
+    @Test
+    public void testCreateBatchingPublisher3() {
 
-		MRClientFactory.createBatchingPublisher("hostList", "testTopic", 100, 10, true);
-		assertTrue(true);
+        MRClientFactory.createBatchingPublisher(hostArray, "testTopic", 100, 10, true);
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateBatchingPublisher3() {
+    @Test
+    public void testCreateBatchingPublisher4() {
 
-		MRClientFactory.createBatchingPublisher(hostArray, "testTopic", 100, 10, true);
-		assertTrue(true);
+    MRClientFactory.createBatchingPublisher(hostSet, "testTopic", 100, 10, true);
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateBatchingPublisher4() {
+    @Test
+    public void testCreateBatchingPublisher5() {
 
-	MRClientFactory.createBatchingPublisher(hostSet, "testTopic", 100, 10, true);
-		assertTrue(true);
+        MRClientFactory.createBatchingPublisher("host", "testTopic", "username", "password", 100, 10, true,
+                "protocolFlag");
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateBatchingPublisher5() {
+    @Test
+    public void testCreateBatchingPublisher6() {
 
-		MRClientFactory.createBatchingPublisher("host", "testTopic", "username", "password", 100, 10, true,
-				"protocolFlag", "/producer");
-		assertTrue(true);
+        try {
+            MRClientFactory.createBatchingPublisher("/producer");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateBatchingPublisher6() {
+    @Test
+    public void testCreateBatchingPublisher7() {
 
-		try {
-			MRClientFactory.createBatchingPublisher("/producer");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		assertTrue(true);
+        try {
+            MRClientFactory.createBatchingPublisher("/producer", true);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCreateBatchingPublisher7() {
+    @Test
+    public void testCreateIdentityManager() {
 
-		try {
-			MRClientFactory.createBatchingPublisher("/producer", true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		assertTrue(true);
+        MRClientFactory.createIdentityManager(hostSet, "apikey", "apisecret");
 
-	}
+        assertTrue(true);
 
-	@Test
-	public void testCreateIdentityManager() {
+    }
 
-		MRClientFactory.createIdentityManager(hostSet, "apikey", "apisecret");
+    @Test
+    public void testCreateTopicManager() {
 
-		assertTrue(true);
+        MRClientFactory.createTopicManager(hostSet, "apikey", "apisecret");
 
-	}
+        assertTrue(true);
 
-	@Test
-	public void testCreateTopicManager() {
+    }
 
-		MRClientFactory.createTopicManager(hostSet, "apikey", "apisecret");
+    @Test
+    public void testCreateConsumer8() {
 
-		assertTrue(true);
+        try {
+            MRClientFactory.createConsumer("/consumer");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-	}
+        assertTrue(true);
 
-	@Test
-	public void testCreateConsumer8() {
+    }
 
-		try {
-			MRClientFactory.createConsumer("/consumer");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    @Test
+    public void testCreateConsumer9() {
 
-		assertTrue(true);
+        MRClientFactory.createConsumer("host", "topic", "username", "password", "group", "23", "protocolFlag",
+                "/consumer", 1, 2);
 
-	}
+        assertTrue(true);
 
-	@Test
-	public void testCreateConsumer9() {
+    }
 
-		MRClientFactory.createConsumer("host", "topic", "username", "password", "group", "23", "protocolFlag",
-				"/consumer", 1, 2);
+    @Test
+    public void testCreateConsumer10() {
 
-		assertTrue(true);
+        MRClientFactory.createConsumer("host", "topic", "username", "password", "group", "23", 1, 2, "protocolFlag",
+                "/consumer");
 
-	}
+        assertTrue(true);
 
-	@Test
-	public void testCreateConsumer10() {
+    }
+    
+    @Test
+    public void test$testInject() {
 
-		MRClientFactory.createConsumer("host", "topic", "username", "password", "group", "23", 1, 2, "protocolFlag",
-				"/consumer");
+        MRClientFactory.$testInject(null);
+        assertTrue(true);
 
-		assertTrue(true);
-
-	}
-	
-	@Test
-	public void test$testInject() {
-
-		MRClientFactory.$testInject(null);
-		assertTrue(true);
-
-	}
+    }
 
 }
