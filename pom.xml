@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!-- ============LICENSE_START======================================================= 
 	org.onap.dmaap ================================================================================ 
 	Copyright © 2017 AT&T Intellectual Property. All rights reserved. ================================================================================ 
@@ -9,8 +10,7 @@
 	OF ANY KIND, either express or implied. See the License for the specific 
 	language governing permissions and limitations under the License. ============LICENSE_END========================================================= 
 	ECOMP is a trademark and service mark of AT&T Intellectual Property. -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.onap.dmaap.messagerouter.dmaapclient</groupId>
 	<artifactId>dmaapClient</artifactId>
@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>org.onap.oparent</groupId>
 		<artifactId>oparent</artifactId>
-		<version>1.1.0</version>
+		<version>1.2.0</version>
 	</parent>
 	<properties>
 		<!-- for the client library, we want to allow 1.6 or later -->
@@ -63,13 +63,13 @@
 	<developers>
 		<developer>
 			<name>Rajashree</name>
-			<email></email>
+			<email/>
 			<organization>ATT</organization>
 			<organizationUrl>www.att.com</organizationUrl>
 		</developer>
 		<developer>
 			<name>Ramkumar</name>
-			<email></email>
+			<email/>
 			<organization>ATT</organization>
 			<organizationUrl>www.att.com</organizationUrl>
 		</developer>
