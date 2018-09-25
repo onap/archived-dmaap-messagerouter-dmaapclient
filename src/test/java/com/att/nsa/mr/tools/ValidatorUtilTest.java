@@ -89,4 +89,83 @@ public class ValidatorUtilTest {
         }
         
     }
+    
+    
+    
+    
+    @Test
+    public void testValidateForNonDME2WithNullServiceName() {
+        Properties props = new Properties();
+        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        try{
+            ValidatorUtil.validatePublisher(props);
+        } catch(IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "Servicename is needed");
+        }
+        
+    }
+    
+    @Test
+    public void testValidateForNonDME2WithNullTopic() {
+        Properties props = new Properties();
+        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("host", "ServiceName");
+        try{
+            ValidatorUtil.validatePublisher(props);
+        } catch(IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "topic is needed");
+        }
+        
+    }
+    
+    @Test
+    public void testValidateForNonDME2WithNullContenttype() {
+        Properties props = new Properties();
+        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("host", "ServiceName");
+        props.setProperty("topic", "topic");
+        try{
+            ValidatorUtil.validatePublisher(props);
+        } catch(IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "contenttype is needed");
+        }
+        
+    }
+
+    
+    @Test
+    public void testValidateForNonDME2WithNullUserName() {
+        Properties props = new Properties();
+        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("host", "ServiceName");
+        props.setProperty("topic", "topic");
+        props.setProperty("contenttype", "contenttype");
+        try{
+            ValidatorUtil.validatePublisher(props);
+        } catch(IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "username is needed");
+        }
+        
+    }
+    
+    @Test
+    public void testValidateForNonDME2WithNullPassword() {
+        Properties props = new Properties();
+        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("host", "ServiceName");
+        props.setProperty("topic", "topic");
+        props.setProperty("username", "username");
+        props.setProperty("contenttype", "contenttype");
+        
+        try{
+            ValidatorUtil.validatePublisher(props);
+        } catch(IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "password is needed");
+        }
+        
+    }
+    
+    
+    
+    
 }
