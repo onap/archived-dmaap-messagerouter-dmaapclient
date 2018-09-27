@@ -165,6 +165,43 @@ public class ValidatorUtilTest {
         
     }
     
+    @Test
+    public void testValidateForNonDME2WithAuthKey() {
+        Properties props = new Properties();
+        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("host", "ServiceName");
+        props.setProperty("topic", "topic");
+        props.setProperty("username", "username");
+        props.setProperty("contenttype", "contenttype");
+        props.setProperty("password", "password");
+        
+        try{
+            ValidatorUtil.validatePublisher(props);
+        } catch(IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "authKey is needed");
+        }
+        
+    }
+    
+    @Test
+    public void testValidateForNonDME2WithAuthDate() {
+        Properties props = new Properties();
+        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("host", "ServiceName");
+        props.setProperty("topic", "topic");
+        props.setProperty("username", "username");
+        props.setProperty("contenttype", "contenttype");
+        props.setProperty("password", "password");
+        props.setProperty("authKey", "authKey");
+        
+        try{
+            ValidatorUtil.validatePublisher(props);
+        } catch(IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "authDate is needed");
+        }
+        
+    }
+    
     
     
     
