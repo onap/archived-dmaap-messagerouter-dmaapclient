@@ -184,7 +184,7 @@ public class ValidatorUtilTest {
     }
     
     @Test
-    public void testValidateForNonDME2WithAuthDate() {
+    public void testValidateForNonDME2WithOutAuthDate() {
         Properties props = new Properties();
         props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
         props.setProperty("host", "ServiceName");
@@ -194,11 +194,78 @@ public class ValidatorUtilTest {
         props.setProperty("password", "password");
         props.setProperty("authKey", "authKey");
         
+        
         try{
             ValidatorUtil.validatePublisher(props);
         } catch(IllegalArgumentException e) {
             assertEquals(e.getMessage(), "authDate is needed");
         }
+    }
+    
+    @Test
+    public void testValidateForNonDME2WithAuthDate() {
+        Properties props = new Properties();
+        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("host", "ServiceName");
+        props.setProperty("topic", "topic");
+        props.setProperty("username", "username");
+        props.setProperty("contenttype", "contenttype");
+        props.setProperty("password", "password");
+        props.setProperty("authKey", "authKey");
+        props.setProperty("authDate", "authDate");
+        
+        try{
+            ValidatorUtil.validatePublisher(props);
+        } catch(IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "maxBatchSize is needed");
+        }
+    }
+        
+        
+        @Test
+        public void testValidateForNonDME2WithMaxAgeMs() {
+            Properties props = new Properties();
+            props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+            props.setProperty("host", "ServiceName");
+            props.setProperty("topic", "topic");
+            props.setProperty("username", "username");
+            props.setProperty("contenttype", "contenttype");
+            props.setProperty("password", "password");
+            props.setProperty("authKey", "authKey");
+            props.setProperty("authDate", "authDate");
+            props.setProperty("maxBatchSize", "maxBatchSize");
+            
+            try{
+                ValidatorUtil.validatePublisher(props);
+            } catch(IllegalArgumentException e) {
+                assertEquals(e.getMessage(), "maxAgeMs is needed");
+            }
+            
+     
+        
+    }
+        
+        @Test
+        public void testValidateForNonDME2WithMessageSentThreadOccurance() {
+            Properties props = new Properties();
+            props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+            props.setProperty("host", "ServiceName");
+            props.setProperty("topic", "topic");
+            props.setProperty("username", "username");
+            props.setProperty("contenttype", "contenttype");
+            props.setProperty("password", "password");
+            props.setProperty("authKey", "authKey");
+            props.setProperty("authDate", "authDate");
+            props.setProperty("maxBatchSize", "maxBatchSize");
+            props.setProperty("maxAgeMs", "maxAgeMs");
+            
+            try{
+                ValidatorUtil.validatePublisher(props);
+            } catch(IllegalArgumentException e) {
+                assertEquals(e.getMessage(), "MessageSentThreadOccurance is needed");
+            }
+            
+     
         
     }
     
