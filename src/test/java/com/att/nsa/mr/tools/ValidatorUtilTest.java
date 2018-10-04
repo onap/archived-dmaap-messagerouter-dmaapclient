@@ -265,9 +265,52 @@ public class ValidatorUtilTest {
                 assertEquals(e.getMessage(), "MessageSentThreadOccurance is needed");
             }
             
-     
-        
-    }
+        }
+            
+            
+            @Test
+            public void testValidateSubscriberWithoutGroup() {
+                Properties props = new Properties();
+                props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+                props.setProperty("host", "ServiceName");
+                props.setProperty("topic", "topic");
+                props.setProperty("username", "username");
+                props.setProperty("contenttype", "contenttype");
+                props.setProperty("password", "password");
+                props.setProperty("authKey", "authKey");
+                props.setProperty("authDate", "authDate");
+                props.setProperty("maxBatchSize", "maxBatchSize");
+                props.setProperty("maxAgeMs", "maxAgeMs");
+                
+                try{
+                    ValidatorUtil.validateSubscriber(props);
+                } catch(IllegalArgumentException e) {
+                    assertEquals(e.getMessage(), "group is needed");
+                }
+     }
+            
+            @Test
+            public void testValidateSubscriberWithoutCustomer() {
+                Properties props = new Properties();
+                props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+                props.setProperty("host", "ServiceName");
+                props.setProperty("topic", "topic");
+                props.setProperty("username", "username");
+                props.setProperty("contenttype", "contenttype");
+                props.setProperty("password", "password");
+                props.setProperty("authKey", "authKey");
+                props.setProperty("authDate", "authDate");
+                props.setProperty("maxBatchSize", "maxBatchSize");
+                props.setProperty("maxAgeMs", "maxAgeMs");
+                props.setProperty("group", "group");
+                
+                try{
+                    ValidatorUtil.validateSubscriber(props);
+                } catch(IllegalArgumentException e) {
+                    assertEquals(e.getMessage(), "Consumer (Id)  is needed");
+                }
+     }
+
     
     
     
