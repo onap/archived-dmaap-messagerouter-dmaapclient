@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2018 IBM.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -21,6 +23,8 @@
  *******************************************************************************/
 package com.att.nsa.mr.client.impl;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,25 +34,38 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MRBatchPublisherTest {
-	
-	private Collection<String> hosts=new HashSet<>(Arrays.asList("/test"));
-	private MRBatchPublisher mrBatchPublisher=new MRBatchPublisher(hosts, "topic", 2, 20, true);
-	
-	
+
+	private Collection<String> hosts = new HashSet<>(Arrays.asList("/test"));
+	private MRBatchPublisher mrBatchPublisher = new MRBatchPublisher(hosts, "topic", 2, 20, true);
+
 	@Before
-	public void setup(){
-		
-		
+	public void setup() {
+
 	}
-	
+
 	@Test
-	public void testSend() throws IOException{
+	public void testSend() throws IOException {
 		mrBatchPublisher.send("testmessage");
+		mrBatchPublisher.send("partition", "message");
 	}
-	
+
 	@Test
-	public void testClose() throws IOException{
+	public void testClose() throws IOException {
 		mrBatchPublisher.close();
 	}
 
+	@Test
+	public void testSetApiCredentials() throws IOException {
+		mrBatchPublisher.setApiCredentials("apiKey", "apiSecret");
+	}
+
+	@Test
+	public void testClearApiCredentials() throws IOException {
+		mrBatchPublisher.clearApiCredentials();
+	}
+
+	@Test
+	public void testGetPendingMessageCount() throws IOException {
+		assertEquals(0, mrBatchPublisher.getPendingMessageCount());
+	}
 }
