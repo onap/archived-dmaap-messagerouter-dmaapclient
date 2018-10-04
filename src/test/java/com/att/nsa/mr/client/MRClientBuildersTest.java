@@ -26,15 +26,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.att.nsa.mr.client.HostSelector;
-import com.att.nsa.mr.client.MRClient;
-import com.att.nsa.mr.client.MRClientBuilders;
+import com.att.nsa.mr.client.impl.MRConsumerImpl;
 
 public class MRClientBuildersTest {
 
@@ -244,5 +241,12 @@ public class MRClientBuildersTest {
             assertTrue(true);
         }
 
+    }
+
+    @Test
+    public void testBuildForNonNullValues() {
+        builder.usingHosts("testTopics");
+        builder.onTopic("testTopic");
+        assertTrue(builder.build() instanceof MRConsumerImpl);
     }
 }
