@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2018 IBM.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -42,88 +44,111 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 
 public class MRMetaClientTest {
-	
-	@Rule public WireMockRule wireMock = new WireMockRule();
-	
-	@Before
-	public void setUp(){
-		wireMock.stubFor(get(urlEqualTo("/topics"))
+    
+    @Rule public WireMockRule wireMock = new WireMockRule();
+    
+    @Before
+    public void setUp(){
+        wireMock.stubFor(get(urlEqualTo("/topics"))
                 .willReturn(aResponse().withBody("{\"topics\":[\"topic1\",\"topic2\"]}").withHeader("Content-Type", "application/json")));
-		wireMock.stubFor(get(urlEqualTo("/topics/topic1"))
+        wireMock.stubFor(get(urlEqualTo("/topics/topic1"))
                 .willReturn(aResponse().withBody("{\"topics\":[\"topic1\",\"topic2\"]}").withHeader("Content-Type", "application/json")));
-		wireMock.stubFor(post(urlEqualTo("/topics/create"))
-				.willReturn(aResponse().withStatus(200)));
-	}
-	
-	@Test
-	public void getTopicsTest() 
-	{
-		final Collection<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:" + wireMock.port() );
-		
-		MRMetaClient c;
-		try {
-			c = new MRMetaClient(hosts);
-			Set<String> setString=c.getTopics();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		
-	//	assertEquals ("http://localhost:8080/events/" + "topic/cg/cid", url );
-		
-	}
-	
-	@Test
-	public void getTopicMetadataTest() {
-		final Collection<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:" + wireMock.port() );
-		
-		final String topic ="topic1";
-		
-		MRMetaClient c;
-		try {
-			c = new MRMetaClient(hosts);
-			TopicInfo topicInfo=c.getTopicMetadata(topic);
-		} catch (IOException | HttpObjectNotFoundException e) {
-			e.printStackTrace();
-		}	
-		
-	}
-	
-	@Test
-	public void testcreateTopic(){
-		final Collection<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:" + wireMock.port() );
-		
-		MRMetaClient c;
-		try {
-			c = new MRMetaClient(hosts);
-			c.createTopic("topic1", "testTopic", 1, 1);
-		} catch (IOException | HttpException e) {
-			e.printStackTrace();
-		}
-	}
-	@Test
-	public void testupdateApiKey(){
-		final Collection<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:" + wireMock.port() );
-		
-		MRMetaClient c;
-		try {
-			c = new MRMetaClient(hosts);
-			c.updateCurrentApiKey("test@onap.com", "test email");
-		}catch (HttpException e) {
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (NullPointerException e) {
-			assertTrue(true);
-		}
-		
-	}
+        wireMock.stubFor(post(urlEqualTo("/topics/create"))
+                .willReturn(aResponse().withStatus(200)));
+    }
+    
+    @Test
+    public void getTopicsTest() 
+    {
+        final Collection<String> hosts = new LinkedList<String> ();
+        hosts.add ( "localhost:" + wireMock.port() );
+        
+        MRMetaClient c;
+        try {
+            c = new MRMetaClient(hosts);
+            Set<String> setString=c.getTopics();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        
+    //    assertEquals ("http://localhost:8080/events/" + "topic/cg/cid", url );
+        
+    }
+    
+    @Test
+    public void getTopicMetadataTest() {
+        final Collection<String> hosts = new LinkedList<String> ();
+        hosts.add ( "localhost:" + wireMock.port() );
+        
+        final String topic ="topic1";
+        
+        MRMetaClient c;
+        try {
+            c = new MRMetaClient(hosts);
+            TopicInfo topicInfo=c.getTopicMetadata(topic);
+        } catch (IOException | HttpObjectNotFoundException e) {
+            e.printStackTrace();
+        }    
+        
+    }
+    
+    @Test
+    public void testcreateTopic(){
+        final Collection<String> hosts = new LinkedList<String> ();
+        hosts.add ( "localhost:" + wireMock.port() );
+        
+        MRMetaClient c;
+        try {
+            c = new MRMetaClient(hosts);
+            c.createTopic("topic1", "testTopic", 1, 1);
+        } catch (IOException | HttpException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void testupdateApiKey(){
+        final Collection<String> hosts = new LinkedList<String> ();
+        hosts.add ( "localhost:" + wireMock.port() );
+        
+        MRMetaClient c;
+        try {
+            c = new MRMetaClient(hosts);
+            c.updateCurrentApiKey("test@onap.com", "test email");
+        }catch (HttpException e) {
+            
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (NullPointerException e) {
+            assertTrue(true);
+        }
+        
+    }
+    
+    @Test
+    public void testIsOpenForProducingAndConsuming() throws HttpException, IOException
+    {
+        final Collection<String> hosts = new LinkedList<String> ();
+        hosts.add ( "localhost:" + wireMock.port() );
+        
+        MRMetaClient c;
+        c = new MRMetaClient(hosts);
+        c.createTopic("topic1", "testTopic", 1, 1);
+        assertTrue(c.isOpenForProducing("topic1"));
+        assertTrue(c.isOpenForConsuming("topic1"));
+    }
+    
+    @Test(expected=Exception.class)
+    public void testCreateApiKey() throws Exception
+    {
+        final Collection<String> hosts = new LinkedList<String> ();
+        hosts.add ( "localhost:" + wireMock.port() );
+        MRMetaClient c;
+        c = new MRMetaClient(hosts);
+        c.createApiKey("abc@xyz.com", "testEmail");
+    }
 
-	
+    
 }
