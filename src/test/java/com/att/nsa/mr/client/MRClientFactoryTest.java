@@ -24,19 +24,15 @@ package com.att.nsa.mr.client;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.TimeUnit;
+import java.util.Properties;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.att.nsa.mr.client.HostSelector;
-import com.att.nsa.mr.client.MRClient;
-import com.att.nsa.mr.client.MRClientBuilders;
-import com.att.nsa.mr.client.MRClientFactory;
 
 public class MRClientFactoryTest {
 
@@ -149,7 +145,7 @@ public class MRClientFactoryTest {
     @Test
     public void testCreateBatchingPublisher4() {
 
-    MRClientFactory.createBatchingPublisher(hostSet, "testTopic", 100, 10, true);
+        MRClientFactory.createBatchingPublisher(hostSet, "testTopic", 100, 10, true);
         assertTrue(true);
 
     }
@@ -177,7 +173,21 @@ public class MRClientFactoryTest {
     }
 
     @Test
-    public void testCreateBatchingPublisher7() {
+    public void testCreateBatchingPublisher7() throws FileNotFoundException, IOException {
+        Properties props = new Properties();
+        props.setProperty("TransportType", "HTTPAUTH");
+        props.setProperty("maxBatchSize", "100");
+        props.setProperty("maxAgeMs", "500");
+        props.setProperty("topic", "topic1");
+        props.setProperty("compress", "true");
+        props.setProperty("MessageSentThreadOccurance", "5");
+        props.setProperty("host", "localhost:8080");
+
+        assertTrue(MRClientFactory.createBatchingPublisher(props, true) instanceof MRBatchingPublisher);
+    }
+
+    @Test
+    public void testCreateBatchingPublisher8() {
 
         try {
             MRClientFactory.createBatchingPublisher("/producer", true);
@@ -240,7 +250,7 @@ public class MRClientFactoryTest {
         assertTrue(true);
 
     }
-    
+
     @Test
     public void test$testInject() {
 
