@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,69 +22,37 @@
 
 package com.att.nsa.mr.dme.client;
 
-import static org.junit.Assert.assertTrue;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.att.nsa.mr.client.HostSelector;
-import com.att.nsa.mr.client.MRPublisher.message;
-import com.att.nsa.mr.test.support.MRBatchingPublisherMock.Listener;
+import com.att.aft.dme2.api.util.DME2ExchangeResponseContext;
 
 public class PreferredRouteReplyHandlerTest {
-	private PreferredRouteReplyHandler handler = null;
+    private PreferredRouteReplyHandler handler = null;
 
-	@Before
-	public void setUp() throws Exception {
-		handler = new PreferredRouteReplyHandler();
+    @Before
+    public void setUp() throws Exception {
+        handler = new PreferredRouteReplyHandler();
 
-	}
+    }
 
-	@After
-	public void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
 
-	}
+    }
 
-	@Test
-	public void testHandleReply() {
-
-//		handler.handleReply(null);
-//		assertTrue(true);
-
-	}
-	
-	@Test
-	public void testHandleFault() {
-/*
-		handler.handleFault(null);
-		assertTrue(true);
-*/
-	}
-	
-	@Test
-	public void testHandleEndpointFault() {
-
-/*		handler.handleEndpointFault(null);
-		assertTrue(true);*/
-
-	}
-	
-	@Test
-	public void testRouteWriter() {
-/*
-		handler.routeWriter("routeKey", "routeValue");
-		assertTrue(true);
-*/
-	}
-	
-	
-	
-
+    @Test
+    public void testHandleReply() {
+        Map<String, String> responseHeaders= new HashMap<>();
+        responseHeaders.put("header1", "value1");
+        responseHeaders.put("transactionId", "12345");
+        DME2ExchangeResponseContext responseData= new DME2ExchangeResponseContext(null, 0, null, responseHeaders, "testRouteOffer", "1", "");
+        
+        handler.handleReply(responseData);
+    }
+    
 }
