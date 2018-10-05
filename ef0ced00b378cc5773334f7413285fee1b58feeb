@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_5c0ff3e1",
+        "filename": "src/test/java/com/att/nsa/mr/client/impl/MRConstantsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 2667
+      },
+      "writtenOn": "2018-10-05T18:04:00Z",
+      "side": 1,
+      "message": "makeurl method has the code to append transport protocol to host, so no need of adding that to the host name.",
+      "range": {
+        "startLine": 129,
+        "startChar": 22,
+        "endLine": 129,
+        "endChar": 45
+      },
+      "revId": "ef0ced00b378cc5773334f7413285fee1b58feeb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
