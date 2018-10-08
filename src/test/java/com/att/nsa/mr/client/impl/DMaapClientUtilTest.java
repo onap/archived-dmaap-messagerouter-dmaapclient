@@ -26,22 +26,37 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.att.aft.dme2.internal.jersey.core.spi.factory.ResponseImpl;
+
 public class DMaapClientUtilTest {
     
+	Builder builder;
+	
+	Response response;
+	
+	WebTarget target;
+	
     @Before
     public void setup(){
         Mockito.mock(HttpServletRequest.class);
+        builder = Mockito.mock(Invocation.Builder.class);
+        response = Mockito.mock(Response.class);
+        target = Mockito.mock(WebTarget.class);
+        
     }
     
     @Test
     public void testGetTarget() throws IOException{
-        WebTarget actual = DmaapClientUtil.getTarget("testpath");
+    	WebTarget actual = DmaapClientUtil.getTarget("testpath");
         
         assertEquals("testpath", actual.getUri().getPath());
     }
@@ -51,6 +66,18 @@ public class DMaapClientUtilTest {
         WebTarget actual = DmaapClientUtil.getTarget("testpath", "testuser", "testpassword");
         
         assertEquals("testpath", actual.getUri().getPath());
+    }
+    
+    @Test
+    public void testGetResponsewtCambriaAuth() {
+    	Mockito.when(target.request()).thenReturn(builder);
+    	Mockito.when(builder.header("X-CambriaAuth", "testuser")).thenReturn(builder);
+    	Mockito.when(builder.header("X-CambriaDate", "testpassword")).thenReturn(builder);
+    	Mockito.when(builder.get()).thenReturn(response);
+    	
+        Response actual = DmaapClientUtil.getResponsewtCambriaAuth(target, "testuser", "testpassword");
+        
+        assertEquals(response, actual);
     }
 
     
