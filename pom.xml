@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>org.onap.oparent</groupId>
 		<artifactId>oparent</artifactId>
-		<version>1.2.0</version>
+		<version>1.2.1</version>
 	</parent>
 	<properties>
 		<!-- for the client library, we want to allow 1.6 or later -->
@@ -32,7 +32,7 @@
 		<jersey.version>2.22.1</jersey.version>
 		<version.jackson.core>2.6.7.1</version.jackson.core>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
+        <onap.nexus.url>https://nexus.onap.org</onap.nexus.url>
 		<!-- SONAR -->
 		<jacoco.version>0.7.7.201606060606</jacoco.version>
 		<sonar-jacoco-listeners.version>3.2</sonar-jacoco-listeners.version>
