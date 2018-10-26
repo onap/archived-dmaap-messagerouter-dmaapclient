@@ -43,23 +43,23 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 public class MRMetaClientTest {
 	
-	@Rule public WireMockRule wireMock = new WireMockRule();
+	//@Rule public WireMockRule wireMock = new WireMockRule();
 	
 	@Before
-	public void setUp(){
+	public void setUp(){/*
 		wireMock.stubFor(get(urlEqualTo("/topics"))
                 .willReturn(aResponse().withBody("{\"topics\":[\"topic1\",\"topic2\"]}").withHeader("Content-Type", "application/json")));
 		wireMock.stubFor(get(urlEqualTo("/topics/topic1"))
                 .willReturn(aResponse().withBody("{\"topics\":[\"topic1\",\"topic2\"]}").withHeader("Content-Type", "application/json")));
 		wireMock.stubFor(post(urlEqualTo("/topics/create"))
 				.willReturn(aResponse().withStatus(200)));
-	}
+	*/}
 	
 	@Test
 	public void getTopicsTest() 
 	{
 		final Collection<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:" + wireMock.port() );
+		hosts.add ( "localhost:" +3904 );
 		
 		MRMetaClient c;
 		try {
@@ -77,7 +77,7 @@ public class MRMetaClientTest {
 	@Test
 	public void getTopicMetadataTest() {
 		final Collection<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:" + wireMock.port() );
+		hosts.add ( "localhost:" + 3904 );
 		
 		final String topic ="topic1";
 		
@@ -94,7 +94,7 @@ public class MRMetaClientTest {
 	@Test
 	public void testcreateTopic(){
 		final Collection<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:" + wireMock.port() );
+		hosts.add ( "localhost:" + 3904 );
 		
 		MRMetaClient c;
 		try {
@@ -107,7 +107,7 @@ public class MRMetaClientTest {
 	@Test
 	public void testupdateApiKey(){
 		final Collection<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:" + wireMock.port() );
+		hosts.add ( "localhost:" + 3904 );
 		
 		MRMetaClient c;
 		try {
