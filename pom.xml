@@ -116,6 +116,10 @@
 					<groupId>com.sun.jersey</groupId>
 					<artifactId>jersey-client</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<!-- Begin - Dependency on log4j for logging purpose -->
