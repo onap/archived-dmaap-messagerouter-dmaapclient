@@ -22,8 +22,6 @@
 package org.onap.dmaap.mr.dme.client;
 
 
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,13 +29,8 @@ import com.att.aft.dme2.api.util.DME2ExchangeFaultContext;
 import com.att.aft.dme2.api.util.DME2ExchangeReplyHandler;
 import com.att.aft.dme2.api.util.DME2ExchangeResponseContext;
 import org.onap.dmaap.mr.client.MRClientFactory;
-import org.onap.dmaap.mr.client.impl.MRSimplerBatchPublisher;
-
-
-
-
 	
-	public class HeaderReplyHandler implements DME2ExchangeReplyHandler {
+public class HeaderReplyHandler implements DME2ExchangeReplyHandler {
 	
 	private Logger fLog = LoggerFactory.getLogger ( this.getClass().getName () );
 

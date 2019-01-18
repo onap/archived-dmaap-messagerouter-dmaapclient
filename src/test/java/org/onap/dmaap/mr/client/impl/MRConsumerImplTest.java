@@ -29,7 +29,6 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import org.onap.dmaap.mr.client.MRClientFactory;
 import org.onap.dmaap.mr.client.impl.MRConstants;
 import org.onap.dmaap.mr.client.impl.MRConsumerImpl;
 

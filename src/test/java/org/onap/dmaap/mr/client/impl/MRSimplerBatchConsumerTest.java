@@ -25,20 +25,12 @@ package org.onap.dmaap.mr.client.impl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
-
-import org.json.JSONObject;
-import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import org.onap.dmaap.mr.client.MRClientFactory;
 import org.onap.dmaap.mr.client.MRConsumer;
-import org.onap.dmaap.mr.client.MRPublisher.message;
-import org.onap.dmaap.mr.client.response.MRPublisherResponse;
 
 public class MRSimplerBatchConsumerTest {
 	

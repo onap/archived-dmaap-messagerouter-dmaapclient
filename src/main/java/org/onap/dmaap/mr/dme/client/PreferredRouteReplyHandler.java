@@ -22,7 +22,6 @@
 package org.onap.dmaap.mr.dme.client;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.InputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

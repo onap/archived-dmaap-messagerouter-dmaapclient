@@ -22,7 +22,6 @@ package org.onap.dmaap.mr.test.clients;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -22,19 +22,13 @@ package org.onap.dmaap.mr.test.support;
 
 import static org.junit.Assert.assertTrue;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.onap.dmaap.mr.client.HostSelector;
 import org.onap.dmaap.mr.client.MRPublisher.message;
-import org.onap.dmaap.mr.test.support.MRBatchingPublisherMock.Listener;
 
 public class MRBatchingPublisherMockTest {
 	private MRBatchingPublisherMock pub = null;

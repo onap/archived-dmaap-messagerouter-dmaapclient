@@ -30,7 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.onap.dmaap.mr.client.MRBatchingPublisher;
-import org.onap.dmaap.mr.client.MRClientFactory;
 import org.onap.dmaap.mr.client.MRClientBuilders.PublisherBuilder;
 import org.onap.dmaap.mr.client.MRPublisher.message;
 

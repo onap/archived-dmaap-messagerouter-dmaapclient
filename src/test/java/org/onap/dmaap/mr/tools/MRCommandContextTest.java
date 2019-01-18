@@ -22,22 +22,11 @@ package org.onap.dmaap.mr.tools;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.att.nsa.apiClient.http.HttpTracer;
-import com.att.nsa.cmdtool.CommandNotReadyException;
-import org.onap.dmaap.mr.client.HostSelector;
-import org.onap.dmaap.mr.client.MRClient;
-import org.onap.dmaap.mr.client.MRPublisher.message;
-import org.onap.dmaap.mr.test.support.MRBatchingPublisherMock.Entry;
 
 public class MRCommandContextTest {
 	private MRCommandContext command = null;

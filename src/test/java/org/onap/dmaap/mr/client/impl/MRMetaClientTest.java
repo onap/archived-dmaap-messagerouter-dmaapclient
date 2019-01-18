@@ -22,23 +22,15 @@
 package org.onap.dmaap.mr.client.impl;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Set;
-
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.Assert.assertTrue;
-
 import com.att.nsa.apiClient.http.HttpException;
 import com.att.nsa.apiClient.http.HttpObjectNotFoundException;
-import org.onap.dmaap.mr.client.MRClient.MRApiException;
 import org.onap.dmaap.mr.client.MRTopicManager.TopicInfo;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 
 public class MRMetaClientTest {

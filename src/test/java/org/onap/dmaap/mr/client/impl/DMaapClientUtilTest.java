@@ -35,8 +35,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.att.aft.dme2.internal.jersey.core.spi.factory.ResponseImpl;
-
 public class DMaapClientUtilTest {
     
 	Builder builder;

@@ -22,13 +22,10 @@ package org.onap.dmaap.mr.logging;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.onap.dmaap.mr.client.HostSelector;
 
 public class MRAppenderTest {
 	private MRAppender appender = null;

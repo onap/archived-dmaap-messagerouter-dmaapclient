@@ -26,14 +26,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.onap.dmaap.mr.client.HostSelector;
-import org.onap.dmaap.mr.client.MRClient;
 import org.onap.dmaap.mr.client.MRClientBuilders;
 
 public class MRClientBuildersTest {

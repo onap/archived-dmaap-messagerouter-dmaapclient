@@ -34,7 +34,6 @@ import com.att.nsa.cmdtool.CommandNotReadyException;
 import org.onap.dmaap.mr.client.MRBatchingPublisher;
 import org.onap.dmaap.mr.client.MRClientFactory;
 import org.onap.dmaap.mr.client.MRConsumer;
-import org.onap.dmaap.mr.client.MRClientBuilders.PublisherBuilder;
 import org.onap.dmaap.mr.client.MRPublisher.message;
 
 public class MessageCommand implements Command<MRCommandContext>

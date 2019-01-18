@@ -24,18 +24,11 @@ package org.onap.dmaap.mr.dme.client;
 
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
-
-import java.util.concurrent.TimeUnit;
-
 import javax.ws.rs.core.MultivaluedMap;
-
 import org.json.JSONObject;
-
 import org.onap.dmaap.mr.client.MRBatchingPublisher;
 import org.onap.dmaap.mr.client.MRClientFactory;
-import org.onap.dmaap.mr.client.MRPublisher.message;
 
 /**
  * An example of how to use the Java publisher.
