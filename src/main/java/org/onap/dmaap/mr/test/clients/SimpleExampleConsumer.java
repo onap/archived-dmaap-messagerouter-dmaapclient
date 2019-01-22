@@ -62,7 +62,7 @@ public class SimpleExampleConsumer {
 				Thread.sleep(2);
 				i++;
 				for (String msg : cc.fetch()) {
-					// System.out.println ( "" + (++count) + ": " + msg );
+				
 					System.out.println(msg);
 				}
 
