@@ -51,7 +51,7 @@ public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIden
 	@Override
 	public Set<String> getTopics () throws IOException
 	{
-		final TreeSet<String> set = new TreeSet<String> ();
+		final TreeSet<String> set = new TreeSet<> ();
 		try
 		{
 			final JSONObject topicSet = get ( "/topics" );
