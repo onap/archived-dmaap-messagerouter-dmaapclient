@@ -208,7 +208,7 @@ public class MRClientBuilders
          */
         public PublisherBuilder usingHosts ( String[] hostSet )
         {
-            final TreeSet<String> hosts = new TreeSet<String> ();
+            final TreeSet<String> hosts = new TreeSet<> ();
             for ( String hp : hostSet )
             {
                 hosts.add ( hp );
