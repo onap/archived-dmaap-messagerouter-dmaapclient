@@ -75,7 +75,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 		if (a == null)
 			return null;
 
-		final TreeSet<String> set = new TreeSet<String>();
+		final TreeSet<String> set = new TreeSet<>();
 		for (int i = 0; i < a.length(); i++) {
 			set.add(a.getString(i));
 		}
