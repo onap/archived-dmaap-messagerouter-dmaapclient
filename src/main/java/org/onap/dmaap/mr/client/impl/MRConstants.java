@@ -110,7 +110,7 @@ class MRConstants
 	 */
 	public static List<HttpHost> createHostsList(Collection<String> hosts)
 	{
-		final ArrayList<HttpHost> convertedHosts = new ArrayList<HttpHost> ();
+		final ArrayList<HttpHost> convertedHosts = new ArrayList<> ();
 		for ( String host : hosts )
 		{
 			if ( host.length () == 0 ) continue;
