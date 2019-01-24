@@ -241,7 +241,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 
     @Override
     public MRConsumerResponse fetchWithReturnConsumerResponse(int timeoutMs, int limit) {
-        final LinkedList<String> msgs = new LinkedList<String>();
+        final LinkedList<String> msgs = new LinkedList<>();
         MRConsumerResponse mrConsumerResponse = new MRConsumerResponse();
         try {
             if (ProtocolTypeConstants.DME2.getValue().equalsIgnoreCase(protocolFlag)) {
