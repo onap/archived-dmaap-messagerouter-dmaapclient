@@ -348,7 +348,7 @@ public class MRClientFactory {
      */
     public static MRBatchingPublisher createBatchingPublisher(String[] hostSet, String topic, int maxBatchSize,
             long maxAgeMs, boolean compress) {
-        final TreeSet<String> hosts = new TreeSet<String>();
+        final TreeSet<String> hosts = new TreeSet<>();
         for (String hp : hostSet) {
             hosts.add(hp);
         }
