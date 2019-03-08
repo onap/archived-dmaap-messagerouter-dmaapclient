@@ -22,10 +22,14 @@ package org.onap.dmaap.mr.dme.client;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.att.aft.dme2.api.util.DME2ExchangeResponseContext;
 
 public class HeaderReplyHandlerTest {
 	private HeaderReplyHandler handler = null;
@@ -59,8 +63,13 @@ public class HeaderReplyHandlerTest {
 	
 	@Test
 	public void testHandleReply() {
+		
+		Map <String, String>responseHeaders = new HashMap<String, String>();
+		responseHeaders.put("transactionId", "1234");
 
-		handler.handleReply(null);
+		DME2ExchangeResponseContext responseData =  new DME2ExchangeResponseContext ("service", 
+				200, new HashMap <String, String>(), responseHeaders, "routeOffer", "1.0.0", "http://");
+		handler.handleReply(responseData);
 		assertTrue(true);
 
 	}
