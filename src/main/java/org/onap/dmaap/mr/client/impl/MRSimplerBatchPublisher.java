@@ -352,22 +352,24 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 				return true;
 			}
 
-			if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
-				getLog().info("sending " + fPending.size() + " msgs to " + httpurl + ". Oldest: "
-						+ (nowMs - fPending.peek().timestamp) + " ms");
-				final JSONObject result = postAuth(httpurl, baseStream.toByteArray(), contentType, authKey, authDate,
-						username, password, protocolFlag);
-				// Here we are checking for error response. If HTTP status
-				// code is not within the http success response code
-				// then we consider this as error and return false
-				if (result.getInt("status") < 200 || result.getInt("status") > 299) {
-					return false;
-				}
-				final String logLine = "MR reply ok (" + (Clock.now() - startMs) + " ms):" + result.toString();
-				getLog().info(logLine);
-				fPending.clear();
-				return true;
-			}
+            if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
+                getLog().info("sending " + fPending.size() + " msgs to " + httpurl + ". Oldest: "
+                        + (nowMs - fPending.peek().timestamp) + " ms");
+                final JSONObject result =
+                        postAuth(new PostAuthDataObject().setPath(httpurl).setData(baseStream.toByteArray())
+                                .setContentType(contentType).setAuthKey(authKey).setAuthDate(authDate)
+                                .setUsername(username).setPassword(password).setProtocolFlag(protocolFlag));
+                // Here we are checking for error response. If HTTP status
+                // code is not within the http success response code
+                // then we consider this as error and return false
+                if (result.getInt("status") < 200 || result.getInt("status") > 299) {
+                    return false;
+                }
+                final String logLine = "MR reply ok (" + (Clock.now() - startMs) + " ms):" + result.toString();
+                getLog().info(logLine);
+                fPending.clear();
+                return true;
+            }
 
 			if (ProtocolTypeConstants.AAF_AUTH.getValue().equalsIgnoreCase(protocolFlag)) {
 				getLog().info("sending " + fPending.size() + " msgs to " + httpurl + ". Oldest: "

@@ -251,8 +251,14 @@ public class MRBaseClientTest {
 						"password", new String("{\"test\":\"test\"}").getBytes(), "application/json"))
 				.thenReturn(response);
 
-		mrBaseClient.postAuth("/path", new String("{\"test\":\"test\"}").getBytes(), "application/json", "username",
-				"password", "username", "password", "HTTPAUTH");
+		  mrBaseClient.postAuth(new PostAuthDataObject().setPath("/path")
+		          .setData( new String("{\"test\":\"test\"}").getBytes())
+		          .setContentType("application/json")
+		          .setAuthKey("username")
+	              .setAuthDate("password")
+	              .setUsername("username") 
+	              .setPassword("password")
+	              .setProtocolFlag("HTTPAUTH"));
 		assertTrue(true);
 
 	}
@@ -266,9 +272,16 @@ public class MRBaseClientTest {
 						"password", new String("{\"test\":\"test\"}").getBytes(), "application/json"))
 				.thenReturn(
 						responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
-
-		mrBaseClient.postAuth("/path", new String("{\"test\":\"test\"}").getBytes(), "application/json", null, null,
-				null, null, "HTTPAUTH");
+		
+		mrBaseClient.postAuth(new PostAuthDataObject().setPath("/path")
+                .setData( new String("{\"test\":\"test\"}").getBytes())
+                .setContentType("application/json")
+                .setAuthKey(null)
+                .setAuthDate(null)
+                .setUsername(null) 
+                .setPassword(null)
+                .setProtocolFlag("HTTPAUTH"));
+		
 		assertTrue(true);
 
 	}

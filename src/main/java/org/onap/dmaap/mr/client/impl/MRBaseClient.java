@@ -160,16 +160,17 @@ public class MRBaseClient extends HttpClient implements MRClient {
 		return responseData;
 	}
 
-	public JSONObject postAuth(final String path, final byte[] data, final String contentType, final String authKey,
-			final String authDate, final String username, final String password, final String protocolFlag)
+	public JSONObject postAuth(PostAuthDataObject postAuthDO)
 			throws HttpException, JSONException {
-		if ((null != username && null != password)) {
-			WebTarget target=null;
-			Response response=null;
-			target = DmaapClientUtil.getTarget(path, username, password);
-			response =DmaapClientUtil.postResponsewtCambriaAuth(target, authKey, authDate, data, contentType);
-			return getResponseDataInJson(response);
-		} else {
+        if ((null != postAuthDO.getUsername() && null != postAuthDO.getPassword())) {
+            WebTarget target = null;
+            Response response = null;
+            target = DmaapClientUtil.getTarget(postAuthDO.getPath(), postAuthDO.getUsername(),
+                    postAuthDO.getPassword());
+            response = DmaapClientUtil.postResponsewtCambriaAuth(target, postAuthDO.getAuthKey(),
+                    postAuthDO.getAuthDate(), postAuthDO.getData(), postAuthDO.getContentType());
+            return getResponseDataInJson(response);
+        } else {
 			throw new HttpException(
 					"Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
 		}
