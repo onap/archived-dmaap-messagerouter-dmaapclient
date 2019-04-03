@@ -21,6 +21,8 @@
  *******************************************************************************/
 package org.onap.dmaap.mr.client.impl;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Properties;
@@ -28,84 +30,127 @@ import java.util.Properties;
 import junit.framework.TestCase;
 
 import org.junit.Test;
-
+import org.onap.dmaap.mr.client.MRClientFactory;
 import org.onap.dmaap.mr.client.impl.MRConstants;
 import org.onap.dmaap.mr.client.impl.MRConsumerImpl;
+import org.onap.dmaap.mr.test.clients.ProtocolTypeConstants;
 
-public class MRConsumerImplTest extends TestCase
-{
+public class MRConsumerImplTest extends TestCase {
 	@Test
-	public void testNullFilter () throws IOException
-	{
-		final LinkedList<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:8080" );
-		final MRConsumerImpl c = new MRConsumerImpl ( hosts, "topic", "cg", "cid", -1, -1, null, null, null );
-		final String url = c.createUrlPath (MRConstants.makeConsumerUrl ( "localhost:8080", "topic", "cg", "cid","http" ), -1, -1 );
-		assertEquals ("http://localhost:8080/events/" + "topic/cg/cid", url );
+	public void testNullFilter() throws IOException {
+		final LinkedList<String> hosts = new LinkedList<String>();
+		hosts.add("localhost:8080");
+		final MRConsumerImpl c = new MRConsumerImpl(hosts, "topic", "cg", "cid", -1, -1, null, null, null);
+		final String url = c.createUrlPath(MRConstants.makeConsumerUrl("localhost:8080", "topic", "cg", "cid", "http"),
+				-1, -1);
+		assertEquals("http://localhost:8080/events/" + "topic/cg/cid", url);
 	}
 
 	@Test
-	public void testFilterWithNoTimeoutOrLimit () throws IOException
-	{
-		final LinkedList<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:8080" );
-		final MRConsumerImpl c = new MRConsumerImpl ( hosts, "topic", "cg", "cid", -1, -1, "filter", null, null );
-		final String url = c.createUrlPath ( MRConstants.makeConsumerUrl ( "localhost:8080", "topic", "cg", "cid" ,"http"),-1, -1 );
-		assertEquals ("http://localhost:8080/events/" + "topic/cg/cid?filter=filter", url );
+	public void testFilterWithNoTimeoutOrLimit() throws IOException {
+		final LinkedList<String> hosts = new LinkedList<String>();
+		hosts.add("localhost:8080");
+		final MRConsumerImpl c = new MRConsumerImpl(hosts, "topic", "cg", "cid", -1, -1, "filter", null, null);
+		final String url = c.createUrlPath(MRConstants.makeConsumerUrl("localhost:8080", "topic", "cg", "cid", "http"),
+				-1, -1);
+		assertEquals("http://localhost:8080/events/" + "topic/cg/cid?filter=filter", url);
 	}
 
 	@Test
-	public void testTimeoutNoLimitNoFilter () throws IOException
-	{
-		final LinkedList<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:8080" );
-		final MRConsumerImpl c = new MRConsumerImpl ( hosts, "topic", "cg", "cid", 30000, -1, null, null, null );
-		final String url = c.createUrlPath (MRConstants.makeConsumerUrl ( "localhost:8080", "topic", "cg", "cid","http" ), 30000, -1 );
-		assertEquals ( "http://localhost:8080/events/"  + "topic/cg/cid?timeout=30000", url );
+	public void testTimeoutNoLimitNoFilter() throws IOException {
+		final LinkedList<String> hosts = new LinkedList<String>();
+		hosts.add("localhost:8080");
+		final MRConsumerImpl c = new MRConsumerImpl(hosts, "topic", "cg", "cid", 30000, -1, null, null, null);
+		final String url = c.createUrlPath(MRConstants.makeConsumerUrl("localhost:8080", "topic", "cg", "cid", "http"),
+				30000, -1);
+		assertEquals("http://localhost:8080/events/" + "topic/cg/cid?timeout=30000", url);
 	}
 
 	@Test
-	public void testNoTimeoutWithLimitNoFilter () throws IOException
-	{
-		final LinkedList<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:8080" );
-		final MRConsumerImpl c = new MRConsumerImpl ( hosts, "topic", "cg", "cid", -1, 100, null, null, null );
-		final String url = c.createUrlPath (MRConstants.makeConsumerUrl ( "localhost:8080", "topic", "cg", "cid","http" ), -1, 100 );
-		assertEquals ( "http://localhost:8080/events/"  + "topic/cg/cid?limit=100", url );
+	public void testNoTimeoutWithLimitNoFilter() throws IOException {
+		final LinkedList<String> hosts = new LinkedList<String>();
+		hosts.add("localhost:8080");
+		final MRConsumerImpl c = new MRConsumerImpl(hosts, "topic", "cg", "cid", -1, 100, null, null, null);
+		final String url = c.createUrlPath(MRConstants.makeConsumerUrl("localhost:8080", "topic", "cg", "cid", "http"),
+				-1, 100);
+		assertEquals("http://localhost:8080/events/" + "topic/cg/cid?limit=100", url);
 	}
 
 	@Test
-	public void testWithTimeoutWithLimitWithFilter () throws IOException
-	{
-		final LinkedList<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:8080" );
-		final MRConsumerImpl c = new MRConsumerImpl ( hosts, "topic", "cg", "cid", 1000, 400, "f", null, null );
-		final String url = c.createUrlPath (MRConstants.makeConsumerUrl ( "localhost:8080", "topic", "cg", "cid" ,"http"), 1000, 400 );
-		assertEquals ("http://localhost:8080/events/"  + "topic/cg/cid?timeout=1000&limit=400&filter=f", url );
+	public void testWithTimeoutWithLimitWithFilter() throws IOException {
+		final LinkedList<String> hosts = new LinkedList<String>();
+		hosts.add("localhost:8080");
+		final MRConsumerImpl c = new MRConsumerImpl(hosts, "topic", "cg", "cid", 1000, 400, "f", null, null);
+		final String url = c.createUrlPath(MRConstants.makeConsumerUrl("localhost:8080", "topic", "cg", "cid", "http"),
+				1000, 400);
+		assertEquals("http://localhost:8080/events/" + "topic/cg/cid?timeout=1000&limit=400&filter=f", url);
 	}
 
 	@Test
-	public void testFilterEncoding () throws IOException
-	{
-		final LinkedList<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:8080" );
-		final MRConsumerImpl c = new MRConsumerImpl ( hosts, "topic", "cg", "cid", -1, -1, "{ \"foo\"=\"bar\"bar\" }", null, null );
-		final String url = c.createUrlPath (MRConstants.makeConsumerUrl ( "localhost:8080", "topic", "cg", "cid","http" ), -1, -1 );
-		assertEquals ( "http://localhost:8080/events/"  + "topic/cg/cid?filter=%7B+%22foo%22%3D%22bar%22bar%22+%7D", url );
+	public void testFilterEncoding() throws IOException {
+		final LinkedList<String> hosts = new LinkedList<String>();
+		hosts.add("localhost:8080");
+		final MRConsumerImpl c = new MRConsumerImpl(hosts, "topic", "cg", "cid", -1, -1, "{ \"foo\"=\"bar\"bar\" }",
+				null, null);
+		final String url = c.createUrlPath(MRConstants.makeConsumerUrl("localhost:8080", "topic", "cg", "cid", "http"),
+				-1, -1);
+		assertEquals("http://localhost:8080/events/" + "topic/cg/cid?filter=%7B+%22foo%22%3D%22bar%22bar%22+%7D", url);
 	}
-	
+
 	@Test
-	public void testFetchWithReturnConsumerResponse () throws IOException
-	{
-		final LinkedList<String> hosts = new LinkedList<String> ();
-		hosts.add ( "localhost:8080" );
+	public void testFetchWithReturnConsumerResponse() throws IOException {
+		final LinkedList<String> hosts = new LinkedList<String>();
+		hosts.add("localhost:8080");
 		Properties properties = new Properties();
-		properties.load(MRSimplerBatchConsumerTest.class.getClassLoader().getResourceAsStream("dme2/consumer.properties"));
+		properties.load(
+				MRSimplerBatchConsumerTest.class.getClassLoader().getResourceAsStream("dme2/consumer.properties"));
+
+		final MRConsumerImpl c = new MRConsumerImpl(hosts, "topic", "cg", "cid", -1, -1, "{ \"foo\"=\"bar\"bar\" }",
+				null, null);
+		assertNotNull(c.fetchWithReturnConsumerResponse());
+		c.setProtocolFlag(ProtocolTypeConstants.AAF_AUTH.getValue());
+		assertNotNull(c.fetchWithReturnConsumerResponse());
+		c.setProtocolFlag(ProtocolTypeConstants.HTTPNOAUTH.getValue());
+		assertNotNull(c.fetchWithReturnConsumerResponse());
+		c.setProtocolFlag(ProtocolTypeConstants.AUTH_KEY.getValue());
+		assertNotNull(c.fetchWithReturnConsumerResponse());
+		assertTrue(true);
+	}
+
+	@Test
+	public void testFetch() throws Exception {
+		final LinkedList<String> hosts = new LinkedList<String>();
+		hosts.add("localhost:8080");
 		
-		final MRConsumerImpl c = new MRConsumerImpl ( hosts, "topic", "cg", "cid", -1, -1, "{ \"foo\"=\"bar\"bar\" }", null, null );
-		c.fetchWithReturnConsumerResponse();
-	    c.setProtocolFlag("HTTPAAF");
-		c.fetchWithReturnConsumerResponse();
+		
+		Properties properties = new Properties();
+		properties.load(
+				MRSimplerBatchPublisherTest.class.getClassLoader().getResourceAsStream("dme2/consumer.properties"));
+
+		String routeFilePath = "dme2/preferredRoute.txt";
+
+		File file = new File(MRSimplerBatchPublisherTest.class.getClassLoader().getResource(routeFilePath).getFile());
+		properties.put("routeFilePath",
+				MRSimplerBatchPublisherTest.class.getClassLoader().getResource(routeFilePath).getFile());
+		
+		File outFile = new File(file.getParent() + "/consumer_tmp.properties");
+		properties.store(new FileOutputStream(outFile), "");
+
+		MRClientFactory.prop=properties;
+		final MRConsumerImpl c = new MRConsumerImpl(hosts, "topic", "cg", "cid", -1, -1, "{ \"foo\"=\"bar\"bar\" }",
+				null, null);
+		c.setProps(properties);
+		try {
+			c.fetch();
+		} catch (Exception e) {
+			assertTrue(true);
+		}
+		c.setProtocolFlag(ProtocolTypeConstants.AAF_AUTH.getValue());
+		assertNotNull(c.fetchWithReturnConsumerResponse());
+		c.setProtocolFlag(ProtocolTypeConstants.HTTPNOAUTH.getValue());
+		assertNotNull(c.fetchWithReturnConsumerResponse());
+		c.setProtocolFlag(ProtocolTypeConstants.AUTH_KEY.getValue());
+		assertNotNull(c.fetchWithReturnConsumerResponse());
 		assertTrue(true);
 	}
 }

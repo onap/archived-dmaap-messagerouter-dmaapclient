@@ -22,7 +22,10 @@
 
 package org.onap.dmaap.mr.client.impl;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -37,58 +40,278 @@ import org.junit.Test;
 import org.onap.dmaap.mr.client.MRClientFactory;
 import org.onap.dmaap.mr.client.MRPublisher.message;
 import org.onap.dmaap.mr.client.response.MRPublisherResponse;
+import org.onap.dmaap.mr.test.clients.ProtocolTypeConstants;
 
 public class MRSimplerBatchPublisherTest {
-	
+
 	File outFile;
-	@Before
-	public void setUp() throws Exception {
+
+	public void setUp(String contentType) throws Exception {
 		Properties properties = new Properties();
-		properties.load(MRSimplerBatchPublisherTest.class.getClassLoader().getResourceAsStream("dme2/producer.properties"));
-		
-		String routeFilePath="dme2/preferredRoute.txt";
-		
+		properties.load(
+				MRSimplerBatchPublisherTest.class.getClassLoader().getResourceAsStream("dme2/producer.properties"));
+
+		String routeFilePath = "dme2/preferredRoute.txt";
+
 		File file = new File(MRSimplerBatchPublisherTest.class.getClassLoader().getResource(routeFilePath).getFile());
-		properties.put("DME2preferredRouterFilePath", MRSimplerBatchPublisherTest.class.getClassLoader().getResource(routeFilePath).getFile());
-		
+		properties.put("DME2preferredRouterFilePath",
+				MRSimplerBatchPublisherTest.class.getClassLoader().getResource(routeFilePath).getFile());
+		if (contentType != null) {
+			properties.put("contenttype", contentType);
+		}
 		outFile = new File(file.getParent() + "/producer_tmp.properties");
 		properties.store(new FileOutputStream(outFile), "");
 	}
 
 	@Test
-	public void testSend() throws IOException, InterruptedException {
-				
-		final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher)MRClientFactory.createBatchingPublisher(outFile.getPath());	
-		
-		//publish some messages
-		final JSONObject msg1 = new JSONObject ();
-		pub.send ( "MyPartitionKey", msg1.toString () );
+	public void testSend() throws Exception {
 
-		final List<message> stuck = pub.close ( 1, TimeUnit.SECONDS );
-		if ( stuck.size () > 0 ) {
-			System.out.println( stuck.size() + " messages unsent" );
-		}
-		else
-		{
-			System.out.println ( "Clean exit; all messages sent." );
-		}
-		
-		
+		setUp(null);
+
+		final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath());
+
+		// publish some messages
+		final JSONObject msg1 = new JSONObject();
+		pub.send("MyPartitionKey", msg1.toString());
+
+		final List<message> stuck = pub.close(1, TimeUnit.SECONDS);
+		Assert.assertEquals(1, stuck.size());
+
 	}
 
 	@Test
-	public void testSendBatchWithResponse() throws IOException, InterruptedException {
-				
-		final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher)MRClientFactory.createBatchingPublisher(outFile.getPath(), true);	
-		
-		//publish some messages
-		final JSONObject msg1 = new JSONObject ();
-		pub.send ( "MyPartitionKey", msg1.toString () );
+	public void testSendBatchWithResponse() throws Exception {
+
+		setUp(null);
+
+		final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath(), true);
+
+		// publish some messages
+		final JSONObject msg1 = new JSONObject();
+		pub.send("MyPartitionKey", msg1.toString());
 		MRPublisherResponse pubResponse = new MRPublisherResponse();
 		pub.setPubResponse(pubResponse);
-		
+
 		MRPublisherResponse mrPublisherResponse = pub.sendBatchWithResponse();
 		Assert.assertEquals(1, mrPublisherResponse.getPendingMsgs());
+
+	}
+
+	@Test
+	public void testSendBatchWithResponseConText() throws Exception {
+
+		setUp("text/plain");
+
+		final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath());
+
+		// publish some messages
+		final JSONObject msg1 = new JSONObject();
+		pub.send("MyPartitionKey", msg1.toString());
+
+		final List<message> stuck = pub.close(1, TimeUnit.SECONDS);
+		Assert.assertEquals(1, stuck.size());
+
+	}
+
+	@Test
+	public void testSendBatchWithResponseContCambria() throws Exception {
+
+		setUp("application/cambria-zip");
+
+		final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath());
+
+		// publish some messages
+		final JSONObject msg1 = new JSONObject();
+		pub.send("MyPartitionKey", msg1.toString());
+
+		final List<message> stuck = pub.close(1, TimeUnit.SECONDS);
+		Assert.assertEquals(1, stuck.size());
+
+	}
+
+	@Test
+	public void testSendBatchWithResponseProtKey() throws Exception {
+
+		setUp(null);
+
+		final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath());
+		pub.setProtocolFlag(ProtocolTypeConstants.AUTH_KEY.getValue());
+		// publish some messages
+		final JSONObject msg1 = new JSONObject();
+		pub.send("MyPartitionKey", msg1.toString());
+
+		final List<message> stuck = pub.close(1, TimeUnit.SECONDS);
+		Assert.assertEquals(1, stuck.size());
+
+	}
+
+	@Test
+	public void testSendBatchWithResponseProtAaf() throws Exception {
+
+		setUp(null);
+
+		final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath());
+		pub.setProtocolFlag(ProtocolTypeConstants.AAF_AUTH.getValue());
+		// publish some messages
+		final JSONObject msg1 = new JSONObject();
+		pub.send("MyPartitionKey", msg1.toString());
+
+		final List<message> stuck = pub.close(1, TimeUnit.SECONDS);
+		Assert.assertEquals(1, stuck.size());
+
+	}
+
+	@Test
+	public void testSendBatchWithResponseProtNoAuth() throws Exception {
+
+		setUp(null);
+
+		final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath());
+		pub.setProtocolFlag(ProtocolTypeConstants.HTTPNOAUTH.getValue());
+		// publish some messages
+		final JSONObject msg1 = new JSONObject();
+		pub.send("MyPartitionKey", msg1.toString());
+
+		final List<message> stuck = pub.close(1, TimeUnit.SECONDS);
+		Assert.assertEquals(1, stuck.size());
+
+	}
+
+	@Test
+	public void testSendBatchWithResponsecontypeText() throws Exception {
+
+		setUp("text/plain");
+
+		final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath(), true);
+
+		// publish some messages
+		final JSONObject msg1 = new JSONObject();
+		pub.send("MyPartitionKey", "payload");
+		MRPublisherResponse pubResponse = new MRPublisherResponse();
+		pub.setPubResponse(pubResponse);
+
+		MRPublisherResponse mrPublisherResponse = pub.sendBatchWithResponse();
+		Assert.assertEquals(1, mrPublisherResponse.getPendingMsgs());
+
+	}
+
+	@Test
+	public void testSendBatchWithResponsecontypeCambria() throws Exception {
+
+		setUp("application/cambria-zip");
+
+		final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath(), true);
+
+		// publish some messages
+		final JSONObject msg1 = new JSONObject();
+		pub.send("MyPartitionKey", "payload");
+		MRPublisherResponse pubResponse = new MRPublisherResponse();
+		pub.setPubResponse(pubResponse);
+
+		MRPublisherResponse mrPublisherResponse = pub.sendBatchWithResponse();
+		Assert.assertEquals(1, mrPublisherResponse.getPendingMsgs());
+
+	}
+
+	@Test
+	public void testSendBatchWithResponsePrAuthKey() throws Exception {
+
+		setUp(null);
+
+		final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath(), true);
+		pub.setProtocolFlag(ProtocolTypeConstants.AUTH_KEY.getValue());
+
+		// publish some messages
+		final JSONObject msg1 = new JSONObject();
+		pub.send("MyPartitionKey", msg1.toString());
+		MRPublisherResponse pubResponse = new MRPublisherResponse();
+		pub.setPubResponse(pubResponse);
+
+		MRPublisherResponse mrPublisherResponse = pub.sendBatchWithResponse();
+		Assert.assertEquals(1, mrPublisherResponse.getPendingMsgs());
+
+	}
+
+	@Test
+	public void testSendBatchWithResponsePrAaf() throws Exception {
+
+		setUp(null);
+
+		final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath(), true);
+		pub.setProtocolFlag(ProtocolTypeConstants.AAF_AUTH.getValue());
+
+		// publish some messages
+		final JSONObject msg1 = new JSONObject();
+		pub.send("MyPartitionKey", msg1.toString());
+		MRPublisherResponse pubResponse = new MRPublisherResponse();
+		pub.setPubResponse(pubResponse);
+
+		MRPublisherResponse mrPublisherResponse = pub.sendBatchWithResponse();
+		Assert.assertEquals(1, mrPublisherResponse.getPendingMsgs());
+
+	}
+
+	@Test
+	public void testSendBatchWithResponsePrNoauth() throws Exception {
+
+		setUp(null);
+
+		final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath(), true);
+		pub.setProtocolFlag(ProtocolTypeConstants.HTTPNOAUTH.getValue());
+
+		// publish some messages
+		final JSONObject msg1 = new JSONObject();
+		pub.send("MyPartitionKey", msg1.toString());
+		MRPublisherResponse pubResponse = new MRPublisherResponse();
+		pub.setPubResponse(pubResponse);
+
+		MRPublisherResponse mrPublisherResponse = pub.sendBatchWithResponse();
+		Assert.assertEquals(1, mrPublisherResponse.getPendingMsgs());
+
+	}
+	
+	@Test
+	public void createPublisherResponse() throws Exception{
+		setUp(null);
+		MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath(), true);
+		
+		MRPublisherResponse response=pub.createMRPublisherResponse("{\"message\": \"published the message\", \"status\": \"200\"}", new MRPublisherResponse());
+		assertEquals("200", response.getResponseCode());
+		
+	}
+	
+	@Test
+	public void createPublisherResponseSucc() throws Exception{
+		setUp(null);
+		MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath(), true);
+		
+		MRPublisherResponse response=pub.createMRPublisherResponse("{\"fakemessage\": \"published the message\", \"fakestatus\": \"200\"}", new MRPublisherResponse());
+		assertEquals("200", response.getResponseCode());
+		
+	}
+	
+	@Test
+	public void createPublisherResponseError() throws Exception{
+		setUp(null);
+		MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
+				.createBatchingPublisher(outFile.getPath(), true);
+		
+		MRPublisherResponse response=pub.createMRPublisherResponse("", new MRPublisherResponse());
+		assertEquals("400", response.getResponseCode());
 		
 	}
 
