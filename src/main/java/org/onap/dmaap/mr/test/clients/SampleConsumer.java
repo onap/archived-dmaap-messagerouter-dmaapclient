@@ -38,7 +38,7 @@ public class SampleConsumer {
 
 		
 		log.info("Sample Consumer Class executing");
-		final String topic = "com.att.app.dmaap.mr.testingTopic";
+		final String topic = "org.onap.dmaap.mr.testingTopic";
 		final String url = ( args.length > 1 ? args[1] : "localhost:8181" );
 		final String group = ( args.length > 2 ? args[2] :"grp" );
 		

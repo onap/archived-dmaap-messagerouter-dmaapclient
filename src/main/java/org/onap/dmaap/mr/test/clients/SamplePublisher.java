@@ -42,7 +42,7 @@ public class SamplePublisher {
 
 		// read the topic name from the command line
 		
-		final String topic = ( args.length > 1 ? args[1] : "com.att.app.dmaap.mr.testingTopic" );
+		final String topic = ( args.length > 1 ? args[1] : "org.onap.dmaap.mr.testingTopic" );
 
 		// set up some batch limits and the compression flag
 		final int maxBatchSize = 100;
