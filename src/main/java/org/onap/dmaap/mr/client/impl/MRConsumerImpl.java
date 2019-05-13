@@ -83,26 +83,97 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
     private long dme2ReplyHandlerTimeoutMs;
     private long longPollingMs;
 
-    public MRConsumerImpl(Collection<String> hostPart, final String topic, final String consumerGroup,
-            final String consumerId, int timeoutMs, int limit, String filter, String apiKey_username,
-            String apiSecret_password) throws MalformedURLException {
-        this(hostPart, topic, consumerGroup, consumerId, timeoutMs, limit, filter, apiKey_username, apiSecret_password,
-                false);
+    public MRConsumerImpl(MRConsumerImplBuilder builder) throws MalformedURLException {
+        super(builder.hostPart,
+                builder.topic + "::" + builder.consumerGroup + "::" + builder.consumerId);
+
+        fTopic = builder.topic;
+        fGroup = builder.consumerGroup;
+        fId = builder.consumerId;
+        fTimeoutMs = builder.timeoutMs;
+        fLimit = builder.limit;
+        fFilter = builder.filter;
+
+        fHostSelector = new HostSelector(builder.hostPart);
     }
 
-    public MRConsumerImpl(Collection<String> hostPart, final String topic, final String consumerGroup,
-            final String consumerId, int timeoutMs, int limit, String filter, String apiKey, String apiSecret,
-            boolean allowSelfSignedCerts) throws MalformedURLException {
-        super(hostPart, topic + "::" + consumerGroup + "::" + consumerId);
+    public static class MRConsumerImplBuilder {
+        private Collection<String> hostPart;
+        private String topic;
+        private String consumerGroup;
+        private String consumerId;
+        private int timeoutMs;
+        private int limit;
+        private String filter;
+        private String apiKey_username;
+        private String apiSecret_password;
+        private String apiKey;
+        private String apiSecret;
+        private boolean allowSelfSignedCerts = false;
 
-        fTopic = topic;
-        fGroup = consumerGroup;
-        fId = consumerId;
-        fTimeoutMs = timeoutMs;
-        fLimit = limit;
-        fFilter = filter;
+        public MRConsumerImplBuilder setHostPart(Collection<String> hostPart) {
+            this.hostPart = hostPart;
+            return this;
+        }
 
-        fHostSelector = new HostSelector(hostPart);
+        public MRConsumerImplBuilder setTopic(String topic) {
+            this.topic = topic;
+            return this;
+        }
+
+        public MRConsumerImplBuilder setConsumerGroup(String consumerGroup) {
+            this.consumerGroup = consumerGroup;
+            return this;
+        }
+
+        public MRConsumerImplBuilder setConsumerId(String consumerId) {
+            this.consumerId = consumerId;
+            return this;
+        }
+
+        public MRConsumerImplBuilder setTimeoutMs(int timeoutMs) {
+            this.timeoutMs = timeoutMs;
+            return this;
+        }
+
+        public MRConsumerImplBuilder setLimit(int limit) {
+            this.limit = limit;
+            return this;
+        }
+
+        public MRConsumerImplBuilder setFilter(String filter) {
+            this.filter = filter;
+            return this;
+        }
+
+        public MRConsumerImplBuilder setApiKey_username(String apiKey_username) {
+            this.apiKey_username = apiKey_username;
+            return this;
+        }
+
+        public MRConsumerImplBuilder setApiSecret_password(String apiSecret_password) {
+            this.apiSecret_password = apiSecret_password;
+            return this;
+        }
+
+        public MRConsumerImplBuilder setApiKey(String apiKey) {
+            this.apiKey = apiKey;
+            return this;
+        }
+
+        public MRConsumerImplBuilder setApiSecret(String apiSecret) {
+            this.apiSecret = apiSecret;
+            return this;
+        }
+
+        public MRConsumerImplBuilder setAllowSelfSignedCerts(boolean allowSelfSignedCerts) {
+            this.allowSelfSignedCerts = allowSelfSignedCerts;
+            return this;
+        }
+
+        public MRConsumerImpl createMRConsumerImpl() throws MalformedURLException {
+            return new MRConsumerImpl(this);
+        }
     }
 
     @Override
