@@ -163,7 +163,11 @@ public class MRClientBuilders
 
             if ( sfConsumerMock != null ) return sfConsumerMock;
             try {
-                return new MRConsumerImpl ( fHosts, fTopic, fGroup, fId, fTimeoutMs, fLimit, fFilter, fApiKey, fApiSecret );
+                return new MRConsumerImpl.MRConsumerImplBuilder().setHostPart(fHosts)
+                        .setTopic(fTopic).setConsumerGroup(fGroup).setConsumerId(fId)
+                        .setTimeoutMs(fTimeoutMs).setLimit(fLimit).setFilter(fFilter)
+                        .setApiKey_username(fApiKey).setApiSecret_password(fApiSecret)
+                        .createMRConsumerImpl();
             } catch (MalformedURLException e) {
                 throw new IllegalArgumentException(e);
             }
