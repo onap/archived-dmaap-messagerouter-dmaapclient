@@ -34,9 +34,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeSet;
 import java.util.UUID;
-
 import javax.ws.rs.core.MultivaluedMap;
-
 import org.onap.dmaap.mr.client.impl.MRConsumerImpl;
 import org.onap.dmaap.mr.client.impl.MRMetaClient;
 import org.onap.dmaap.mr.client.impl.MRSimplerBatchPublisher;
@@ -254,8 +252,11 @@ public class MRClientFactory {
         if (MRClientBuilders.sfConsumerMock != null)
             return MRClientBuilders.sfConsumerMock;
         try {
-            return new MRConsumerImpl(hostSet, topic, consumerGroup, consumerId, timeoutMs, limit, filter, apiKey,
-                    apiSecret);
+            return new MRConsumerImpl.MRConsumerImplBuilder().setHostPart(hostSet).setTopic(topic)
+                    .setConsumerGroup(consumerGroup).setConsumerId(consumerId)
+                    .setTimeoutMs(timeoutMs).setLimit(limit).setFilter(filter)
+                    .setApiKey_username(apiKey).setApiSecret_password(apiSecret)
+                    .createMRConsumerImpl();
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException(e);
         }
@@ -597,7 +598,11 @@ public class MRClientFactory {
 
         MRConsumerImpl sub;
         try {
-            sub = new MRConsumerImpl(MRConsumerImpl.stringToList(host), topic, group, id, i, j, null, null, null);
+            sub = new MRConsumerImpl.MRConsumerImplBuilder()
+                    .setHostPart(MRConsumerImpl.stringToList(host)).setTopic(topic)
+                    .setConsumerGroup(group).setConsumerId(id).setTimeoutMs(i).setLimit(j)
+                    .setFilter(null).setApiKey_username(null).setApiSecret_password(null)
+                    .createMRConsumerImpl();
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException(e);
         }
@@ -615,7 +620,11 @@ public class MRClientFactory {
 
         MRConsumerImpl sub;
         try {
-            sub = new MRConsumerImpl(MRConsumerImpl.stringToList(host), topic, group, id, i, j, null, null, null);
+            sub = new MRConsumerImpl.MRConsumerImplBuilder()
+                    .setHostPart(MRConsumerImpl.stringToList(host)).setTopic(topic)
+                    .setConsumerGroup(group).setConsumerId(id).setTimeoutMs(i).setLimit(j)
+                    .setFilter(null).setApiKey_username(null).setApiSecret_password(null)
+                    .createMRConsumerImpl();
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException(e);
         }
@@ -655,17 +664,25 @@ public class MRClientFactory {
             group = props.getProperty("group");
         MRConsumerImpl sub = null;
         if (props.getProperty(TRANSPORT_TYPE).equalsIgnoreCase(ProtocolTypeConstants.AUTH_KEY.getValue())) {
-            sub = new MRConsumerImpl(MRConsumerImpl.stringToList(props.getProperty("host")), props.getProperty(TOPIC),
-                    group, props.getProperty("id"), timeout, limit, props.getProperty("filter"),
-                    props.getProperty(AUTH_KEY), props.getProperty(AUTH_DATE));
+            sub = new MRConsumerImpl.MRConsumerImplBuilder()
+                    .setHostPart(MRConsumerImpl.stringToList(props.getProperty("host")))
+                    .setTopic(props.getProperty(TOPIC)).setConsumerGroup(group)
+                    .setConsumerId(props.getProperty("id")).setTimeoutMs(timeout).setLimit(limit)
+                    .setFilter(props.getProperty("filter"))
+                    .setApiKey_username(props.getProperty(AUTH_KEY))
+                    .setApiSecret_password(props.getProperty(AUTH_DATE)).createMRConsumerImpl();
             sub.setAuthKey(props.getProperty(AUTH_KEY));
             sub.setAuthDate(props.getProperty(AUTH_DATE));
             sub.setUsername(props.getProperty(USERNAME));
             sub.setPassword(props.getProperty(PASSWORD));
         } else {
-            sub = new MRConsumerImpl(MRConsumerImpl.stringToList(props.getProperty("host")), props.getProperty(TOPIC),
-                    group, props.getProperty("id"), timeout, limit, props.getProperty("filter"),
-                    props.getProperty(USERNAME), props.getProperty(PASSWORD));
+            sub = new MRConsumerImpl.MRConsumerImplBuilder()
+                    .setHostPart(MRConsumerImpl.stringToList(props.getProperty("host")))
+                    .setTopic(props.getProperty(TOPIC)).setConsumerGroup(group)
+                    .setConsumerId(props.getProperty("id")).setTimeoutMs(timeout).setLimit(limit)
+                    .setFilter(props.getProperty("filter"))
+                    .setApiKey_username(props.getProperty(USERNAME))
+                    .setApiSecret_password(props.getProperty(PASSWORD)).createMRConsumerImpl();
             sub.setUsername(props.getProperty(USERNAME));
             sub.setPassword(props.getProperty(PASSWORD));
         }
