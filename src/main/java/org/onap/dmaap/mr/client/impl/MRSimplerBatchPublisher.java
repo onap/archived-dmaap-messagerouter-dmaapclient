@@ -151,7 +151,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 
 	@Override
 	public int send(message msg) {
-		final LinkedList<message> list = new LinkedList<message>();
+		final LinkedList<message> list = new LinkedList<>();
 		list.add(msg);
 		return send(list);
 	}
@@ -210,7 +210,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 		}
 
 		synchronized (this) {
-			final LinkedList<message> result = new LinkedList<message>();
+			final LinkedList<message> result = new LinkedList<>();
 			fPending.drainTo(result);
 			return result;
 		}
@@ -223,13 +223,11 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 	 * @param force
 	 */
 	private synchronized void send(boolean force) {
-		if (force || shouldSendNow()) {
-			if (!sendBatch()) {
+		if ((force || shouldSendNow()) && !sendBatch()) {
 				getLog().warn("Send failed, " + fPending.size() + " message to send.");
 
 				// note the time for back-off
 				fDontSendUntilMs = sfWaitAfterError + Clock.now();
-			}
 		}
 	}
 
@@ -282,7 +280,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 	private synchronized boolean sendBatch() {
 		// it's possible for this call to be made with an empty list. in this
 		// case, just return.
-		if (fPending.size() < 1) {
+		if (fPending.isEmpty()) {
 			return true;
 		}
 
@@ -346,7 +344,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 				sender.setPayload(os.toString());
 				String dmeResponse = sender.sendAndWait(5000L);
 
-				final String logLine = "MR reply ok (" + (Clock.now() - startMs) + " ms):" + dmeResponse.toString();
+				final String logLine = "MR reply ok (" + (Clock.now() - startMs) + " ms):" + dmeResponse;
 				getLog().info(logLine);
 				fPending.clear();
 				return true;
@@ -405,12 +403,6 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 				fPending.clear();
 				return true;
 			}
-		} catch (IllegalArgumentException x) {
-			getLog().warn(x.getMessage(), x);
-		} catch (IOException x) {
-			getLog().warn(x.getMessage(), x);
-		} catch (HttpException x) {
-			getLog().warn(x.getMessage(), x);
 		} catch (Exception x) {
 			getLog().warn(x.getMessage(), x);
 		}
@@ -604,7 +596,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 		}
 
 		finally {
-			if (fPending.size() > 0) {
+			if (!fPending.isEmpty()) {
 				getLog().warn("Send failed, " + fPending.size() + " message to send.");
 				pubResponse.setPendingMsgs(fPending.size());
 			}
@@ -835,7 +827,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 		fMaxBatchAgeMs = maxBatchAgeMs;
 		fCompress = compress;
 
-		fPending = new LinkedBlockingQueue<TimestampedMessage>();
+		fPending = new LinkedBlockingQueue<>();
 		fDontSendUntilMs = 0;
 		fExec = new ScheduledThreadPoolExecutor(1);
 		pubResponse = new MRPublisherResponse();
@@ -857,7 +849,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 		fMaxBatchAgeMs = maxBatchAgeMs;
 		fCompress = compress;
 		threadOccuranceTime = httpThreadOccurnace;
-		fPending = new LinkedBlockingQueue<TimestampedMessage>();
+		fPending = new LinkedBlockingQueue<>();
 		fDontSendUntilMs = 0;
 		fExec = new ScheduledThreadPoolExecutor(1);
 		fExec.scheduleAtFixedRate(new Runnable() {

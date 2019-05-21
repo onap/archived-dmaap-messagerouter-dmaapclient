@@ -47,7 +47,7 @@ public class PreferredRouteRequestHandler implements DME2ExchangeRequestHandler 
 			MRClientFactory.prop.load(MRClientFactory.routeReader);
 
 		} catch (Exception ex) {
-			logger.error("Request Router Error " + ex);
+			logger.error("Request Router Error ", ex);
 		}
 		return MRClientFactory.prop.getProperty(routeKey);
 	}

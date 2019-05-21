@@ -82,7 +82,7 @@ public class SimpleExampleConsumer {
 				}
 			}
 		} catch (Exception x) {
-			logger.error(x.toString());
+			logger.error("Exception in SimpleExampleConsumer", x);
 		}
 	}
 }
