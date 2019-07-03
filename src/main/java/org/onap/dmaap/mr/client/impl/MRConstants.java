@@ -62,10 +62,9 @@ class MRConstants
 	public static String makeUrl ( final String host, final String rawTopic )
 	{
 		final String cleanTopic = escape ( rawTopic );
-
 		final StringBuffer url = new StringBuffer();
 		
-		if (!host.startsWith("http") || !host.startsWith("https") ) {
+		if (!host.startsWith("http") && !host.startsWith("https") ) {
 			url.append( PROTOCOL + "://" );
 		}
 		url.append(host);

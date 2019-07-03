@@ -23,6 +23,8 @@ package org.onap.dmaap.mr.client.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.verify;
 
 import java.net.MalformedURLException;
 import java.util.Arrays;
@@ -78,8 +80,9 @@ public class MRBaseClientTest {
 				.thenReturn(response);
 
 		mrBaseClient.get("/path", "username", "password", "HTTPAUTH");
-		assertTrue(true);
-
+		verify(response, atLeast(1)).getStatus();
+		verify(response).readEntity(String.class);
+		verify(response).getHeaders();
 	}
 
 	@Test
@@ -110,7 +113,9 @@ public class MRBaseClientTest {
 				Base64.encodeAsString("username:password"))).thenReturn(response);
 
 		mrBaseClient.get("/path", "username", "password", "HTTPAAF");
-		assertTrue(true);
+		verify(response, atLeast(1)).getStatus();
+		verify(response).readEntity(String.class);
+		verify(response).getHeaders();
 
 	}
 
@@ -145,7 +150,9 @@ public class MRBaseClientTest {
 				.thenReturn(response);
 
 		mrBaseClient.get("/path", "username", "password", "HTTPAUTH");
-		assertTrue(true);
+		verify(response, atLeast(1)).getStatus();
+		verify(response).readEntity(String.class);
+		verify(response).getHeaders();
 	}
 
 	@Test
@@ -320,7 +327,9 @@ public class MRBaseClientTest {
 
 		mrBaseClient.post("/path", new String("{\"test\":\"test\"}").getBytes(), "application/json", "username",
 				"password", "HTTPAUTH");
-		assertTrue(true);
+		verify(response, atLeast(1)).getStatus();
+		verify(response).readEntity(String.class);
+		verify(response).getHeaders();
 
 	}
 
@@ -466,16 +475,13 @@ public class MRBaseClientTest {
 
 	@Test
 	public void testGetHTTPErrorResponseMessage() {
-
-		assertEquals(mrBaseClient.getHTTPErrorResponseMessage("<body>testtest</body>"), "testtest");
+		assertEquals("testtest", mrBaseClient.getHTTPErrorResponseMessage("<body>testtest</body>"));
 
 	}
 
 	@Test
 	public void getGTTPErrorResponseCode() {
-
-		assertEquals(mrBaseClient.getHTTPErrorResponseMessage("<body>testtest</body>"), "testtest");
-
+		assertEquals("500", mrBaseClient.getHTTPErrorResponseCode("<title>500</title>"));
 	}
 
 }
