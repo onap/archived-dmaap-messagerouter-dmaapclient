@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50555483_eb359fbb",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/impl/MRConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5337
+      },
+      "writtenOn": "2019-07-04T11:15:33Z",
+      "side": 1,
+      "message": "this method have no test",
+      "range": {
+        "startLine": 62,
+        "startChar": 22,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "6bd2a8cac20f3db8f0f0049331371601172e41e4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cebff91_566532bf",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/impl/MRSimplerBatchPublisher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5337
+      },
+      "writtenOn": "2019-07-04T11:15:33Z",
+      "side": 1,
+      "message": "Instead of using String.format consider using build in logger capabilities:\n\n\tgetLog().info(\"sending {} msgs to {}{}. Oldest: {} ms\", \n\t\tfPending.size(), url, subContextPath, nowMs - fPending.peek().timestamp);",
+      "range": {
+        "startLine": 342,
+        "startChar": 4,
+        "endLine": 344,
+        "endChar": 42
+      },
+      "revId": "6bd2a8cac20f3db8f0f0049331371601172e41e4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e69f3961_dc0d41d0",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/impl/MRSimplerBatchPublisher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 5337
+      },
+      "writtenOn": "2019-07-04T11:15:33Z",
+      "side": 1,
+      "message": "this catch block is also redundant to below catch (Exception x) block",
+      "range": {
+        "startLine": 581,
+        "startChar": 0,
+        "endLine": 584,
+        "endChar": 50
+      },
+      "revId": "6bd2a8cac20f3db8f0f0049331371601172e41e4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee1e4232_268c7f8d",
+        "filename": "src/test/java/org/onap/dmaap/mr/client/impl/MRBaseClientTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5337
+      },
+      "writtenOn": "2019-07-04T11:15:33Z",
+      "side": 1,
+      "message": "No need to use PowerMockito for \u0027Response\u0027 class -\u003e Mockito.when is enough",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 7
+      },
+      "revId": "6bd2a8cac20f3db8f0f0049331371601172e41e4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e7c23ee_444ec128",
+        "filename": "src/test/java/org/onap/dmaap/mr/client/impl/MRBaseClientTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5337
+      },
+      "writtenOn": "2019-07-04T11:15:33Z",
+      "side": 1,
+      "message": "it\u0027s much more beneficial to add some assertions on the actual result returned from \u0027mrBaseClient.get\u0027:\n\n\t\tJSONObject result \u003d mrBaseClient.get(\"/path\", \"username\", \"password\", \"HTTPAUTH\");\n\t\tassertEquals(200, result.getInt(\"status\"));\n\t\tassertEquals(\"test\", result.getString(\"test\"));",
+      "range": {
+        "startLine": 83,
+        "startChar": 1,
+        "endLine": 85,
+        "endChar": 32
+      },
+      "revId": "6bd2a8cac20f3db8f0f0049331371601172e41e4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87e8d6e1_ef759f7d",
+        "filename": "src/test/java/org/onap/dmaap/mr/client/impl/MRBaseClientTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5337
+      },
+      "writtenOn": "2019-07-04T11:15:33Z",
+      "side": 1,
+      "message": "-\u003e \n\n \t\tJSONObject result \u003d mrBaseClient.get(\"/path\", \"username\", \"password\", \"HTTPAUTH\");\n\t\tassertEquals(403, result.getInt(\"status\"));",
+      "range": {
+        "startLine": 96,
+        "startChar": 1,
+        "endLine": 97,
+        "endChar": 19
+      },
+      "revId": "6bd2a8cac20f3db8f0f0049331371601172e41e4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "767677bd_d7bd2001",
+        "filename": "src/test/java/org/onap/dmaap/mr/client/impl/MRBaseClientTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5337
+      },
+      "writtenOn": "2019-07-04T11:15:33Z",
+      "side": 1,
+      "message": "JSONObject result \u003d mrBaseClient.get(\"/path\", \"username\", \"password\", \"HTTPAAF\");\n\t\tassertEquals(200, result.getInt(\"status\"));\n\t\tassertEquals(\"test\", result.getString(\"test\"));",
+      "range": {
+        "startLine": 115,
+        "startChar": 1,
+        "endLine": 118,
+        "endChar": 32
+      },
+      "revId": "6bd2a8cac20f3db8f0f0049331371601172e41e4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80fbfe2e_c11c645d",
+        "filename": "src/test/java/org/onap/dmaap/mr/client/impl/MRBaseClientTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5337
+      },
+      "writtenOn": "2019-07-04T11:15:33Z",
+      "side": 1,
+      "message": "this is an interesting case...\n\n\t\tJSONObject result \u003d mrBaseClient.get(\"/path\", \"username\", \"password\", \"HTTPAUTH\");\n\t\tassertNull(result);  // TODO this kind of odd response could cause client or need for special handling on client side",
+      "range": {
+        "startLine": 153,
+        "startChar": 1,
+        "endLine": 155,
+        "endChar": 32
+      },
+      "revId": "6bd2a8cac20f3db8f0f0049331371601172e41e4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
