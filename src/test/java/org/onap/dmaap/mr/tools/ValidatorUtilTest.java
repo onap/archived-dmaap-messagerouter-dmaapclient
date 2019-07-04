@@ -41,7 +41,7 @@ public class ValidatorUtilTest {
         } catch(IllegalArgumentException e) {
             assertEquals(e.getMessage(), "Servicename is needed");
         }
-        
+
     }
     
     @Test

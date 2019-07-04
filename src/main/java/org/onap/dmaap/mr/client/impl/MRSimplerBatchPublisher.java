@@ -178,8 +178,8 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 		try {
 			final List<message> remains = close(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
 			if (remains.isEmpty()) {
-				getLog().warn("Closing publisher with " + remains.size() + " messages unsent. "
-						+ "Consider using MRBatchingPublisher.close( long timeout, TimeUnit timeoutUnits ) to recapture unsent messages on close.");
+				getLog().warn("Closing publisher with {} messages unsent. Consider using MRBatchingPublisher.close( long timeout, TimeUnit timeoutUnits ) to recapture unsent messages on close.",
+					remains.size());
 			}
 		} catch (InterruptedException e) {
 			getLog().warn("Possible message loss. " + e.getMessage(), e);
@@ -339,8 +339,9 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 				DME2Configue();
 
 				Thread.sleep(5);
-				getLog().info("sending " + fPending.size() + " msgs to " + url + subContextPath + ". Oldest: "
-						+ (nowMs - fPending.peek().timestamp) + " ms");
+				getLog().info(String
+					.format("sending %d msgs to %s%s. Oldest: %d ms", fPending.size(), url, subContextPath,
+						nowMs - fPending.peek().timestamp));
 				sender.setPayload(os.toString());
 				String dmeResponse = sender.sendAndWait(5000L);
 
@@ -351,8 +352,8 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 			}
 
             if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
-                getLog().info("sending " + fPending.size() + " msgs to " + httpurl + ". Oldest: "
-                        + (nowMs - fPending.peek().timestamp) + " ms");
+                getLog().info("sending {} msgs to {}. Oldest: {} ms", fPending.size(), httpurl,
+					nowMs - fPending.peek().timestamp);
                 final JSONObject result =
                         postAuth(new PostAuthDataObject().setPath(httpurl).setData(baseStream.toByteArray())
                                 .setContentType(contentType).setAuthKey(authKey).setAuthDate(authDate)
@@ -370,8 +371,8 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
             }
 
 			if (ProtocolTypeConstants.AAF_AUTH.getValue().equalsIgnoreCase(protocolFlag)) {
-				getLog().info("sending " + fPending.size() + " msgs to " + httpurl + ". Oldest: "
-						+ (nowMs - fPending.peek().timestamp) + " ms");
+				getLog().info("sending {} msgs to {}. Oldest: {} ms", fPending.size(), httpurl,
+					nowMs - fPending.peek().timestamp);
 				final JSONObject result = post(httpurl, baseStream.toByteArray(), contentType, username, password,
 						protocolFlag);
 
@@ -388,8 +389,8 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 			}
 			
 			if (ProtocolTypeConstants.HTTPNOAUTH.getValue().equalsIgnoreCase(protocolFlag)) {
-				getLog().info("sending " + fPending.size() + " msgs to " + httpurl + ". Oldest: "
-						+ (nowMs - fPending.peek().timestamp) + " ms");
+				getLog().info("sending {} msgs to {}. Oldest: {} ms", fPending.size(), httpurl,
+					nowMs - fPending.peek().timestamp);
 				final JSONObject result = postNoAuth(httpurl, baseStream.toByteArray(), contentType);
 
 				// Here we are checking for error response. If HTTP status
@@ -468,8 +469,8 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 					DME2Configue();
 
 					Thread.sleep(5);
-					getLog().info("sending " + fPending.size() + " msgs to " + url + subContextPath + ". Oldest: "
-							+ (nowMs - fPending.peek().timestamp) + " ms");
+					getLog().info("sending {} msgs to {}{}. Oldest: {} ms", fPending.size(), url, subContextPath,
+							nowMs - fPending.peek().timestamp);
 					sender.setPayload(os.toString());
 
 					String dmeResponse = sender.sendAndWait(5000L);
@@ -506,8 +507,8 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 			}
 
 			if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
-				getLog().info("sending " + fPending.size() + " msgs to " + httpurl + ". Oldest: "
-						+ (nowMs - fPending.peek().timestamp) + " ms");
+				getLog().info("sending {} msgs to {}. Oldest: {} ms", fPending.size(), httpurl,
+					nowMs - fPending.peek().timestamp);
 				final String result = postAuthwithResponse(httpurl, baseStream.toByteArray(), contentType, authKey,
 						authDate, username, password, protocolFlag);
 				// Here we are checking for error response. If HTTP status
@@ -529,8 +530,8 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 			}
 
 			if (ProtocolTypeConstants.AAF_AUTH.getValue().equalsIgnoreCase(protocolFlag)) {
-				getLog().info("sending " + fPending.size() + " msgs to " + httpurl + ". Oldest: "
-						+ (nowMs - fPending.peek().timestamp) + " ms");
+				getLog().info("sending {} msgs to {}. Oldest: {} ms", fPending.size(), httpurl,
+					nowMs - fPending.peek().timestamp);
 				final String result = postWithResponse(httpurl, baseStream.toByteArray(), contentType, username,
 						password, protocolFlag);
 
@@ -552,8 +553,8 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 			}
 			
 			if (ProtocolTypeConstants.HTTPNOAUTH.getValue().equalsIgnoreCase(protocolFlag)) {
-				getLog().info("sending " + fPending.size() + " msgs to " + httpurl + ". Oldest: "
-						+ (nowMs - fPending.peek().timestamp) + " ms");
+				getLog().info("sending {} msgs to {}. Oldest: {} ms", fPending.size(), httpurl,
+					nowMs - fPending.peek().timestamp);
 				final String result = postNoAuthWithResponse(httpurl, baseStream.toByteArray(), contentType);
 
 				// Here we are checking for error response. If HTTP status
@@ -572,7 +573,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 				fPending.clear();
 				return pubResponse;
 			}
-		} catch (IllegalArgumentException x) {
+		} catch (IllegalArgumentException | HttpException x) {
 			getLog().warn(x.getMessage(), x);
 			pubResponse.setResponseCode(String.valueOf(HttpStatus.SC_BAD_REQUEST));
 			pubResponse.setResponseMessage(x.getMessage());
@@ -581,12 +582,6 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 			getLog().warn(x.getMessage(), x);
 			pubResponse.setResponseCode(String.valueOf(HttpStatus.SC_INTERNAL_SERVER_ERROR));
 			pubResponse.setResponseMessage(x.getMessage());
-
-		} catch (HttpException x) {
-			getLog().warn(x.getMessage(), x);
-			pubResponse.setResponseCode(String.valueOf(HttpStatus.SC_BAD_REQUEST));
-			pubResponse.setResponseMessage(x.getMessage());
-
 		} catch (Exception x) {
 			getLog().warn(x.getMessage(), x);
 

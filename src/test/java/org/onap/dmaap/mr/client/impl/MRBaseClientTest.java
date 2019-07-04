@@ -23,6 +23,8 @@ package org.onap.dmaap.mr.client.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.verify;
 
 import java.net.MalformedURLException;
 import java.util.Arrays;
@@ -37,6 +39,7 @@ import org.apache.http.HttpException;
 import org.glassfish.jersey.internal.util.Base64;
 import org.glassfish.jersey.internal.util.collection.StringKeyIgnoreCaseMultivaluedMap;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,30 +72,32 @@ public class MRBaseClientTest {
 		MultivaluedMap<String, Object> map = new StringKeyIgnoreCaseMultivaluedMap<>();
 		map.add("transactionid", "transactionid");
 
-		PowerMockito.when(response.getStatus()).thenReturn(200);
-		PowerMockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
-		PowerMockito.when(response.getHeaders()).thenReturn(map);
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
+		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito.when(
+		Mockito.when(
 				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username", "password"))
 				.thenReturn(response);
 
-		mrBaseClient.get("/path", "username", "password", "HTTPAUTH");
-		assertTrue(true);
-
+		JSONObject result = mrBaseClient.get("/path", "username", "password", "HTTPAUTH");
+		assertEquals(200, result.getInt("status"));
+		assertEquals("test", result.getString("test"));
+		verify(response, atLeast(1)).getStatus();
+		verify(response).readEntity(String.class);
+		verify(response).getHeaders();
 	}
 
 	@Test
 	public void testGet_403() throws JSONException, HttpException {
 		ResponseBuilder responseBuilder = Response.status(403);
-		PowerMockito
+		Mockito
 				.when(DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
 						"password"))
 				.thenReturn(
 						responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
-		mrBaseClient.get("/path", "username", "password", "HTTPAUTH");
-		assertTrue(true);
-
+		JSONObject result = mrBaseClient.get("/path", "username", "password", "HTTPAUTH");
+		assertEquals(403, result.getInt("status"));
 	}
 
 	@Test
@@ -102,15 +107,18 @@ public class MRBaseClientTest {
 		MultivaluedMap<String, Object> map = new StringKeyIgnoreCaseMultivaluedMap<>();
 		map.add("transactionid", "transactionid");
 
-		PowerMockito.when(response.getStatus()).thenReturn(200);
-		PowerMockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
-		PowerMockito.when(response.getHeaders()).thenReturn(map);
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
+		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
+		Mockito.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
 				Base64.encodeAsString("username:password"))).thenReturn(response);
 
-		mrBaseClient.get("/path", "username", "password", "HTTPAAF");
-		assertTrue(true);
+		JSONObject result = mrBaseClient.get("/path", "username", "password", "HTTPAAF");
+		assertEquals(200, result.getInt("status"));
+		verify(response, atLeast(1)).getStatus();
+		verify(response).readEntity(String.class);
+		verify(response).getHeaders();
 
 	}
 
@@ -118,15 +126,12 @@ public class MRBaseClientTest {
 	public void testGet_error() throws JSONException, HttpException {
 
 		ResponseBuilder responseBuilder = Response.ok();
-		PowerMockito
-				.when(DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
+		Mockito.when(DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
 						"password"))
 				.thenReturn(
 						responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
 
 		mrBaseClient.get("/path", null, null, "HTTPAUTH");
-		assertTrue(true);
-
 	}
 
 	@Test
@@ -136,16 +141,18 @@ public class MRBaseClientTest {
 		MultivaluedMap<String, Object> map = new StringKeyIgnoreCaseMultivaluedMap<>();
 		map.add("transactionid", "transactionid");
 
-		PowerMockito.when(response.getStatus()).thenReturn(200);
-		PowerMockito.when(response.readEntity(String.class)).thenReturn("[[");
-		PowerMockito.when(response.getHeaders()).thenReturn(map);
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(String.class)).thenReturn("[[");
+		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito.when(
+		Mockito.when(
 				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username", "password"))
 				.thenReturn(response);
 
 		mrBaseClient.get("/path", "username", "password", "HTTPAUTH");
-		assertTrue(true);
+		verify(response, atLeast(1)).getStatus();
+		verify(response).readEntity(String.class);
+		verify(response).getHeaders();
 	}
 
 	@Test
@@ -155,11 +162,11 @@ public class MRBaseClientTest {
 		MultivaluedMap<String, Object> map = new StringKeyIgnoreCaseMultivaluedMap<>();
 		map.add("transactionid", "transactionid");
 
-		PowerMockito.when(response.getStatus()).thenReturn(200);
-		PowerMockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
-		PowerMockito.when(response.getHeaders()).thenReturn(map);
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
+		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito.when(
+		Mockito.when(
 				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username", "password"))
 				.thenReturn(response);
 
@@ -175,11 +182,11 @@ public class MRBaseClientTest {
 		MultivaluedMap<String, Object> map = new StringKeyIgnoreCaseMultivaluedMap<>();
 		map.add("transactionid", "transactionid");
 
-		PowerMockito.when(response.getStatus()).thenReturn(200);
-		PowerMockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
-		PowerMockito.when(response.getHeaders()).thenReturn(map);
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
+		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
+		Mockito.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
 				Base64.encodeAsString("username:password"))).thenReturn(response);
 
 		mrBaseClient.getResponse("/path", "username", "password", "HTTPAAF");
@@ -191,14 +198,13 @@ public class MRBaseClientTest {
 	public void testGetResponse_error() throws JSONException, HttpException {
 
 		ResponseBuilder responseBuilder = Response.ok();
-		PowerMockito
+		Mockito
 				.when(DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
 						"password"))
 				.thenReturn(
 						responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
 
 		mrBaseClient.getResponse("/path", null, null, "HTTPAUTH");
-
 	}
 
 	@Test
@@ -208,11 +214,11 @@ public class MRBaseClientTest {
 		MultivaluedMap<String, Object> map = new StringKeyIgnoreCaseMultivaluedMap<>();
 		map.add("transactionid", "transactionid");
 
-		PowerMockito.when(response.getStatus()).thenReturn(200);
-		PowerMockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
-		PowerMockito.when(response.getHeaders()).thenReturn(map);
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
+		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito.when(
+		Mockito.when(
 				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username", "password"))
 				.thenReturn(response);
 
@@ -225,7 +231,7 @@ public class MRBaseClientTest {
 	public void testAuthResponsee_error() throws JSONException, HttpException {
 
 		ResponseBuilder responseBuilder = Response.ok();
-		PowerMockito
+		Mockito
 				.when(DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
 						"password"))
 				.thenReturn(
@@ -242,11 +248,11 @@ public class MRBaseClientTest {
 		MultivaluedMap<String, Object> map = new StringKeyIgnoreCaseMultivaluedMap<>();
 		map.add("transactionid", "transactionid");
 
-		PowerMockito.when(response.getStatus()).thenReturn(200);
-		PowerMockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
-		PowerMockito.when(response.getHeaders()).thenReturn(map);
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
+		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito
+		Mockito
 				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
 						"password", new String("{\"test\":\"test\"}").getBytes(), "application/json"))
 				.thenReturn(response);
@@ -267,7 +273,7 @@ public class MRBaseClientTest {
 	public void testPostAuth_error() throws JSONException, HttpException {
 
 		ResponseBuilder responseBuilder = Response.ok();
-		PowerMockito
+		Mockito
 				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
 						"password", new String("{\"test\":\"test\"}").getBytes(), "application/json"))
 				.thenReturn(
@@ -281,9 +287,6 @@ public class MRBaseClientTest {
                 .setUsername(null) 
                 .setPassword(null)
                 .setProtocolFlag("HTTPAUTH"));
-		
-		assertTrue(true);
-
 	}
 
 	@Test
@@ -293,11 +296,11 @@ public class MRBaseClientTest {
 		MultivaluedMap<String, Object> map = new StringKeyIgnoreCaseMultivaluedMap<>();
 		map.add("transactionid", "transactionid");
 
-		PowerMockito.when(response.getStatus()).thenReturn(200);
-		PowerMockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
-		PowerMockito.when(response.getHeaders()).thenReturn(map);
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
+		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito.when(DmaapClientUtil.getResponsewtNoAuth(DmaapClientUtil.getTarget("/path"))).thenReturn(response);
+		Mockito.when(DmaapClientUtil.getResponsewtNoAuth(DmaapClientUtil.getTarget("/path"))).thenReturn(response);
 
 		mrBaseClient.getNoAuthResponse("/path", "username", "password", "HTTPAUTH");
 		assertTrue(true);
@@ -311,16 +314,18 @@ public class MRBaseClientTest {
 		MultivaluedMap<String, Object> map = new StringKeyIgnoreCaseMultivaluedMap<>();
 		map.add("transactionid", "transactionid");
 
-		PowerMockito.when(response.getStatus()).thenReturn(200);
-		PowerMockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
-		PowerMockito.when(response.getHeaders()).thenReturn(map);
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
+		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito.when(DmaapClientUtil.postResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
+		Mockito.when(DmaapClientUtil.postResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
 				Base64.encodeAsString("username:password"), new String("{\"test\":\"test\"}").getBytes(), "application/json")).thenReturn(response);
 
 		mrBaseClient.post("/path", new String("{\"test\":\"test\"}").getBytes(), "application/json", "username",
 				"password", "HTTPAUTH");
-		assertTrue(true);
+		verify(response, atLeast(1)).getStatus();
+		verify(response).readEntity(String.class);
+		verify(response).getHeaders();
 
 	}
 
@@ -328,7 +333,7 @@ public class MRBaseClientTest {
 	public void testPost_error() throws JSONException, HttpException {
 
 		ResponseBuilder responseBuilder = Response.ok();
-		PowerMockito
+		Mockito
 				.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
 						Base64.encodeAsString("username:password")))
 				.thenReturn(
@@ -346,11 +351,11 @@ public class MRBaseClientTest {
 		MultivaluedMap<String, Object> map = new StringKeyIgnoreCaseMultivaluedMap<>();
 		map.add("transactionid", "transactionid");
 
-		PowerMockito.when(response.getStatus()).thenReturn(200);
-		PowerMockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
-		PowerMockito.when(response.getHeaders()).thenReturn(map);
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
+		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito
+		Mockito
 				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
 						"password", new String("{\"test\":\"test\"}").getBytes(), "application/json"))
 				.thenReturn(response);
@@ -365,7 +370,7 @@ public class MRBaseClientTest {
 	public void testPostAuthwithResponse_error() throws JSONException, HttpException {
 
 		ResponseBuilder responseBuilder = Response.ok();
-		PowerMockito
+		Mockito
 				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
 						"password", new String("{\"test\":\"test\"}").getBytes(), "application/json"))
 				.thenReturn(
@@ -384,11 +389,11 @@ public class MRBaseClientTest {
 		MultivaluedMap<String, Object> map = new StringKeyIgnoreCaseMultivaluedMap<>();
 		map.add("transactionid", "transactionid");
 
-		PowerMockito.when(response.getStatus()).thenReturn(200);
-		PowerMockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
-		PowerMockito.when(response.getHeaders()).thenReturn(map);
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
+		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito.when(DmaapClientUtil.postResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
+		Mockito.when(DmaapClientUtil.postResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
 				Base64.encodeAsString("username:password"), new String("{\"test\":\"test\"}").getBytes(), "application/json")).thenReturn(response);
 
 		mrBaseClient.postWithResponse("/path", new String("{\"test\":\"test\"}").getBytes(), "application/json",
@@ -401,7 +406,7 @@ public class MRBaseClientTest {
 	public void testPostWithResponse_error() throws JSONException, HttpException {
 
 		ResponseBuilder responseBuilder = Response.ok();
-		PowerMockito
+		Mockito
 				.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
 						Base64.encodeAsString("username:password")))
 				.thenReturn(
@@ -419,11 +424,11 @@ public class MRBaseClientTest {
 		MultivaluedMap<String, Object> map = new StringKeyIgnoreCaseMultivaluedMap<>();
 		map.add("transactionid", "transactionid");
 
-		PowerMockito.when(response.getStatus()).thenReturn(200);
-		PowerMockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
-		PowerMockito.when(response.getHeaders()).thenReturn(map);
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
+		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito.when(
+		Mockito.when(
 				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username", "password"))
 				.thenReturn(response);
 		mrBaseClient.getAuth("/path", "username", "password", "username", "password", "HTTPAUTH");
@@ -435,7 +440,7 @@ public class MRBaseClientTest {
 	public void testGetAuth_error() throws JSONException, HttpException {
 
 		ResponseBuilder responseBuilder = Response.ok();
-		PowerMockito
+		Mockito
 				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
 						"password", new String("{\"test\":\"test\"}").getBytes(), "application/json"))
 				.thenReturn(
@@ -453,11 +458,11 @@ public class MRBaseClientTest {
 		MultivaluedMap<String, Object> map = new StringKeyIgnoreCaseMultivaluedMap<>();
 		map.add("transactionid", "transactionid");
 
-		PowerMockito.when(response.getStatus()).thenReturn(200);
-		PowerMockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
-		PowerMockito.when(response.getHeaders()).thenReturn(map);
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
+		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		PowerMockito.when(DmaapClientUtil.getResponsewtNoAuth(DmaapClientUtil.getTarget("/path"))).thenReturn(response);
+		Mockito.when(DmaapClientUtil.getResponsewtNoAuth(DmaapClientUtil.getTarget("/path"))).thenReturn(response);
 		mrBaseClient.getNoAuth("/path");
 		assertTrue(true);
 
@@ -466,16 +471,13 @@ public class MRBaseClientTest {
 
 	@Test
 	public void testGetHTTPErrorResponseMessage() {
-
-		assertEquals(mrBaseClient.getHTTPErrorResponseMessage("<body>testtest</body>"), "testtest");
+		assertEquals("testtest", mrBaseClient.getHTTPErrorResponseMessage("<body>testtest</body>"));
 
 	}
 
 	@Test
 	public void getGTTPErrorResponseCode() {
-
-		assertEquals(mrBaseClient.getHTTPErrorResponseMessage("<body>testtest</body>"), "testtest");
-
+		assertEquals("500", mrBaseClient.getHTTPErrorResponseCode("<title>500</title>"));
 	}
 
 }
