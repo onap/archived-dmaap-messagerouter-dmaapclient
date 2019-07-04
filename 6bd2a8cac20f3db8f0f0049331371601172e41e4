@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0028f62b_fc509f32",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/impl/MRConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 3773
+      },
+      "writtenOn": "2019-07-04T12:11:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50555483_eb359fbb",
+      "range": {
+        "startLine": 62,
+        "startChar": 22,
+        "endLine": 62,
+        "endChar": 29
+      },
+      "revId": "6bd2a8cac20f3db8f0f0049331371601172e41e4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cebff91_566532bf",
         "filename": "src/main/java/org/onap/dmaap/mr/client/impl/MRSimplerBatchPublisher.java",
         "patchSetId": 2
