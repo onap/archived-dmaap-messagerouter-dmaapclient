@@ -131,6 +131,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 		private String fTransportype;	
 		private String fTopic;
 		private int fMaxBatchSize = 100;
+		
 		private long fMaxBatchAgeMs = 1000;
 		private boolean fCompress = false;
 		private int threadOccuranceTime = 50;
@@ -233,7 +234,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 
 	private synchronized boolean shouldSendNow() {
 		boolean shouldSend = false;
-		if (fPending.isEmpty()) {
+		if (fPending.size()>0) {
 			final long nowMs = Clock.now();
 
 			shouldSend = (fPending.size() >= fMaxBatchSize);
