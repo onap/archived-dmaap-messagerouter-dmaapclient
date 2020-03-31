@@ -15,7 +15,7 @@
 	<groupId>org.onap.dmaap.messagerouter.dmaapclient</groupId>
 	<artifactId>dmaapClient</artifactId>
 	<packaging>jar</packaging>
-	<version>1.1.10-SNAPSHOT</version>
+	<version>1.1.11-SNAPSHOT</version>
 	<name>dmaap-messagerouter-dmaapclient</name>
 	<description>Client library for MR event routing API</description>
 	<url>https://gerrit.onap.org/r/gitweb?p=dmaap/messagerouter/dmaapclient.git</url>
@@ -72,6 +72,11 @@
 	</developers>
 
 	<dependencies>
+	    <dependency>
+		<groupId>commons-codec</groupId>
+		<artifactId>commons-codec</artifactId>
+		<version>1.13</version>
+	</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
