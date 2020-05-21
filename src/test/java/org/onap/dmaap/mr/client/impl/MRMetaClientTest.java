@@ -27,6 +27,8 @@ import java.util.LinkedList;
 import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import com.att.nsa.apiClient.http.HttpException;
 import com.att.nsa.apiClient.http.HttpObjectNotFoundException;
@@ -60,6 +62,7 @@ public class MRMetaClientTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		assertNotNull(hosts);
 		
 		
 	//	assertEquals ("http://localhost:8080/events/" + "topic/cg/cid", url );
@@ -79,7 +82,8 @@ public class MRMetaClientTest {
 			TopicInfo topicInfo=c.getTopicMetadata(topic);
 		} catch (IOException | HttpObjectNotFoundException e) {
 			e.printStackTrace();
-		}	
+		}
+		assertNotNull(topic);
 		
 	}
 	
@@ -95,6 +99,7 @@ public class MRMetaClientTest {
 		} catch (IOException | HttpException e) {
 			e.printStackTrace();
 		}
+		assertNotNull(hosts);
 	}
 	@Test
 	public void testupdateApiKey(){

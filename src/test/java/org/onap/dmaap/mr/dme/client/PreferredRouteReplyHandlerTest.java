@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.att.aft.dme2.api.util.DME2ExchangeResponseContext;
+import static org.junit.Assert.assertNotNull;
 
 public class PreferredRouteReplyHandlerTest {
 	private PreferredRouteReplyHandler handler = null;
@@ -54,6 +55,7 @@ public class PreferredRouteReplyHandlerTest {
 
 		handler.handleReply(responseData);
 		assert(true);
+		assertNotNull(responseHeaders);
 
 	}
 	
