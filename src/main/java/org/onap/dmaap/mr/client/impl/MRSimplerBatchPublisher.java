@@ -707,6 +707,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 
 	public void setProps(Properties props) {
 		this.props = props;
+		setClientConfig(DmaapClientUtil.getClientConfig(props));
 	}
 
 	public String getProtocolFlag() {

@@ -23,13 +23,14 @@ package org.onap.dmaap.mr.client.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.client.ClientConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -43,6 +44,7 @@ public class DMaapClientUtilTest {
     Builder builder;
     @Mock
     WebTarget target;
+    private ClientConfig config=null;
 
     @Before
     public void setup(){
@@ -51,14 +53,14 @@ public class DMaapClientUtilTest {
     
     @Test
     public void testGetTarget() {
-    	WebTarget actual = DmaapClientUtil.getTarget("testpath");
+    	WebTarget actual = DmaapClientUtil.getTarget(getClientConfig(),"testpath");
         
         assertEquals("testpath", actual.getUri().getPath());
     }
     
     @Test
     public void testGetTargetWithParams() {
-        WebTarget actual = DmaapClientUtil.getTarget("testpath", "testuser", "testpassword");
+        WebTarget actual = DmaapClientUtil.getTarget(getClientConfig(),"testpath", "testuser", "testpassword");
         
         assertEquals("testpath", actual.getUri().getPath());
     }
@@ -77,6 +79,12 @@ public class DMaapClientUtilTest {
         verify(builder, times(2)).header((String) any(), any());
     }
 
-    
+	private ClientConfig getClientConfig(){
+		if(config==null){
+			config=DmaapClientUtil.getClientConfig(null);
+		}
+		return config;
+		
+	}  
 
 }

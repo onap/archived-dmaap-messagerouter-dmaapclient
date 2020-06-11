@@ -36,6 +36,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.apache.http.HttpException;
+import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.internal.util.Base64;
 import org.glassfish.jersey.internal.util.collection.StringKeyIgnoreCaseMultivaluedMap;
 import org.json.JSONException;
@@ -49,6 +50,7 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore("org.apache.http.conn.ssl.*")
 @PrepareForTest({ DmaapClientUtil.class })
@@ -58,6 +60,7 @@ public class MRBaseClientTest {
 	private MRBaseClient mrBaseClient;
 	private Collection<String> hosts = new HashSet<>(Arrays.asList("localhost:8080"));
 	private String clientSignature = "topic" + "::" + "cg" + "::" + "cid";
+	private ClientConfig config=null;
 
 	@Before
 	public void setup() throws MalformedURLException {
@@ -77,7 +80,7 @@ public class MRBaseClientTest {
 		Mockito.when(response.getHeaders()).thenReturn(map);
 
 		Mockito.when(
-				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username", "password"))
+				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"), "username", "password"))
 				.thenReturn(response);
 
 		JSONObject result = mrBaseClient.get("/path", "username", "password", "HTTPAUTH");
@@ -92,7 +95,7 @@ public class MRBaseClientTest {
 	public void testGet_403() throws JSONException, HttpException {
 		ResponseBuilder responseBuilder = Response.status(403);
 		Mockito
-				.when(DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
+				.when(DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"), "username",
 						"password"))
 				.thenReturn(
 						responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
@@ -111,7 +114,7 @@ public class MRBaseClientTest {
 		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
 		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		Mockito.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
+		Mockito.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"),
 				Base64.encodeAsString("username:password"))).thenReturn(response);
 
 		JSONObject result = mrBaseClient.get("/path", "username", "password", "HTTPAAF");
@@ -126,7 +129,7 @@ public class MRBaseClientTest {
 	public void testGet_error() throws JSONException, HttpException {
 
 		ResponseBuilder responseBuilder = Response.ok();
-		Mockito.when(DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
+		Mockito.when(DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"), "username",
 						"password"))
 				.thenReturn(
 						responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
@@ -146,7 +149,7 @@ public class MRBaseClientTest {
 		Mockito.when(response.getHeaders()).thenReturn(map);
 
 		Mockito.when(
-				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username", "password"))
+				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"), "username", "password"))
 				.thenReturn(response);
 
 		mrBaseClient.get("/path", "username", "password", "HTTPAUTH");
@@ -167,7 +170,7 @@ public class MRBaseClientTest {
 		Mockito.when(response.getHeaders()).thenReturn(map);
 
 		Mockito.when(
-				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username", "password"))
+				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"), "username", "password"))
 				.thenReturn(response);
 
 		mrBaseClient.getResponse("/path", "username", "password", "HTTPAUTH");
@@ -186,7 +189,7 @@ public class MRBaseClientTest {
 		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
 		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		Mockito.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
+		Mockito.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"),
 				Base64.encodeAsString("username:password"))).thenReturn(response);
 
 		mrBaseClient.getResponse("/path", "username", "password", "HTTPAAF");
@@ -199,7 +202,7 @@ public class MRBaseClientTest {
 
 		ResponseBuilder responseBuilder = Response.ok();
 		Mockito
-				.when(DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
+				.when(DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"), "username",
 						"password"))
 				.thenReturn(
 						responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
@@ -219,7 +222,7 @@ public class MRBaseClientTest {
 		Mockito.when(response.getHeaders()).thenReturn(map);
 
 		Mockito.when(
-				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username", "password"))
+				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"), "username", "password"))
 				.thenReturn(response);
 
 		mrBaseClient.getAuthResponse("/path", "username", "password", "username", "password", "HTTPAUTH");
@@ -232,7 +235,7 @@ public class MRBaseClientTest {
 
 		ResponseBuilder responseBuilder = Response.ok();
 		Mockito
-				.when(DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
+				.when(DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"), "username",
 						"password"))
 				.thenReturn(
 						responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
@@ -253,7 +256,7 @@ public class MRBaseClientTest {
 		Mockito.when(response.getHeaders()).thenReturn(map);
 
 		Mockito
-				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
+				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"), "username",
 						"password", new String("{\"test\":\"test\"}").getBytes(), "application/json"))
 				.thenReturn(response);
 
@@ -274,7 +277,7 @@ public class MRBaseClientTest {
 
 		ResponseBuilder responseBuilder = Response.ok();
 		Mockito
-				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
+				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"), "username",
 						"password", new String("{\"test\":\"test\"}").getBytes(), "application/json"))
 				.thenReturn(
 						responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
@@ -300,7 +303,7 @@ public class MRBaseClientTest {
 		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
 		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		Mockito.when(DmaapClientUtil.getResponsewtNoAuth(DmaapClientUtil.getTarget("/path"))).thenReturn(response);
+		Mockito.when(DmaapClientUtil.getResponsewtNoAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"))).thenReturn(response);
 
 		mrBaseClient.getNoAuthResponse("/path", "username", "password", "HTTPAUTH");
 		assertTrue(true);
@@ -318,7 +321,7 @@ public class MRBaseClientTest {
 		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
 		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		Mockito.when(DmaapClientUtil.postResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
+		Mockito.when(DmaapClientUtil.postResponsewtBasicAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"),
 				Base64.encodeAsString("username:password"), new String("{\"test\":\"test\"}").getBytes(), "application/json")).thenReturn(response);
 
 		mrBaseClient.post("/path", new String("{\"test\":\"test\"}").getBytes(), "application/json", "username",
@@ -334,7 +337,7 @@ public class MRBaseClientTest {
 
 		ResponseBuilder responseBuilder = Response.ok();
 		Mockito
-				.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
+				.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"),
 						Base64.encodeAsString("username:password")))
 				.thenReturn(
 						responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
@@ -356,7 +359,7 @@ public class MRBaseClientTest {
 		Mockito.when(response.getHeaders()).thenReturn(map);
 
 		Mockito
-				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
+				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"), "username",
 						"password", new String("{\"test\":\"test\"}").getBytes(), "application/json"))
 				.thenReturn(response);
 
@@ -371,7 +374,7 @@ public class MRBaseClientTest {
 
 		ResponseBuilder responseBuilder = Response.ok();
 		Mockito
-				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
+				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"), "username",
 						"password", new String("{\"test\":\"test\"}").getBytes(), "application/json"))
 				.thenReturn(
 						responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
@@ -393,7 +396,7 @@ public class MRBaseClientTest {
 		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
 		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		Mockito.when(DmaapClientUtil.postResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
+		Mockito.when(DmaapClientUtil.postResponsewtBasicAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"),
 				Base64.encodeAsString("username:password"), new String("{\"test\":\"test\"}").getBytes(), "application/json")).thenReturn(response);
 
 		mrBaseClient.postWithResponse("/path", new String("{\"test\":\"test\"}").getBytes(), "application/json",
@@ -407,7 +410,7 @@ public class MRBaseClientTest {
 
 		ResponseBuilder responseBuilder = Response.ok();
 		Mockito
-				.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget("/path"),
+				.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"),
 						Base64.encodeAsString("username:password")))
 				.thenReturn(
 						responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
@@ -429,7 +432,7 @@ public class MRBaseClientTest {
 		Mockito.when(response.getHeaders()).thenReturn(map);
 
 		Mockito.when(
-				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username", "password"))
+				DmaapClientUtil.getResponsewtCambriaAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"), "username", "password"))
 				.thenReturn(response);
 		mrBaseClient.getAuth("/path", "username", "password", "username", "password", "HTTPAUTH");
 		assertTrue(true);
@@ -441,7 +444,7 @@ public class MRBaseClientTest {
 
 		ResponseBuilder responseBuilder = Response.ok();
 		Mockito
-				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget("/path"), "username",
+				.when(DmaapClientUtil.postResponsewtCambriaAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"), "username",
 						"password", new String("{\"test\":\"test\"}").getBytes(), "application/json"))
 				.thenReturn(
 						responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
@@ -462,7 +465,7 @@ public class MRBaseClientTest {
 		Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
 		Mockito.when(response.getHeaders()).thenReturn(map);
 
-		Mockito.when(DmaapClientUtil.getResponsewtNoAuth(DmaapClientUtil.getTarget("/path"))).thenReturn(response);
+		Mockito.when(DmaapClientUtil.getResponsewtNoAuth(DmaapClientUtil.getTarget(getClientConfig(),"/path"))).thenReturn(response);
 		mrBaseClient.getNoAuth("/path");
 		assertTrue(true);
 
@@ -478,6 +481,16 @@ public class MRBaseClientTest {
 	@Test
 	public void getGTTPErrorResponseCode() {
 		assertEquals("500", mrBaseClient.getHTTPErrorResponseCode("<title>500</title>"));
+	}
+	
+	
+	
+	private ClientConfig getClientConfig(){
+		if(config==null){
+			config=DmaapClientUtil.getClientConfig(null);
+		}
+		return config;
+		
 	}
 
 }

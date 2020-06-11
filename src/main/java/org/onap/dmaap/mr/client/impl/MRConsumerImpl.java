@@ -694,6 +694,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 
     public void setProps(Properties props) {
         this.props = props;
+        setClientConfig(DmaapClientUtil.getClientConfig(props));
     }
 
     public String getUsername() {

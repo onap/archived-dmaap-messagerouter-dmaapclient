@@ -31,6 +31,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import org.apache.http.HttpException;
+import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.internal.util.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +48,7 @@ import org.onap.dmaap.mr.test.clients.ProtocolTypeConstants;
 
 public class MRBaseClient extends HttpClient implements MRClient {
 
+	private ClientConfig clientConfig = null;
 
 	protected MRBaseClient(Collection<String> hosts) throws MalformedURLException {
 		super(ConnectionType.HTTP, hosts, MRConstants.kStdMRServicePort);
@@ -65,6 +67,14 @@ public class MRBaseClient extends HttpClient implements MRClient {
 				TimeUnit.MILLISECONDS, 32, 32, 600000);
 
 		fLog = LoggerFactory.getLogger(this.getClass().getName());
+	}
+
+	public ClientConfig getClientConfig1() {
+		return clientConfig;
+	}
+
+	public void setClientConfig(ClientConfig config) {
+		this.clientConfig = config;
 	}
 
 	@Override
@@ -96,12 +106,12 @@ public class MRBaseClient extends HttpClient implements MRClient {
 	public JSONObject post(final String path, final byte[] data, final String contentType, final String username,
 			final String password, final String protocalFlag) throws HttpException, JSONException {
 		if ((null != username && null != password)) {
-			WebTarget target=null;
-			Response response=null;
-			target = DmaapClientUtil.getTarget(path, username, password);
+			WebTarget target = null;
+			Response response = null;
+			target = DmaapClientUtil.getTarget(clientConfig,path, username, password);
 			String encoding = Base64.encodeAsString(username + ":" + password);
 
-			response = DmaapClientUtil.postResponsewtBasicAuth(target, encoding,data, contentType);
+			response = DmaapClientUtil.postResponsewtBasicAuth(target, encoding, data, contentType);
 
 			return getResponseDataInJson(response);
 		} else {
@@ -109,7 +119,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 					"Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
 		}
 	}
-	
+
 	public JSONObject postNoAuth(final String path, final byte[] data, String contentType)
 			throws HttpException, JSONException {
 		WebTarget target = null;
@@ -117,7 +127,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 		if (contentType == null) {
 			contentType = "text/pain";
 		}
-		target = DmaapClientUtil.getTarget(path);
+		target = DmaapClientUtil.getTarget(clientConfig,path);
 
 		response = DmaapClientUtil.postResponsewtNoAuth(target, data, contentType);
 
@@ -129,21 +139,21 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			throws HttpException, JSONException {
 		String responseData = null;
 		if ((null != username && null != password)) {
-			WebTarget target=null;
-			Response response=null;
-			target = DmaapClientUtil.getTarget(path, username, password);
+			WebTarget target = null;
+			Response response = null;
+			target = DmaapClientUtil.getTarget(clientConfig,path, username, password);
 			String encoding = Base64.encodeAsString(username + ":" + password);
 
-			response = DmaapClientUtil.postResponsewtBasicAuth(target, encoding,data, contentType);
+			response = DmaapClientUtil.postResponsewtBasicAuth(target, encoding, data, contentType);
 
-			responseData = (String)response.readEntity(String.class);
+			responseData = (String) response.readEntity(String.class);
 			return responseData;
 		} else {
 			throw new HttpException(
 					"Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
 		}
 	}
-	
+
 	public String postNoAuthWithResponse(final String path, final byte[] data, String contentType)
 			throws HttpException, JSONException {
 
@@ -153,24 +163,23 @@ public class MRBaseClient extends HttpClient implements MRClient {
 		if (contentType == null) {
 			contentType = "text/pain";
 		}
-		target = DmaapClientUtil.getTarget(path);
+		target = DmaapClientUtil.getTarget(clientConfig,path);
 
 		response = DmaapClientUtil.postResponsewtNoAuth(target, data, contentType);
 		responseData = (String) response.readEntity(String.class);
 		return responseData;
 	}
 
-	public JSONObject postAuth(PostAuthDataObject postAuthDO)
-			throws HttpException, JSONException {
-        if ((null != postAuthDO.getUsername() && null != postAuthDO.getPassword())) {
-            WebTarget target = null;
-            Response response = null;
-            target = DmaapClientUtil.getTarget(postAuthDO.getPath(), postAuthDO.getUsername(),
-                    postAuthDO.getPassword());
-            response = DmaapClientUtil.postResponsewtCambriaAuth(target, postAuthDO.getAuthKey(),
-                    postAuthDO.getAuthDate(), postAuthDO.getData(), postAuthDO.getContentType());
-            return getResponseDataInJson(response);
-        } else {
+	public JSONObject postAuth(PostAuthDataObject postAuthDO) throws HttpException, JSONException {
+		if ((null != postAuthDO.getUsername() && null != postAuthDO.getPassword())) {
+			WebTarget target = null;
+			Response response = null;
+			target = DmaapClientUtil.getTarget(clientConfig,postAuthDO.getPath(), postAuthDO.getUsername(),
+					postAuthDO.getPassword());
+			response = DmaapClientUtil.postResponsewtCambriaAuth(target, postAuthDO.getAuthKey(),
+					postAuthDO.getAuthDate(), postAuthDO.getData(), postAuthDO.getContentType());
+			return getResponseDataInJson(response);
+		} else {
 			throw new HttpException(
 					"Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
 		}
@@ -181,11 +190,11 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			final String protocolFlag) throws HttpException, JSONException {
 		String responseData = null;
 		if ((null != username && null != password)) {
-			WebTarget target=null;
-			Response response=null;
-			target = DmaapClientUtil.getTarget(path, username, password);
+			WebTarget target = null;
+			Response response = null;
+			target = DmaapClientUtil.getTarget(clientConfig,path, username, password);
 			response = DmaapClientUtil.postResponsewtCambriaAuth(target, authKey, authDate, data, contentType);
-			responseData = (String)response.readEntity(String.class);
+			responseData = (String) response.readEntity(String.class);
 			return responseData;
 
 		} else {
@@ -198,14 +207,14 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			throws HttpException, JSONException {
 		if (null != username && null != password) {
 
-			 WebTarget target=null;
-			 Response response=null;
-			 
+			WebTarget target = null;
+			Response response = null;
+
 			if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
-				target = DmaapClientUtil.getTarget(path);
+				target = DmaapClientUtil.getTarget(clientConfig,path);
 				response = DmaapClientUtil.getResponsewtCambriaAuth(target, username, password);
 			} else {
-				target = DmaapClientUtil.getTarget(path, username, password);
+				target = DmaapClientUtil.getTarget(clientConfig,path, username, password);
 				String encoding = Base64.encodeAsString(username + ":" + password);
 
 				response = DmaapClientUtil.getResponsewtBasicAuth(target, encoding);
@@ -222,13 +231,13 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			final String protocolFlag) throws HttpException, JSONException {
 		String responseData = null;
 		if (null != username && null != password) {
-			WebTarget target=null;
-			Response response=null;
+			WebTarget target = null;
+			Response response = null;
 			if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
-				target = DmaapClientUtil.getTarget(path);
+				target = DmaapClientUtil.getTarget(clientConfig,path);
 				response = DmaapClientUtil.getResponsewtCambriaAuth(target, username, password);
 			} else {
-				target = DmaapClientUtil.getTarget(path, username, password);
+				target = DmaapClientUtil.getTarget(clientConfig,path, username, password);
 				String encoding = Base64.encodeAsString(username + ":" + password);
 				response = DmaapClientUtil.getResponsewtBasicAuth(target, encoding);
 			}
@@ -239,7 +248,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 				fLog.info("TransactionId : " + transactionid);
 			}
 
-			responseData = (String)response.readEntity(String.class);
+			responseData = (String) response.readEntity(String.class);
 			return responseData;
 		} else {
 			throw new HttpException(
@@ -250,9 +259,9 @@ public class MRBaseClient extends HttpClient implements MRClient {
 	public JSONObject getAuth(final String path, final String authKey, final String authDate, final String username,
 			final String password, final String protocolFlag) throws HttpException, JSONException {
 		if (null != username && null != password) {
-			WebTarget target=null;
-			Response response=null;
-			target = DmaapClientUtil.getTarget(path, username, password);
+			WebTarget target = null;
+			Response response = null;
+			target = DmaapClientUtil.getTarget(clientConfig,path, username, password);
 			response = DmaapClientUtil.getResponsewtCambriaAuth(target, authKey, authDate);
 
 			return getResponseDataInJson(response);
@@ -266,7 +275,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 
 		WebTarget target = null;
 		Response response = null;
-		target = DmaapClientUtil.getTarget(path);
+		target = DmaapClientUtil.getTarget(clientConfig,path);
 		response = DmaapClientUtil.getResponsewtNoAuth(target);
 
 		return getResponseDataInJson(response);
@@ -276,9 +285,9 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			final String password, final String protocolFlag) throws HttpException, JSONException {
 		String responseData = null;
 		if (null != username && null != password) {
-			WebTarget target=null;
-			Response response=null;
-			target = DmaapClientUtil.getTarget(path, username, password);
+			WebTarget target = null;
+			Response response = null;
+			target = DmaapClientUtil.getTarget(clientConfig,path, username, password);
 			response = DmaapClientUtil.getResponsewtCambriaAuth(target, authKey, authDate);
 
 			MRClientFactory.HTTPHeadersMap = response.getHeaders();
@@ -288,7 +297,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 				fLog.info("TransactionId : " + transactionid);
 			}
 
-			responseData = (String)response.readEntity(String.class);
+			responseData = (String) response.readEntity(String.class);
 			return responseData;
 		} else {
 			throw new HttpException(
@@ -299,9 +308,9 @@ public class MRBaseClient extends HttpClient implements MRClient {
 	public String getNoAuthResponse(String path, final String username, final String password,
 			final String protocolFlag) throws HttpException, JSONException {
 		String responseData = null;
-		WebTarget target=null;
-		Response response=null;
-		target = DmaapClientUtil.getTarget(path, username, password);
+		WebTarget target = null;
+		Response response = null;
+		target = DmaapClientUtil.getTarget(clientConfig,path, username, password);
 		response = DmaapClientUtil.getResponsewtNoAuth(target);
 
 		MRClientFactory.HTTPHeadersMap = response.getHeaders();
@@ -311,16 +320,14 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			fLog.info("TransactionId : " + transactionid);
 		}
 
-		responseData = (String)response.readEntity(String.class);
+		responseData = (String) response.readEntity(String.class);
 		return responseData;
 
 	}
 
-
 	private JSONObject getResponseDataInJson(Response response) throws JSONException {
 		try {
 			MRClientFactory.HTTPHeadersMap = response.getHeaders();
-			
 
 			// MultivaluedMap<String, Object> headersMap =
 			// for(String key : headersMap.keySet()) {
@@ -328,7 +335,6 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			if (transactionid != null && !transactionid.equalsIgnoreCase("")) {
 				fLog.info("TransactionId : " + transactionid);
 			}
-
 
 			if (response.getStatus() == 403) {
 				JSONObject jsonObject = null;
@@ -339,7 +345,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 				jsonObject.put("status", response.getStatus());
 				return jsonObject;
 			}
-			String responseData = (String)response.readEntity(String.class);
+			String responseData = (String) response.readEntity(String.class);
 
 			JSONTokener jsonTokener = new JSONTokener(responseData);
 			JSONObject jsonObject = null;
