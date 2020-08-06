@@ -31,6 +31,7 @@ import org.junit.Test;
 
 import org.onap.dmaap.mr.client.MRClientFactory;
 import org.onap.dmaap.mr.client.MRConsumer;
+import static org.junit.Assert.assertNotNull;
 
 public class MRSimplerBatchConsumerTest {
 	
@@ -60,7 +61,8 @@ public class MRSimplerBatchConsumerTest {
 			}
 		} catch (Exception e) {
 			System.err.println ( e.getClass().getName () + ": " + e.getMessage () );
-		}		
+		}
+		assertNotNull(cc);
 		
 	}
 	
