@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: sunil unnava <su622b@att.com>
+Code-Review+2: Mandar Sawant <ms5838@att.com>
+Submitted-by: Mandar Sawant <ms5838@att.com>
+Submitted-at: Wed, 09 Sep 2020 18:25:34 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/dmaap/messagerouter/dmaapclient/+/112400
+Project: dmaap/messagerouter/dmaapclient
+Branch: refs/heads/master
