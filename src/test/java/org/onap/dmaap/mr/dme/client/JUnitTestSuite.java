@@ -25,14 +25,16 @@ import junit.framework.TestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RunWith(Suite.class)
 @SuiteClasses({ DefaultLoggingFailoverFaultHandlerTest.class, HeaderReplyHandlerTest.class,PreferredRouteReplyHandlerTest.class,
 	PreferredRouteRequestHandlerTest.class,SimpleExamplePublisherTest.class })
 
 public class JUnitTestSuite {
-	private static final Logger LOGGER = Logger.getLogger(JUnitTestSuite.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(JUnitTestSuite.class);
+
 
 	public static void main(String[] args) {
 		LOGGER.info("Running the test suite");

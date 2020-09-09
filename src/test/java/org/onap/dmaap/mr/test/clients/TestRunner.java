@@ -23,10 +23,11 @@ package org.onap.dmaap.mr.test.clients;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestRunner {
-	private static final Logger LOGGER = Logger.getLogger(TestRunner.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TestRunner.class);
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -35,7 +36,7 @@ public class TestRunner {
 			LOGGER.info(failure.toString());
 			
 		}
-		LOGGER.info(result.wasSuccessful());
+		LOGGER.info(String.valueOf(result.wasSuccessful()));
 	}
 
 }

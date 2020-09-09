@@ -75,8 +75,13 @@
 	    <dependency>
 		<groupId>commons-codec</groupId>
 		<artifactId>commons-codec</artifactId>
-		<version>1.13</version>
+		<version>1.14</version>
 	</dependency>
+	<dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.20.0-GA</version>
+        </dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
@@ -124,18 +129,24 @@
 			</exclusions>
 		</dependency>
 		<!-- Begin - Dependency on log4j for logging purpose -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
-		<!-- Log4j's enhanced pattern layout is shipped separately -->
+		Log4j's enhanced pattern layout is shipped separately
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>apache-log4j-extras</artifactId>
 			<version>1.2.17</version>
-		</dependency>
+		</dependency> -->
 		<!-- End - Dependency on log4j for logging purpose -->
+		
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.7</version>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
