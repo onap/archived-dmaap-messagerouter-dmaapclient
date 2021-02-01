@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7a44adb_172786ed",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-02-01T16:01:12Z",
+      "side": 1,
+      "message": "2.11.2",
+      "range": {
+        "startLine": 112,
+        "startChar": 26,
+        "endLine": 112,
+        "endChar": 27
+      },
+      "revId": "3297f9addf4c895349b822c70c69df889534c589",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
