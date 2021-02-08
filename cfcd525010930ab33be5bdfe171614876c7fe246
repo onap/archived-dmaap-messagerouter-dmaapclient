@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d8ad330_8bb449a7",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-02-08T10:47:07Z",
+      "side": 1,
+      "message": "May as well upgrade to 3.2.0\n\nand add the following to the build section\n\n\u003cplugin\u003e\n                \u003cartifactId\u003emaven-checkstyle-plugin\u003c/artifactId\u003e\n                \u003cexecutions\u003e\n                    \u003cexecution\u003e\n                        \u003cid\u003eonap-java-style\u003c/id\u003e\n                        \u003cconfiguration\u003e\n                            \u003cconsoleOutput\u003efalse\u003c/consoleOutput\u003e\n                        \u003c/configuration\u003e\n                    \u003c/execution\u003e\n                \u003c/executions\u003e\n            \u003c/plugin\u003e\n\nSame for the other dmaap projects",
+      "range": {
+        "startLine": 38,
+        "startChar": 17,
+        "endLine": 38,
+        "endChar": 22
+      },
+      "revId": "cfcd525010930ab33be5bdfe171614876c7fe246",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
