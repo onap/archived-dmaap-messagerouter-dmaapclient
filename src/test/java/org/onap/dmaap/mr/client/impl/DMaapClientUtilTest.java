@@ -26,11 +26,14 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.Properties;
+
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -77,6 +80,15 @@ public class DMaapClientUtilTest {
         assertEquals(response, actual);
         verify(target).request();
         verify(builder, times(2)).header((String) any(), any());
+    }
+    
+    @Test
+    public void testSetHttpClientProperties() {
+    	Properties properties = new Properties();
+    	properties.setProperty(ClientProperties.PROXY_URI, "http://localhost:1234");
+    	ClientConfig cConfig = DmaapClientUtil.getClientConfig(properties);
+
+    	assertEquals(cConfig.getConnectorProvider().getClass().getSimpleName(), "ApacheConnectorProvider");
     }
 
 	private ClientConfig getClientConfig(){

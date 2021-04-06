@@ -8,7 +8,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *        http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,18 +17,17 @@
  *  ============LICENSE_END=========================================================
  *
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
- *  
+ *
  *******************************************************************************/
 package org.onap.dmaap.mr.client.impl;
 
 import java.util.Properties;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-
+import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
@@ -55,6 +54,10 @@ public class DmaapClientUtil {
 				config.property(httpClientProperties[i], properties.getProperty(httpClientProperties[i]));
 			}
 		}
+		if ((properties.getProperty(ClientProperties.PROXY_URI) != null) &&
+		        !(properties.getProperty(ClientProperties.PROXY_URI).isEmpty())) {
+		    config.connectorProvider(new ApacheConnectorProvider());
+		} // else the default connectorProvider (HttpConnectorProvider) will be used
 
 	}
 
