@@ -42,6 +42,12 @@ import org.onap.dmaap.mr.client.MRTopicManager;
 
 public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIdentityManager
 {
+	private static final String BASE_URI_TOPIC = "/topics";
+	private static final String BASE_URI_APIKEY = "/apiKeys";
+
+	private static final String PARAM_DESCRIPTION = "description";
+	private static final String PARAM_EMAIL = "email";
+
 	private static final Logger logger = LoggerFactory.getLogger(MRMetaClient.class);
 	public MRMetaClient ( Collection<String> baseUrls ) throws MalformedURLException
 	{
@@ -54,7 +60,7 @@ public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIden
 		final TreeSet<String> set = new TreeSet<> ();
 		try
 		{
-			final JSONObject topicSet = get ( "/topics" );
+			final JSONObject topicSet = get ( BASE_URI_TOPIC );
 			final JSONArray a = topicSet.getJSONArray ( "topics" );
 			for ( int i=0; i<a.length (); i++ )
 			{
@@ -83,7 +89,7 @@ public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIden
 	{
 		try
 		{
-			final JSONObject topicData = get ( "/topics/" + MRConstants.escape ( topic ) );
+			final JSONObject topicData = get ( BASE_URI_TOPIC + "/" + MRConstants.escape ( topic ) );
 			return new TopicInfo ()
 			{
 				@Override
@@ -95,7 +101,7 @@ public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIden
 				@Override
 				public String getDescription ()
 				{
-					return topicData.optString ( "description", null );
+					return topicData.optString ( PARAM_DESCRIPTION, null );
 				}
 
 				@Override
@@ -139,13 +145,13 @@ public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIden
 		o.put ( "topicDescription", topicDescription );
 		o.put ( "partitionCount", partitionCount );
 		o.put ( "replicationCount", replicationCount );
-		post ( "/topics/create", o, false );
+		post ( BASE_URI_TOPIC + "/create", o, false );
 	}
 
 	@Override
 	public void deleteTopic ( String topic ) throws HttpException, IOException
 	{
-		delete ( "/topics/" + MRConstants.escape ( topic ) );
+		delete ( BASE_URI_TOPIC + "/" + MRConstants.escape ( topic ) );
 	}
 
 	@Override
@@ -163,13 +169,13 @@ public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIden
 	@Override
 	public void allowProducer ( String topic, String apiKey ) throws HttpObjectNotFoundException, HttpException, IOException
 	{
-		put ( "/topics/" + MRConstants.escape ( topic ) + "/producers/" + MRConstants.escape ( apiKey ), new JSONObject() );
+		put ( BASE_URI_TOPIC + "/" + MRConstants.escape ( topic ) + "/producers/" + MRConstants.escape ( apiKey ), new JSONObject() );
 	}
 
 	@Override
 	public void revokeProducer ( String topic, String apiKey ) throws HttpException, IOException
 	{
-		delete ( "/topics/" + MRConstants.escape ( topic ) + "/producers/" + MRConstants.escape ( apiKey ) );
+		delete ( BASE_URI_TOPIC + "/" + MRConstants.escape ( topic ) + "/producers/" + MRConstants.escape ( apiKey ) );
 	}
 
 	@Override
@@ -187,13 +193,13 @@ public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIden
 	@Override
 	public void allowConsumer ( String topic, String apiKey ) throws HttpObjectNotFoundException, HttpException, IOException
 	{
-		put ( "/topics/" + MRConstants.escape ( topic ) + "/consumers/" + MRConstants.escape ( apiKey ), new JSONObject() );
+		put ( BASE_URI_TOPIC + "/" + MRConstants.escape ( topic ) + "/consumers/" + MRConstants.escape ( apiKey ), new JSONObject() );
 	}
 
 	@Override
 	public void revokeConsumer ( String topic, String apiKey ) throws HttpException, IOException
 	{
-		delete ( "/topics/" + MRConstants.escape ( topic ) + "/consumers/" + MRConstants.escape ( apiKey ) );
+		delete ( BASE_URI_TOPIC + "/" + MRConstants.escape ( topic ) + "/consumers/" + MRConstants.escape ( apiKey ) );
 	}
 
 	@Override
@@ -202,9 +208,9 @@ public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIden
 		try
 		{
 			final JSONObject o = new JSONObject ();
-			o.put ( "email", email );
-			o.put ( "description", description );
-			final JSONObject reply = post ( "/apiKeys/create", o, true );
+			o.put ( PARAM_EMAIL, email );
+			o.put ( PARAM_DESCRIPTION, description );
+			final JSONObject reply = post ( BASE_URI_APIKEY + "/create", o, true );
 			return new ApiCredential ( reply.getString ( "key" ), reply.getString ( "secret" ) );
 		}
 		catch ( JSONException e )
@@ -217,7 +223,7 @@ public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIden
 	@Override
 	public ApiKey getApiKey ( String apiKey ) throws HttpObjectNotFoundException, HttpException, IOException
 	{
-		final JSONObject keyEntry = get ( "/apiKeys/" + MRConstants.escape ( apiKey ) );
+		final JSONObject keyEntry = get ( BASE_URI_APIKEY + "/" + MRConstants.escape ( apiKey ) );
 		if ( keyEntry == null )
 		{
 			return null;
@@ -231,7 +237,7 @@ public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIden
 				final JSONObject aux = keyEntry.optJSONObject ( "aux" );
 				if ( aux != null )
 				{
-					return aux.optString ( "email" );
+					return aux.optString ( PARAM_EMAIL );
 				}
 				return null;
 			}
@@ -242,7 +248,7 @@ public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIden
 				final JSONObject aux = keyEntry.optJSONObject ( "aux" );
 				if ( aux != null )
 				{
-					return aux.optString ( "description" );
+					return aux.optString ( PARAM_DESCRIPTION );
 				}
 				return null;
 			}
@@ -253,14 +259,14 @@ public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIden
 	public void updateCurrentApiKey ( String email, String description ) throws HttpObjectNotFoundException, HttpException, IOException
 	{
 		final JSONObject o = new JSONObject ();
-		if ( email != null ) o.put ( "email", email );
-		if ( description != null ) o.put ( "description", description );
-		patch ( "/apiKeys/" + MRConstants.escape ( getCurrentApiKey() ), o );
+		if ( email != null ) o.put ( PARAM_EMAIL, email );
+		if ( description != null ) o.put ( PARAM_DESCRIPTION, description );
+		patch ( BASE_URI_APIKEY + "/" + MRConstants.escape ( getCurrentApiKey() ), o );
 	}
 
 	@Override
 	public void deleteCurrentApiKey () throws HttpException, IOException
 	{
-		delete ( "/apiKeys/" + MRConstants.escape ( getCurrentApiKey() ) );
+		delete ( BASE_URI_APIKEY + "/" + MRConstants.escape ( getCurrentApiKey() ) );
 	}
 }

@@ -31,8 +31,6 @@ import junit.framework.TestCase;
 import org.apache.http.HttpHost;
 import org.junit.Test;
 
-import org.onap.dmaap.mr.client.impl.MRConstants;
-
 public class MRConstantsTest extends TestCase
 {
 	@Test
@@ -98,11 +96,11 @@ public class MRConstantsTest extends TestCase
 
 		final Iterator<HttpHost> it = hosts.iterator ();
 		final HttpHost first = it.next ();
-		assertEquals ( MRConstants.kStdMRServicePort, first.getPort () );
+		assertEquals ( MRConstants.STD_MR_SERVICE_PORT, first.getPort () );
 		assertEquals ( "foo", first.getHostName () );
 
 		final HttpHost second = it.next ();
-		assertEquals ( MRConstants.kStdMRServicePort, second.getPort () );
+		assertEquals ( MRConstants.STD_MR_SERVICE_PORT, second.getPort () );
 		assertEquals ( "bar", second.getHostName () );
 
 		final HttpHost third = it.next ();
@@ -112,11 +110,11 @@ public class MRConstantsTest extends TestCase
 
 	private static final String[][] hostTests =
 	{
-		{ "host", "host", "" + MRConstants.kStdMRServicePort },
+		{ "host", "host", "" + MRConstants.STD_MR_SERVICE_PORT},
 		{ ":oops", null, "-1" },
 		{ "host:1.3", null, "-1" },
 		{ "host:13", "host", "13" },
-		{ "host:", "host", "" + MRConstants.kStdMRServicePort },
+		{ "host:", "host", "" + MRConstants.STD_MR_SERVICE_PORT},
 	};
 
 	@Test

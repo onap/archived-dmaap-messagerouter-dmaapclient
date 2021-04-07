@@ -45,6 +45,9 @@ public class SimpleExampleConsumerWithReturnResponse {
 	
 		long count = 0;
 		long nextReport = 5000;
+		// remove while true and limite execution time in seconds
+		int timeMax = 86400; // one day
+		long endDate = System.currentTimeMillis() + timeMax*1000;
 
 		final long startMs = System.currentTimeMillis ();
 				
@@ -60,7 +63,7 @@ public class SimpleExampleConsumerWithReturnResponse {
 			routeReader= new FileReader(new File (routeFilePath));
 			props= new Properties();
 			final MRConsumer cc = MRClientFactory.createConsumer ( "src/main/resources/dme2/consumer.properties" );
-			while ( true )
+			while ( System.currentTimeMillis() < endDate )
 			{	
 				MRConsumerResponse mrConsumerResponse = cc.fetchWithReturnConsumerResponse();
 				System.out.println("mrConsumerResponse code :"+mrConsumerResponse.getResponseCode());

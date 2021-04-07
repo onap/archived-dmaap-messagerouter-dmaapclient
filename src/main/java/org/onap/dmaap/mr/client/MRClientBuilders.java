@@ -42,6 +42,7 @@ import org.onap.dmaap.mr.client.impl.MRSimplerBatchPublisher;
  */
 public class MRClientBuilders
 {
+    private final static String ILLEGAL_ARGUMENT_MESSAGE = "You must provide at least one host and a topic name.";
 
     /**
      * Instantiates MRClientBuilders.
@@ -56,10 +57,6 @@ public class MRClientBuilders
      */
     public static class ConsumerBuilder
     {
-        /**
-         * Construct a consumer builder.
-         */
-        public ConsumerBuilder () {}
 
         /**
          * Set the host list
@@ -151,7 +148,7 @@ public class MRClientBuilders
         {
             if ( fHosts == null || fHosts.isEmpty() || fTopic == null )
             {
-                throw new IllegalArgumentException ( "You must provide at least one host and a topic name." );
+                throw new IllegalArgumentException ( ILLEGAL_ARGUMENT_MESSAGE );
             }
 
             if ( fGroup == null )
@@ -194,7 +191,6 @@ public class MRClientBuilders
      */
     public static class PublisherBuilder
     {
-        public PublisherBuilder () {}
 
         /**
          * Set the MR/UEB host(s) to use
@@ -298,7 +294,7 @@ public class MRClientBuilders
         {
             if ( fHosts == null || fHosts.isEmpty() || fTopic == null )
             {
-                throw new IllegalArgumentException ( "You must provide at least one host and a topic name." );
+                throw new IllegalArgumentException ( ILLEGAL_ARGUMENT_MESSAGE );
             }
 
             if ( sfPublisherMock != null ) return sfPublisherMock;
@@ -331,10 +327,6 @@ public class MRClientBuilders
      */
     public static class IdentityManagerBuilder extends AbstractAuthenticatedManagerBuilder<MRIdentityManager>
     {
-        /**
-         * Construct an identity manager builder.
-         */
-        public IdentityManagerBuilder () {}
 
         @Override
         protected MRIdentityManager constructClient ( Collection<String> hosts ) { try {
@@ -350,10 +342,6 @@ public class MRClientBuilders
      */
     public static class TopicManagerBuilder extends AbstractAuthenticatedManagerBuilder<MRTopicManager>
     {
-        /**
-         * Construct an topic manager builder.
-         */
-        public TopicManagerBuilder () {}
 
         @Override
         protected MRTopicManager constructClient ( Collection<String> hosts ) { try {
@@ -434,7 +422,7 @@ public class MRClientBuilders
         {
              if ( fHosts.isEmpty() ) 
             {
-                throw new IllegalArgumentException ( "You must provide at least one host and a topic name." );
+                throw new IllegalArgumentException ( ILLEGAL_ARGUMENT_MESSAGE );
             }
 
             final T mgr = constructClient ( fHosts );

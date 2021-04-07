@@ -58,32 +58,32 @@ public class PreferredRouteReplyHandlerTest {
 		assertNotNull(responseHeaders);
 
 	}
-	
+/*
 	@Test
 	public void testHandleFault() {
-/*
+
 		handler.handleFault(null);
 		assertTrue(true);
-*/
+
 	}
 	
 	@Test
 	public void testHandleEndpointFault() {
 
-/*		handler.handleEndpointFault(null);
-		assertTrue(true);*/
+		handler.handleEndpointFault(null);
+		assertTrue(true);
 
 	}
 	
 	@Test
 	public void testRouteWriter() {
-/*
+
 		handler.routeWriter("routeKey", "routeValue");
 		assertTrue(true);
-*/
+
 	}
 	
-	
+*/
 	
 
 }
