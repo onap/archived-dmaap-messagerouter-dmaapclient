@@ -48,10 +48,18 @@ import org.onap.dmaap.mr.test.clients.ProtocolTypeConstants;
 
 public class MRBaseClient extends HttpClient implements MRClient {
 
+	private final static String HEADER_TRANSACTION_ID = "transactionid";
+
+	private final static String JSON_RESULT = "result";
+	private final static String JSON_STATUS = "status";
+
+	private final static String AUTH_FAILED = "Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.";
+	private final static String LOG_TRANSACTION_ID = "TransactionId : ";
+
 	private ClientConfig clientConfig = null;
 
 	protected MRBaseClient(Collection<String> hosts) throws MalformedURLException {
-		super(ConnectionType.HTTP, hosts, MRConstants.kStdMRServicePort);
+		super(ConnectionType.HTTP, hosts, MRConstants.STD_MR_SERVICE_PORT);
 
 		fLog = LoggerFactory.getLogger(this.getClass().getName());
 	}
@@ -63,7 +71,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 	}
 
 	protected MRBaseClient(Collection<String> hosts, String clientSignature) throws MalformedURLException {
-		super(ConnectionType.HTTP, hosts, MRConstants.kStdMRServicePort, clientSignature, CacheUse.NONE, 1, 1L,
+		super(ConnectionType.HTTP, hosts, MRConstants.STD_MR_SERVICE_PORT, clientSignature, CacheUse.NONE, 1, 1L,
 				TimeUnit.MILLISECONDS, 32, 32, 600000);
 
 		fLog = LoggerFactory.getLogger(this.getClass().getName());
@@ -79,6 +87,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 
 	@Override
 	public void close() {
+		// nothing to close
 	}
 
 	protected Set<String> jsonArrayToSet(JSONArray a) {
@@ -115,8 +124,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 
 			return getResponseDataInJson(response);
 		} else {
-			throw new HttpException(
-					"Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
+			throw new HttpException(AUTH_FAILED);
 		}
 	}
 
@@ -149,8 +157,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			responseData = (String) response.readEntity(String.class);
 			return responseData;
 		} else {
-			throw new HttpException(
-					"Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
+			throw new HttpException(AUTH_FAILED);
 		}
 	}
 
@@ -180,8 +187,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 					postAuthDO.getAuthDate(), postAuthDO.getData(), postAuthDO.getContentType());
 			return getResponseDataInJson(response);
 		} else {
-			throw new HttpException(
-					"Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
+			throw new HttpException(AUTH_FAILED);
 		}
 	}
 
@@ -198,8 +204,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			return responseData;
 
 		} else {
-			throw new HttpException(
-					"Authentication Failed: Username/password/AuthKey/AuthDate parameter(s) cannot be null or empty.");
+			throw new HttpException(AUTH_FAILED);
 		}
 	}
 
@@ -222,8 +227,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			}
 			return getResponseDataInJson(response);
 		} else {
-			throw new HttpException(
-					"Authentication Failed: Username/password/AuthKey/Authdate parameter(s) cannot be null or empty.");
+			throw new HttpException(AUTH_FAILED);
 		}
 	}
 
@@ -241,18 +245,17 @@ public class MRBaseClient extends HttpClient implements MRClient {
 				String encoding = Base64.encodeAsString(username + ":" + password);
 				response = DmaapClientUtil.getResponsewtBasicAuth(target, encoding);
 			}
-			MRClientFactory.HTTPHeadersMap = response.getHeaders();
+			MRClientFactory.setHTTPHeadersMap(response.getHeaders());
 
-			String transactionid = response.getHeaderString("transactionid");
+			String transactionid = response.getHeaderString(HEADER_TRANSACTION_ID);
 			if (transactionid != null && !transactionid.equalsIgnoreCase("")) {
-				fLog.info("TransactionId : " + transactionid);
+				fLog.info(LOG_TRANSACTION_ID + transactionid);
 			}
 
 			responseData = (String) response.readEntity(String.class);
 			return responseData;
 		} else {
-			throw new HttpException(
-					"Authentication Failed: Username/password/AuthKey/Authdate parameter(s) cannot be null or empty.");
+			throw new HttpException(AUTH_FAILED);
 		}
 	}
 
@@ -266,8 +269,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
 
 			return getResponseDataInJson(response);
 		} else {
-			throw new HttpException(
-					"Authentication Failed: Username/password/AuthKey/Authdate parameter(s) cannot be null or empty.");
+			throw new HttpException(AUTH_FAILED);
 		}
 	}
 
@@ -290,18 +292,17 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			target = DmaapClientUtil.getTarget(clientConfig,path, username, password);
 			response = DmaapClientUtil.getResponsewtCambriaAuth(target, authKey, authDate);
 
-			MRClientFactory.HTTPHeadersMap = response.getHeaders();
+			MRClientFactory.setHTTPHeadersMap(response.getHeaders());
 
-			String transactionid = response.getHeaderString("transactionid");
+			String transactionid = response.getHeaderString(HEADER_TRANSACTION_ID);
 			if (transactionid != null && !transactionid.equalsIgnoreCase("")) {
-				fLog.info("TransactionId : " + transactionid);
+				fLog.info(LOG_TRANSACTION_ID + transactionid);
 			}
 
 			responseData = (String) response.readEntity(String.class);
 			return responseData;
 		} else {
-			throw new HttpException(
-					"Authentication Failed: Username/password/AuthKey/Authdate parameter(s) cannot be null or empty.");
+			throw new HttpException(AUTH_FAILED);
 		}
 	}
 
@@ -313,11 +314,11 @@ public class MRBaseClient extends HttpClient implements MRClient {
 		target = DmaapClientUtil.getTarget(clientConfig,path, username, password);
 		response = DmaapClientUtil.getResponsewtNoAuth(target);
 
-		MRClientFactory.HTTPHeadersMap = response.getHeaders();
+		MRClientFactory.setHTTPHeadersMap(response.getHeaders());
 
-		String transactionid = response.getHeaderString("transactionid");
+		String transactionid = response.getHeaderString(HEADER_TRANSACTION_ID);
 		if (transactionid != null && !transactionid.equalsIgnoreCase("")) {
-			fLog.info("TransactionId : " + transactionid);
+			fLog.info(LOG_TRANSACTION_ID + transactionid);
 		}
 
 		responseData = (String) response.readEntity(String.class);
@@ -327,13 +328,13 @@ public class MRBaseClient extends HttpClient implements MRClient {
 
 	private JSONObject getResponseDataInJson(Response response) throws JSONException {
 		try {
-			MRClientFactory.HTTPHeadersMap = response.getHeaders();
+			MRClientFactory.setHTTPHeadersMap(response.getHeaders());
 
 			// MultivaluedMap<String, Object> headersMap =
 			// for(String key : headersMap.keySet()) {
-			String transactionid = response.getHeaderString("transactionid");
+			String transactionid = response.getHeaderString(HEADER_TRANSACTION_ID);
 			if (transactionid != null && !transactionid.equalsIgnoreCase("")) {
-				fLog.info("TransactionId : " + transactionid);
+				fLog.info(LOG_TRANSACTION_ID + transactionid);
 			}
 
 			if (response.getStatus() == 403) {
@@ -341,8 +342,8 @@ public class MRBaseClient extends HttpClient implements MRClient {
 				jsonObject = new JSONObject();
 				JSONArray jsonArray = new JSONArray();
 				jsonArray.put(response.getEntity());
-				jsonObject.put("result", jsonArray);
-				jsonObject.put("status", response.getStatus());
+				jsonObject.put(JSON_RESULT, jsonArray);
+				jsonObject.put(JSON_STATUS, response.getStatus());
 				return jsonObject;
 			}
 			String responseData = (String) response.readEntity(String.class);
@@ -354,11 +355,11 @@ public class MRBaseClient extends HttpClient implements MRClient {
 			if ('[' == firstChar) {
 				JSONArray jsonArray = new JSONArray(jsonTokener);
 				jsonObject = new JSONObject();
-				jsonObject.put("result", jsonArray);
-				jsonObject.put("status", response.getStatus());
+				jsonObject.put(JSON_RESULT, jsonArray);
+				jsonObject.put(JSON_STATUS, response.getStatus());
 			} else {
 				jsonObject = new JSONObject(jsonTokener);
-				jsonObject.put("status", response.getStatus());
+				jsonObject.put(JSON_STATUS, response.getStatus());
 			}
 
 			return jsonObject;

@@ -24,6 +24,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+
 public class DefaultLoggingFailoverFaultHandlerTest {
 	private DefaultLoggingFailoverFaultHandler handler = null;
 
@@ -41,17 +43,17 @@ public class DefaultLoggingFailoverFaultHandlerTest {
 	@Test
 	public void testHandleEndpointFailover() {
 
-	/*	handler.handleEndpointFailover(null);
-		assertTrue(true);*/
+//		handler.handleEndpointFailover(null);
+		assertTrue(true);
 
 	}
-	
+	/*
 	@Test
 	public void testHandleRouteOfferFailover() {
 
-	/*	handler.handleRouteOfferFailover(null);
+		handler.handleRouteOfferFailover(null);
 		assertTrue(true);
-*/
-	}
 
+	}
+*/
 }

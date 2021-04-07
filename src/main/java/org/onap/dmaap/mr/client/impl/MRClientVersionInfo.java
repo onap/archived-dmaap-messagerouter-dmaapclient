@@ -38,21 +38,15 @@ public class MRClientVersionInfo
 
 	private static final Properties props = new Properties();
 	private static final String version;
-	static
-	{
+	static {
 		String use = null;
-		try
-		{
-			final InputStream is = MRClientVersionInfo.class.getResourceAsStream ( "/MRClientVersion.properties" );
-			if ( is != null )
-			{
-				props.load ( is );
+		try (InputStream is = MRClientVersionInfo.class.getResourceAsStream("/MRClientVersion.properties" )) {
+			if (is != null) {
+				props.load(is);
 				use = props.getProperty ( "MRClientVersion", null );
 			}
-		}
-		catch ( IOException e )
-		{
-                    logger.error("exception: ", e);
+		} catch ( IOException e ) {
+			logger.error("exception: ", e);
 		}
 		version = use;
 	}
