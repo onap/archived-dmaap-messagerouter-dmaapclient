@@ -57,7 +57,7 @@ public class SimpleExampleConsumer {
 					logger.debug("Message Received: " + msg);
 				}
 				// Header for DME2 Call.
-				MultivaluedMap<String, Object> headersMap = MRClientFactory.HTTPHeadersMap;
+				MultivaluedMap<String, Object> headersMap = MRClientFactory.getHTTPHeadersMap();
 				for (MultivaluedMap.Entry<String, List<Object>> entry : headersMap.entrySet()) {
 					key = entry.getKey();
 					logger.debug("Header Key " + key);
