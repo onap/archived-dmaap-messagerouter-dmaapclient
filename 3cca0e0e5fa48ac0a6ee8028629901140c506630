@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd5defdd_6bb1d43e",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/impl/DmaapClientUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-04-07T12:54:01Z",
+      "side": 1,
+      "message": "Could you add a unit test to cover this?\n\nAlso, if you have capacity, it would be great to uplift this project to Java 11.",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 28
+      },
+      "revId": "3cca0e0e5fa48ac0a6ee8028629901140c506630",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
