@@ -23,11 +23,7 @@
  *******************************************************************************/
 package org.onap.dmaap.mr.client;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.Map;
@@ -62,10 +58,13 @@ public class MRClientFactory {
     private static final String AUTH_DATE = "authDate";
     private static final String PASSWORD = "password";
     private static final String USERNAME = "username";
+    private static final String FILTER = "filter";
+    private static final String HOST = "host";
     private static final String DME2PREFERRED_ROUTER_FILE_PATH = "DME2preferredRouterFilePath";
     private static final String TOPIC = "topic";
     private static final String TRANSPORT_TYPE = "TransportType";
-    public static MultivaluedMap<String, Object> HTTPHeadersMap;
+
+    private static MultivaluedMap<String, Object> httpHeadersMap;
     public static Map<String, String> DME2HeadersMap;
     public static String routeFilePath;
 
@@ -80,7 +79,23 @@ public class MRClientFactory {
     private MRClientFactory() {
         //prevents instantiation.
     }
-    
+
+    /**
+     * Add getter to avoid direct access to static header map.
+     * @return
+     */
+    public static MultivaluedMap<String, Object> getHTTPHeadersMap() {
+        return httpHeadersMap;
+    }
+
+    /**
+     * Add setter to avoid direct access to static header map.
+     * @param headers
+     */
+    public static void setHTTPHeadersMap(MultivaluedMap<String, Object> headers) {
+        httpHeadersMap = headers;
+    }
+
     /**
      * Create a consumer instance with the default timeout and no limit on
      * messages returned. This consumer operates as an independent consumer
@@ -400,8 +415,6 @@ public class MRClientFactory {
      *            use gzip compression
      * @param protocolFlag
      *            http auth or ueb auth or dme2 method
-     * @param producerFilePath
-     *            all properties for publisher
      * @return MRBatchingPublisher obj
      */
     public static MRBatchingPublisher createBatchingPublisher(String host, String topic, final String username,
@@ -421,7 +434,7 @@ public class MRClientFactory {
      * Create a publisher that batches messages. Be sure to close the publisher
      * to send the last batch and ensure a clean shutdown
      * 
-     * @param Properties
+     * @param props
      *            props set all properties for publishing message
      * @return MRBatchingPublisher obj
      * @throws FileNotFoundException
@@ -438,7 +451,7 @@ public class MRClientFactory {
      * Create a publisher that batches messages. Be sure to close the publisher
      * to send the last batch and ensure a clean shutdown
      * 
-     * @param Properties
+     * @param props
      *            props set all properties for publishing message
      * @return MRBatchingPublisher obj
      * @throws FileNotFoundException
@@ -465,9 +478,10 @@ public class MRClientFactory {
      */
     public static MRBatchingPublisher createBatchingPublisher(final String producerFilePath)
             throws FileNotFoundException, IOException {
-        FileReader reader = new FileReader(new File(producerFilePath));
         Properties props = new Properties();
-        props.load(reader);
+        try(InputStream input = new FileInputStream(producerFilePath)) {
+            props.load(input);
+        }
         return createBatchingPublisher(props);
     }
 
@@ -485,9 +499,10 @@ public class MRClientFactory {
      */
     public static MRBatchingPublisher createBatchingPublisher(final String producerFilePath, boolean withResponse)
             throws FileNotFoundException, IOException {
-        FileReader reader = new FileReader(new File(producerFilePath));
         Properties props = new Properties();
-        props.load(reader);
+        try(InputStream input = new FileInputStream(producerFilePath)) {
+            props.load(input);
+        }
         return createBatchingPublisher(props, withResponse);
     }
 
@@ -497,7 +512,7 @@ public class MRClientFactory {
         MRSimplerBatchPublisher pub;
         if (withResponse) {
             pub = new MRSimplerBatchPublisher.Builder()
-                    .againstUrlsOrServiceName(MRConsumerImpl.stringToList(props.getProperty("host")),MRConsumerImpl.stringToList(props.getProperty("ServiceName")), props.getProperty(TRANSPORT_TYPE))
+                    .againstUrlsOrServiceName(MRConsumerImpl.stringToList(props.getProperty(HOST)),MRConsumerImpl.stringToList(props.getProperty("ServiceName")), props.getProperty(TRANSPORT_TYPE))
                     .onTopic(props.getProperty(TOPIC))
                     .batchTo(Integer.parseInt(props.getProperty("maxBatchSize")),
                             Integer.parseInt(props.getProperty("maxAgeMs").toString()))
@@ -506,14 +521,14 @@ public class MRClientFactory {
                     .withResponse(withResponse).build();
         } else {
             pub = new MRSimplerBatchPublisher.Builder()
-                    .againstUrlsOrServiceName(MRConsumerImpl.stringToList(props.getProperty("host")), MRConsumerImpl.stringToList(props.getProperty("ServiceName")), props.getProperty(TRANSPORT_TYPE))
+                    .againstUrlsOrServiceName(MRConsumerImpl.stringToList(props.getProperty(HOST)), MRConsumerImpl.stringToList(props.getProperty("ServiceName")), props.getProperty(TRANSPORT_TYPE))
                     .onTopic(props.getProperty(TOPIC))
                     .batchTo(Integer.parseInt(props.getProperty("maxBatchSize")),
                             Integer.parseInt(props.getProperty("maxAgeMs").toString()))
                     .compress(Boolean.parseBoolean(props.getProperty("compress")))
                     .httpThreadTime(Integer.parseInt(props.getProperty("MessageSentThreadOccurance"))).build();
         }
-        pub.setHost(props.getProperty("host"));
+        pub.setHost(props.getProperty(HOST));
         if (props.getProperty(TRANSPORT_TYPE).equalsIgnoreCase(ProtocolTypeConstants.AUTH_KEY.getValue())) {
 
             pub.setAuthKey(props.getProperty(AUTH_KEY));
@@ -638,10 +653,10 @@ public class MRClientFactory {
     }
 
     public static MRConsumer createConsumer(String consumerFilePath) throws FileNotFoundException, IOException {
-        FileReader reader = new FileReader(new File(consumerFilePath));
         Properties props = new Properties();
-        props.load(reader);
-
+        try(InputStream input = new FileInputStream(consumerFilePath)) {
+            props.load(input);
+        }
         return createConsumer(props);
     }
 
@@ -665,10 +680,10 @@ public class MRClientFactory {
         MRConsumerImpl sub = null;
         if (props.getProperty(TRANSPORT_TYPE).equalsIgnoreCase(ProtocolTypeConstants.AUTH_KEY.getValue())) {
             sub = new MRConsumerImpl.MRConsumerImplBuilder()
-                    .setHostPart(MRConsumerImpl.stringToList(props.getProperty("host")))
+                    .setHostPart(MRConsumerImpl.stringToList(props.getProperty(HOST)))
                     .setTopic(props.getProperty(TOPIC)).setConsumerGroup(group)
                     .setConsumerId(props.getProperty("id")).setTimeoutMs(timeout).setLimit(limit)
-                    .setFilter(props.getProperty("filter"))
+                    .setFilter(props.getProperty(FILTER))
                     .setApiKey_username(props.getProperty(AUTH_KEY))
                     .setApiSecret_password(props.getProperty(AUTH_DATE)).createMRConsumerImpl();
             sub.setAuthKey(props.getProperty(AUTH_KEY));
@@ -677,10 +692,10 @@ public class MRClientFactory {
             sub.setPassword(props.getProperty(PASSWORD));
         } else {
             sub = new MRConsumerImpl.MRConsumerImplBuilder()
-                    .setHostPart(MRConsumerImpl.stringToList(props.getProperty("host")))
+                    .setHostPart(MRConsumerImpl.stringToList(props.getProperty(HOST)))
                     .setTopic(props.getProperty(TOPIC)).setConsumerGroup(group)
                     .setConsumerId(props.getProperty("id")).setTimeoutMs(timeout).setLimit(limit)
-                    .setFilter(props.getProperty("filter"))
+                    .setFilter(props.getProperty(FILTER))
                     .setApiKey_username(props.getProperty(USERNAME))
                     .setApiSecret_password(props.getProperty(PASSWORD)).createMRConsumerImpl();
             sub.setUsername(props.getProperty(USERNAME));
@@ -688,9 +703,9 @@ public class MRClientFactory {
         }
         
         sub.setProps(props);
-        sub.setHost(props.getProperty("host"));
+        sub.setHost(props.getProperty(HOST));
         sub.setProtocolFlag(props.getProperty(TRANSPORT_TYPE));
-        sub.setfFilter(props.getProperty("filter"));
+        sub.setfFilter(props.getProperty(FILTER));
         if (props.getProperty(TRANSPORT_TYPE).equalsIgnoreCase(ProtocolTypeConstants.DME2.getValue())) {
             MRConsumerImpl.setRouterFilePath(props.getProperty(DME2PREFERRED_ROUTER_FILE_PATH));
             routeFilePath = props.getProperty(DME2PREFERRED_ROUTER_FILE_PATH);

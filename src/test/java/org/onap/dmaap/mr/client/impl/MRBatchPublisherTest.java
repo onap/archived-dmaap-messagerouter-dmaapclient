@@ -41,12 +41,12 @@ public class MRBatchPublisherTest {
 		
 	}
 	
-	@Test
+	@Test(expected = Test.None.class /* no exception expected */)
 	public void testSend() throws IOException{
 		mrBatchPublisher.send("testmessage");
 	}
-	
-	@Test
+
+	@Test(expected = Test.None.class /* no exception expected */)
 	public void testClose() throws IOException{
 		mrBatchPublisher.close();
 	}

@@ -93,7 +93,7 @@ public class SimpleExamplePublisher {
 		}*/
 
 		if (transport.equalsIgnoreCase("HTTP")) {
-			MultivaluedMap<String, Object> headersMap = MRClientFactory.HTTPHeadersMap;
+			MultivaluedMap<String, Object> headersMap = MRClientFactory.getHTTPHeadersMap();
 			for (String key : headersMap.keySet()) {
 				System.out.println("Header Key " + key);
 				System.out.println("Header Value " + headersMap.get(key));

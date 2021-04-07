@@ -54,7 +54,7 @@ import org.onap.dmaap.mr.client.response.MRPublisherResponse;
 @Deprecated
 public class MRBatchPublisher implements MRBatchingPublisher
 {
-	public static final long kMinMaxAgeMs = 1;
+	public static final long MIN_MAX_AGE_MS = 1;
 
 	/**
 	 * Create a batch publisher.
@@ -66,10 +66,10 @@ public class MRBatchPublisher implements MRBatchingPublisher
 	 */
 	public MRBatchPublisher ( Collection<String> baseUrls, String topic, int maxBatchSize, long maxAgeMs, boolean compress )
 	{
-		if ( maxAgeMs < kMinMaxAgeMs )
+		if ( maxAgeMs < MIN_MAX_AGE_MS)
 		{
-			fLog.warn ( "Max age in ms is less than the minimum. Overriding to " + kMinMaxAgeMs );
-			maxAgeMs = kMinMaxAgeMs;
+			fLog.warn ( "Max age in ms is less than the minimum. Overriding to " + MIN_MAX_AGE_MS);
+			maxAgeMs = MIN_MAX_AGE_MS;
 		}
 
 		try {
@@ -279,7 +279,7 @@ public class MRBatchPublisher implements MRBatchingPublisher
 		
 		/**
 		 * Called to queue a message.
-		 * @param m
+		 * @param msgs
 		 * @throws IOException 
 		 */
 		public void queue ( Collection<message> msgs ) throws IOException
@@ -364,7 +364,7 @@ public class MRBatchPublisher implements MRBatchingPublisher
 					fLog.warn ( "Send failed, rebuilding send queue." );
 
 					// note the time for back-off
-					fDontSendUntilMs = sfWaitAfterError + System.currentTimeMillis ();
+					fDontSendUntilMs = SF_WAIT_AFTER_ERROR + System.currentTimeMillis ();
 
 					// the send failed. reconstruct the pending queue
 					fWriteLock.lock ();
@@ -406,7 +406,7 @@ public class MRBatchPublisher implements MRBatchingPublisher
 		private final WriteLock fWriteLock;
 		private final ReadLock fReadLock;
 		private long fDontSendUntilMs;
-		private static final long sfWaitAfterError = 1000;
+		private static final long SF_WAIT_AFTER_ERROR = 1000;
 	}
 
 	// this is static so that it's clearly not using any mutable member data outside of a lock

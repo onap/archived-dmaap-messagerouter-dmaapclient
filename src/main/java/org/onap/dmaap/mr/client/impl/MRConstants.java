@@ -32,9 +32,9 @@ import org.apache.http.HttpHost;
 class MRConstants
 {
 	private static final String PROTOCOL = "http";
-	public static final String context = "/";
-	public static final String kBasePath = "events/";
-	public static final int kStdMRServicePort = 8080;
+	public static final String CONTEXT = "/";
+	public static final String BASE_PATH = "events/";
+	public static final int STD_MR_SERVICE_PORT = 8080;
 
 	public static String escape ( String s )
 	{
@@ -53,8 +53,8 @@ class MRConstants
 		final String cleanTopic = escape ( rawTopic );
 		
 		final StringBuffer url = new StringBuffer().
-			append ( MRConstants.context ).
-			append ( MRConstants.kBasePath ).
+			append ( MRConstants.CONTEXT).
+			append ( MRConstants.BASE_PATH).
 			append ( cleanTopic );
 		return url.toString ();
 	}
@@ -68,8 +68,8 @@ class MRConstants
 			url.append( PROTOCOL + "://" );
 		}
 		url.append(host);
-		url.append ( MRConstants.context );
-		url.append ( MRConstants.kBasePath );
+		url.append ( MRConstants.CONTEXT);
+		url.append ( MRConstants.BASE_PATH);
 		url.append ( cleanTopic );
 		return url.toString ();
 	}
@@ -86,8 +86,8 @@ class MRConstants
 			url.append( PROTOCOL + "://" );
 		}
 		url.append(host);
-		url.append ( MRConstants.context );
-		url.append ( MRConstants.kBasePath );
+		url.append ( MRConstants.CONTEXT);
+		url.append ( MRConstants.BASE_PATH);
 		url.append ( cleanTopic );
 		if(parttion!=null && !parttion.equalsIgnoreCase(""))
 			url.append("?partitionKey=").append(parttion);
@@ -97,7 +97,7 @@ class MRConstants
 	{
 		final String cleanConsumerGroup = escape ( rawConsumerGroup );
 		final String cleanConsumerId = escape ( rawConsumerId );
-		return MRConstants.context + MRConstants.kBasePath + topic + "/" + cleanConsumerGroup + "/" + cleanConsumerId;
+		return MRConstants.CONTEXT + MRConstants.BASE_PATH + topic + "/" + cleanConsumerGroup + "/" + cleanConsumerId;
 	}
 
 	/**
@@ -122,7 +122,7 @@ class MRConstants
 	 * Return an HttpHost from an input string. Input string has
 	 * host[:port] as format. If the port section is not provided, the default port is used.
 	 * 
-	 * @param hosts
+	 * @param host
 	 * @return a list of hosts
 	 */
 	public static HttpHost hostForString ( String host )
@@ -130,7 +130,7 @@ class MRConstants
 		if ( host.length() < 1 ) throw new IllegalArgumentException ( "An empty host entry is invalid." );
 		
 		String hostPart = host;
-		int port = kStdMRServicePort;
+		int port = STD_MR_SERVICE_PORT;
 
 		final int colon = host.indexOf ( ':' );
 		if ( colon == 0 ) throw new IllegalArgumentException ( "Host entry '" + host + "' is invalid." );
@@ -169,8 +169,8 @@ class MRConstants
 		}
 		
 		url.append(host);
-		url.append(context);
-		url.append(kBasePath);
+		url.append(CONTEXT);
+		url.append(BASE_PATH);
 		url.append(fTopic + "/" + cleanConsumerGroup + "/" + cleanConsumerId);
 		
 		return url.toString();
