@@ -52,7 +52,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 
 @RunWith(PowerMockRunner.class)
-@PowerMockIgnore("org.apache.http.conn.ssl.*")
+@PowerMockIgnore({"org.apache.http.conn.ssl.*", "jdk.internal.reflect.*"})
 @PrepareForTest({ DmaapClientUtil.class })
 public class MRBaseClientTest {
 
