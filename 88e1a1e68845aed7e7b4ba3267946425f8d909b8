@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0675e653_cd96d858",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-04-09T11:21:29Z",
+      "side": 1,
+      "message": "Need to bump the version in the version.properties file also",
+      "range": {
+        "startLine": 30,
+        "startChar": 17,
+        "endLine": 30,
+        "endChar": 21
+      },
+      "revId": "88e1a1e68845aed7e7b4ba3267946425f8d909b8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f0ace52_d67300e6",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-04-09T11:21:29Z",
+      "side": 1,
+      "message": "These can be inherited from parent pom.",
+      "revId": "88e1a1e68845aed7e7b4ba3267946425f8d909b8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
