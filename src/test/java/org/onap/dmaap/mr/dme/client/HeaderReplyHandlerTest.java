@@ -4,12 +4,14 @@
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright © 2021 Orange.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,60 +22,58 @@
 
 package org.onap.dmaap.mr.dme.client;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.HashMap;
-import java.util.Map;
-
+import com.att.aft.dme2.api.util.DME2ExchangeResponseContext;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.att.aft.dme2.api.util.DME2ExchangeResponseContext;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertTrue;
 
 public class HeaderReplyHandlerTest {
-	private HeaderReplyHandler handler = null;
+    private HeaderReplyHandler handler = null;
 
-	@Before
-	public void setUp() throws Exception {
-		handler = new HeaderReplyHandler();
+    @Before
+    public void setUp() throws Exception {
+        handler = new HeaderReplyHandler();
 
-	}
+    }
 
-	@After
-	public void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
 
-	}
+    }
 
-	@Test
-	public void testHandleFault() {
+    @Test
+    public void testHandleFault() {
 
-		handler.handleFault(null);
-		assertTrue(true);
+        handler.handleFault(null);
+        assertTrue(true);
 
-	}
-	
-	@Test
-	public void testHandleEndpointFault() {
+    }
 
-		handler.handleEndpointFault(null);
-		assertTrue(true);
+    @Test
+    public void testHandleEndpointFault() {
 
-	}
-	
-	@Test
-	public void testHandleReply() {
-		
-		Map <String, String>responseHeaders = new HashMap<String, String>();
-		responseHeaders.put("transactionId", "1234");
+        handler.handleEndpointFault(null);
+        assertTrue(true);
 
-		DME2ExchangeResponseContext responseData =  new DME2ExchangeResponseContext ("service", 
-				200, new HashMap <String, String>(), responseHeaders, "routeOffer", "1.0.0", "http://");
-		handler.handleReply(responseData);
-		assertTrue(true);
+    }
 
-	}
-	
-	
+    @Test
+    public void testHandleReply() {
+
+        Map<String, String> responseHeaders = new HashMap<String, String>();
+        responseHeaders.put("transactionId", "1234");
+
+        DME2ExchangeResponseContext responseData = new DME2ExchangeResponseContext("service",
+                200, new HashMap<String, String>(), responseHeaders, "routeOffer", "1.0.0", "http://");
+        handler.handleReply(responseData);
+        assertTrue(true);
+
+    }
+
 
 }

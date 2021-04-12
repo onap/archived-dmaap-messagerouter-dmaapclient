@@ -4,12 +4,14 @@
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright © 2021 Orange.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,135 +22,134 @@
 
 package org.onap.dmaap.mr.tools;
 
-import static org.junit.Assert.assertTrue;
-
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+
 
 public class MRCommandContextTest {
-	private MRCommandContext command = null;
-	private String[] parts = new String[5];
+    private MRCommandContext command = null;
+    private String[] parts = new String[5];
 
-	@Before
-	public void setUp() throws Exception {
-		command = new MRCommandContext();
+    @Before
+    public void setUp() throws Exception {
+        command = new MRCommandContext();
 
-		for (int i = 0; i < parts.length; i++) {
-			parts[i] = "String" + (i + 1);
-		}
+        for (int i = 0; i < parts.length; i++) {
+            parts[i] = "String" + (i + 1);
+        }
 
-	}
+    }
 
-	@After
-	public void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
 
-	}
+    }
 
-	@Test
-	public void testRequestShutdown() {
+    @Test
+    public void testRequestShutdown() {
 
-		command.requestShutdown();
-		assertTrue(true);
+        command.requestShutdown();
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testShouldContinue() {
+    @Test
+    public void testShouldContinue() {
 
-		command.shouldContinue();
-		assertTrue(true);
+        command.shouldContinue();
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testSetAuth() {
+    @Test
+    public void testSetAuth() {
 
-		command.setAuth("key", "pwd");
-		assertTrue(true);
+        command.setAuth("key", "pwd");
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testClearAuth() {
+    @Test
+    public void testClearAuth() {
 
-		command.clearAuth();
-		assertTrue(true);
+        command.clearAuth();
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testCheckClusterReady() {
+    @Test
+    public void testCheckClusterReady() {
 
-		command.checkClusterReady();
-		assertTrue(true);
+        command.checkClusterReady();
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testGetCluster() {
+    @Test
+    public void testGetCluster() {
 
-		command.getCluster();
-		assertTrue(true);
+        command.getCluster();
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testClearCluster() {
+    @Test
+    public void testClearCluster() {
 
-		command.clearCluster();
-		assertTrue(true);
+        command.clearCluster();
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testAddClusterHost() {
+    @Test
+    public void testAddClusterHost() {
 
-		command.addClusterHost("host");
-		assertTrue(true);
+        command.addClusterHost("host");
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testGetApiKey() {
+    @Test
+    public void testGetApiKey() {
 
-		command.getApiKey();
-		assertTrue(true);
+        command.getApiKey();
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testGetApiPwd() {
+    @Test
+    public void testGetApiPwd() {
 
-		command.getApiPwd();
-		assertTrue(true);
+        command.getApiPwd();
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testUseTracer() {
+    @Test
+    public void testUseTracer() {
 
-		command.useTracer(null);
-		assertTrue(true);
+        command.useTracer(null);
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testNoTracer() {
+    @Test
+    public void testNoTracer() {
 
-		command.noTracer();
-		assertTrue(true);
+        command.noTracer();
+        assertTrue(true);
 
-	}
+    }
 
-	@Test
-	public void testApplyTracer() {
+    @Test
+    public void testApplyTracer() {
 
-		command.applyTracer(null);
-		assertTrue(true);
+        command.applyTracer(null);
+        assertTrue(true);
 
-	}
+    }
 
 }

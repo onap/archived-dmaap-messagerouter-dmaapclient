@@ -4,11 +4,13 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *        http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,84 +19,87 @@
  *  ============LICENSE_END=========================================================
  *
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
- *  
+ *
  *******************************************************************************/
-package org.onap.dmaap.mr.tools;
 
-import java.util.Collection;
-import java.util.LinkedList;
+package org.onap.dmaap.mr.tools;
 
 import com.att.nsa.apiClient.http.HttpClient;
 import com.att.nsa.apiClient.http.HttpTracer;
 import com.att.nsa.cmdtool.CommandContext;
+import java.util.Collection;
+import java.util.LinkedList;
 import org.onap.dmaap.mr.client.MRClient;
 
-public class MRCommandContext implements CommandContext
-{
-	public MRCommandContext ()
-	{
-		fApiKey = null;
-		fApiPwd = null;
+public class MRCommandContext implements CommandContext {
+    public MRCommandContext() {
+        fApiKey = null;
+        fApiPwd = null;
 
-		fCluster = new LinkedList<> ();
-		fCluster.add ( "localhost" );
-	}
+        fCluster = new LinkedList<>();
+        fCluster.add("localhost");
+    }
 
-	@Override
-	public void requestShutdown ()
-	{
-		fShutdown = true;
-	}
+    @Override
+    public void requestShutdown() {
+        fShutdown = true;
+    }
 
-	@Override
-	public boolean shouldContinue ()
-	{
-		return !fShutdown;
-	}
+    @Override
+    public boolean shouldContinue() {
+        return !fShutdown;
+    }
 
-	public void setAuth ( String key, String pwd ) { fApiKey = key; fApiPwd = pwd; }
-	public void clearAuth () { setAuth(null,null); }
-	
-	public boolean checkClusterReady ()
-	{
-		return ( fCluster.isEmpty());
-	}
+    public void setAuth(String key, String pwd) {
+        fApiKey = key;
+        fApiPwd = pwd;
+    }
 
-	public Collection<String> getCluster ()
-	{
-		return new LinkedList<> ( fCluster );
-	}
+    public void clearAuth() {
+        setAuth(null, null);
+    }
 
-	public void clearCluster ()
-	{
-		fCluster.clear ();
-	}
+    public boolean checkClusterReady() {
+        return (fCluster.isEmpty());
+    }
 
-	public void addClusterHost ( String host )
-	{
-		fCluster.add ( host );
-	}
+    public Collection<String> getCluster() {
+        return new LinkedList<>(fCluster);
+    }
 
-	public String getApiKey () { return fApiKey; }
-	public String getApiPwd () { return fApiPwd; }
+    public void clearCluster() {
+        fCluster.clear();
+    }
 
-	public void useTracer ( HttpTracer t )
-	{
-		fTracer = t;
-	}
-	public void noTracer () { fTracer = null; }
+    public void addClusterHost(String host) {
+        fCluster.add(host);
+    }
 
-	public void applyTracer ( MRClient cc )
-	{
-		if ( cc instanceof HttpClient && fTracer != null )
-		{
-			((HttpClient)cc).installTracer ( fTracer );
-		}
-	}
+    public String getApiKey() {
+        return fApiKey;
+    }
 
-	private boolean fShutdown;
-	private String fApiKey;
-	private String fApiPwd;
-	private final LinkedList<String> fCluster;
-	private HttpTracer fTracer = null;
+    public String getApiPwd() {
+        return fApiPwd;
+    }
+
+    public void useTracer(HttpTracer t) {
+        fTracer = t;
+    }
+
+    public void noTracer() {
+        fTracer = null;
+    }
+
+    public void applyTracer(MRClient cc) {
+        if (cc instanceof HttpClient && fTracer != null) {
+            ((HttpClient) cc).installTracer(fTracer);
+        }
+    }
+
+    private boolean fShutdown;
+    private String fApiKey;
+    private String fApiPwd;
+    private final LinkedList<String> fCluster;
+    private HttpTracer fTracer = null;
 }
