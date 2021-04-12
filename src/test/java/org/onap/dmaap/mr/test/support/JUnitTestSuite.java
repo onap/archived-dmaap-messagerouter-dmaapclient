@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,6 @@
 package org.onap.dmaap.mr.test.support;
 
 import junit.framework.TestSuite;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -29,17 +28,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RunWith(Suite.class)
-@SuiteClasses({ MRBatchingPublisherMockTest.class, MRConsumerMockTest.class,})
+@SuiteClasses({MRBatchingPublisherMockTest.class, MRConsumerMockTest.class,})
 
 public class JUnitTestSuite {
-	private static final Logger LOGGER = LoggerFactory.getLogger(JUnitTestSuite.class);
+    private static final Logger logger = LoggerFactory.getLogger(JUnitTestSuite.class);
 
 
-	public static void main(String[] args) {
-		LOGGER.info("Running the test suite");
-		
-		TestSuite tstSuite = new TestSuite();
-		LOGGER.info("Total Test Counts " + tstSuite.countTestCases());
-	}
+    public static void main(String[] args) {
+        logger.info("Running the test suite");
+
+        TestSuite tstSuite = new TestSuite();
+        logger.info("Total Test Counts " + tstSuite.countTestCases());
+    }
 
 }

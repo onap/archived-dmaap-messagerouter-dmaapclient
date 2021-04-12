@@ -23,12 +23,13 @@
  */
 package org.onap.dmaap.mr.tools;
 
-import org.onap.dmaap.mr.client.MRBatchingPublisher;
-import java.util.Arrays;
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.onap.dmaap.mr.client.MRBatchingPublisher;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ToolsUtilTest {
 

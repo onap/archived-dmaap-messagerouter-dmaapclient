@@ -8,7 +8,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *        http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,28 +17,30 @@
  *  ============LICENSE_END=========================================================
  *
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
- *  
- *******************************************************************************/
-/**
- * 
- */
-package org.onap.dmaap.mr.test.clients;
-
-/**
- * @author author
  *
- */
-public enum ProtocolTypeConstants {
+ *******************************************************************************/
+package org.onap.dmaap.mr.tools;
 
-	DME2("DME2"), AAF_AUTH("HTTPAAF"), AUTH_KEY("HTTPAUTH"), HTTPNOAUTH("HTTPNOAUTH");
+import com.att.nsa.cmdtool.CommandLineTool;
+import org.onap.dmaap.mr.client.impl.MRClientVersionInfo;
 
-	private String value;
+import java.io.IOException;
 
-	private ProtocolTypeConstants(String value) {
-		this.value = value;
-	}
+public class MRTool extends CommandLineTool<MRCommandContext> {
+    protected MRTool() {
+        super("MR Tool (" + MRClientVersionInfo.getVersion() + ")", "MR> ");
 
-	public String getValue() {
-		return value;
-	}
+        registerCommand(new ApiKeyCommand());
+        registerCommand(new AuthCommand());
+        registerCommand(new ClusterCommand());
+        registerCommand(new MessageCommand());
+        registerCommand(new TopicCommand());
+        registerCommand(new TraceCommand());
+    }
+
+    public static void main(String[] args) throws IOException {
+        final MRTool ct = new MRTool();
+        final MRCommandContext ccc = new MRCommandContext();
+        ct.runFromMain(args, ccc);
+    }
 }

@@ -8,7 +8,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *        http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,51 +17,51 @@
  *  ============LICENSE_END=========================================================
  *
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
- *  
+ *
  *******************************************************************************/
 package org.onap.dmaap.mr.client.response;
 
 /**
  * Response for Publisher
- * @author author
  *
+ * @author author
  */
 public class MRPublisherResponse {
-	private String responseCode;
+    private String responseCode;
 
-	private String responseMessage;
-	
-	private int pendingMsgs;
+    private String responseMessage;
 
-	public String getResponseCode() {
-		return responseCode;
-	}
+    private int pendingMsgs;
 
-	public void setResponseCode(String responseCode) {
-		this.responseCode = responseCode;
-	}
+    public String getResponseCode() {
+        return responseCode;
+    }
 
-	public String getResponseMessage() {
-		return responseMessage;
-	}
+    public void setResponseCode(String responseCode) {
+        this.responseCode = responseCode;
+    }
 
-	public void setResponseMessage(String responseMessage) {
-		this.responseMessage = responseMessage;
-	}
+    public String getResponseMessage() {
+        return responseMessage;
+    }
 
-	public int getPendingMsgs() {
-		return pendingMsgs;
-	}
+    public void setResponseMessage(String responseMessage) {
+        this.responseMessage = responseMessage;
+    }
 
-	public void setPendingMsgs(int pendingMsgs) {
-		this.pendingMsgs = pendingMsgs;
-	}
-	
-        @Override
-	public String toString() {
+    public int getPendingMsgs() {
+        return pendingMsgs;
+    }
+
+    public void setPendingMsgs(int pendingMsgs) {
+        this.pendingMsgs = pendingMsgs;
+    }
+
+    @Override
+    public String toString() {
         return "Response Code:" + this.responseCode + ","
                 + "Response Message:" + this.responseMessage + "," + "Pending Messages Count"
                 + this.pendingMsgs;
     }
-	
+
 }

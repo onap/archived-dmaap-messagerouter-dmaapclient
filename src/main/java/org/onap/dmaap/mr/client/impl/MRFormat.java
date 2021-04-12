@@ -8,7 +8,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *        http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,36 +17,38 @@
  *  ============LICENSE_END=========================================================
  *
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
- *  
+ *
  *******************************************************************************/
 package org.onap.dmaap.mr.client.impl;
 
-enum MRFormat
-{
-	/**
-	 * Messages are sent using MR's message format.
-	 */
-	CAMBRIA
-	{
-                @Override
-		public String toString() { return "application/cambria"; }
-	},
+enum MRFormat {
+    /**
+     * Messages are sent using MR's message format.
+     */
+    CAMBRIA {
+        @Override
+        public String toString() {
+            return "application/cambria";
+        }
+    },
 
-	/**
-	 * Messages are sent using MR's message format with compression.
-	 */
-	CAMBRIA_ZIP
-	{
-                @Override
-		public String toString() { return "application/cambria-zip"; }
-	},
+    /**
+     * Messages are sent using MR's message format with compression.
+     */
+    CAMBRIA_ZIP {
+        @Override
+        public String toString() {
+            return "application/cambria-zip";
+        }
+    },
 
-	/**
-	 * messages are sent as simple JSON objects.
-	 */
-	JSON
-	{
-                @Override
-		public String toString() { return "application/json"; }
-	}
+    /**
+     * messages are sent as simple JSON objects.
+     */
+    JSON {
+        @Override
+        public String toString() {
+            return "application/json";
+        }
+    }
 }
