@@ -4,11 +4,13 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *        http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,44 +19,41 @@
  *  ============LICENSE_END=========================================================
  *
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
- *  
+ *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.client.response;
 
 public class MRConsumerResponse {
-	
-	private String responseCode;
-	
-	private String responseMessage;
-	
-	private Iterable<String> actualMessages;
 
+    private String responseCode;
 
-	
+    private String responseMessage;
 
-	public String getResponseCode() {
-		return responseCode;
-	}
+    private Iterable<String> actualMessages;
 
-	public void setResponseCode(String responseCode) {
-		this.responseCode = responseCode;
-	}
+    public String getResponseCode() {
+        return responseCode;
+    }
 
-	public String getResponseMessage() {
-		return responseMessage;
-	}
+    public void setResponseCode(String responseCode) {
+        this.responseCode = responseCode;
+    }
 
-	public void setResponseMessage(String responseMessage) {
-		this.responseMessage = responseMessage;
-	}
+    public String getResponseMessage() {
+        return responseMessage;
+    }
 
-	public Iterable<String> getActualMessages() {
-		return actualMessages;
-	}
+    public void setResponseMessage(String responseMessage) {
+        this.responseMessage = responseMessage;
+    }
 
-	public void setActualMessages(Iterable<String> actualMessages) {
-		this.actualMessages = actualMessages;
-	}	
+    public Iterable<String> getActualMessages() {
+        return actualMessages;
+    }
 
+    public void setActualMessages(Iterable<String> actualMessages) {
+        this.actualMessages = actualMessages;
+    }
 
 }
