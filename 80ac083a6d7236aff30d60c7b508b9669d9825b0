@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34dc58fd_3836bbf6",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/HostSelector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-04-14T13:29:24Z",
+      "side": 1,
+      "message": "Not a fan of using .* for imports",
+      "range": {
+        "startLine": 28,
+        "startChar": 17,
+        "endLine": 28,
+        "endChar": 19
+      },
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cba1d2b4_ce5ffb4c",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/MRClientFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-04-14T13:29:24Z",
+      "side": 1,
+      "message": "Same comment",
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d02a64de_3a9420d8",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/Prop.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-04-14T13:29:24Z",
+      "side": 1,
+      "message": "License Header should change for new file.\nNot sure if Orange has a specific license header it uses?\nAlso, ideally all files that are changed should be marked with an addition Copyright entry.",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baf70514_cc8db8de",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/Prop.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-04-14T13:29:24Z",
+      "side": 1,
+      "message": "Not a fan of having a global Const class.\nThey should be declared in the class that uses them.\nThis does introduce some repetition but is more best practice.",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98f85413_daa8722c",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/ProtocolTypeConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-04-14T13:29:24Z",
+      "side": 1,
+      "message": "Same comment related to Copyright header",
+      "range": {
+        "startLine": 5,
+        "startChar": 20,
+        "endLine": 5,
+        "endChar": 25
+      },
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dea855c6_f2658715",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/ProtocolTypeConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-04-14T13:29:24Z",
+      "side": 1,
+      "message": "ProtocolType reads better",
+      "range": {
+        "startLine": 30,
+        "startChar": 12,
+        "endLine": 30,
+        "endChar": 21
+      },
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04037707_3f1ebc88",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/impl/MRConsumerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-04-14T13:29:24Z",
+      "side": 1,
+      "message": "Same comment",
+      "range": {
+        "startLine": 45,
+        "startChar": 17,
+        "endLine": 45,
+        "endChar": 18
+      },
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d6eda13_4cfe83c2",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/impl/MRSimplerBatchPublisher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-04-14T13:29:24Z",
+      "side": 1,
+      "message": "Same comment",
+      "range": {
+        "startLine": 46,
+        "startChar": 17,
+        "endLine": 46,
+        "endChar": 19
+      },
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7329d30_97178fca",
+        "filename": "src/main/java/org/onap/dmaap/mr/dme/client/DefaultLoggingFailoverFaultHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-04-14T13:29:24Z",
+      "side": 1,
+      "message": "If not being used, remove.",
+      "range": {
+        "startLine": 25,
+        "startChar": 30,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
