@@ -200,6 +200,63 @@
       "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11810d9c_69db7a83",
+        "filename": "src/test/java/org/onap/dmaap/mr/test/clients/SimpleExamplePublisherWithResponseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 7617
+      },
+      "writtenOn": "2021-04-14T13:56:07Z",
+      "side": 1,
+      "message": "nice",
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d0217b5_87f52002",
+        "filename": "src/test/java/org/onap/dmaap/mr/tools/MessageCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 7617
+      },
+      "writtenOn": "2021-04-14T13:56:07Z",
+      "side": 1,
+      "message": "not really of any value, except to avoid sonar picking it up :)",
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a1815b3_e260ae36",
+        "filename": "src/test/java/org/onap/dmaap/mr/tools/ValidatorUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 7617
+      },
+      "writtenOn": "2021-04-14T13:56:07Z",
+      "side": 1,
+      "message": "Probably best practice to avoid .* imports, and used the more specific type.",
+      "range": {
+        "startLine": 30,
+        "startChar": 31,
+        "endLine": 30,
+        "endChar": 32
+      },
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
