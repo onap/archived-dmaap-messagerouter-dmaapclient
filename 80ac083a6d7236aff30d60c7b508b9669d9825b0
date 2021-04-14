@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "331d0c8f_52beeff0",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/Prop.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 7700
+      },
+      "writtenOn": "2021-04-14T15:40:25Z",
+      "side": 1,
+      "message": "all files that are changed ? I changed all but sometimes just to format with checkstyle rules..\n\nI need to change all ?",
+      "parentUuid": "d02a64de_3a9420d8",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "baf70514_cc8db8de",
         "filename": "src/main/java/org/onap/dmaap/mr/client/Prop.java",
         "patchSetId": 1
@@ -76,6 +100,30 @@
       "writtenOn": "2021-04-14T13:29:24Z",
       "side": 1,
       "message": "Not a fan of having a global Const class.\nThey should be declared in the class that uses them.\nThis does introduce some repetition but is more best practice.",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "002d50a6_350edab8",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/Prop.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 7700
+      },
+      "writtenOn": "2021-04-14T15:40:25Z",
+      "side": 1,
+      "message": "I\u0027m not a big fan either. (and even less of the name Prop)\nBut I\u0027m even less of a fan of repetition :)\nAnd I find it really interesting to have the whole list of parameters in one file.\n\nEven with this points, do you confirm I must delete it ?",
+      "parentUuid": "baf70514_cc8db8de",
       "range": {
         "startLine": 24,
         "startChar": 13,
@@ -122,6 +170,30 @@
       "writtenOn": "2021-04-14T13:29:24Z",
       "side": 1,
       "message": "ProtocolType reads better",
+      "range": {
+        "startLine": 30,
+        "startChar": 12,
+        "endLine": 30,
+        "endChar": 21
+      },
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98274b1d_fc622e71",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/ProtocolTypeConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 7700
+      },
+      "writtenOn": "2021-04-14T15:40:25Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "dea855c6_f2658715",
       "range": {
         "startLine": 30,
         "startChar": 12,
@@ -220,6 +292,24 @@
     },
     {
       "key": {
+        "uuid": "68cc0110_dac988fc",
+        "filename": "src/test/java/org/onap/dmaap/mr/test/clients/SimpleExamplePublisherWithResponseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 7700
+      },
+      "writtenOn": "2021-04-14T15:40:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "11810d9c_69db7a83",
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83e0e303_381dc621",
         "filename": "src/test/java/org/onap/dmaap/mr/test/support/MRBatchingPublisherMockTest.java",
         "patchSetId": 1
@@ -231,6 +321,24 @@
       "writtenOn": "2021-04-14T13:59:55Z",
       "side": 1,
       "message": "I don\u0027t understand this.\nThis entire test class is only testing against a mock (MRBatchingPublisherMock, in the test directory). It doesn\u0027t test against any code in prod at all.\n\nSame for a load of other test classes.",
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfbd4dd7_51f80fcc",
+        "filename": "src/test/java/org/onap/dmaap/mr/test/support/MRBatchingPublisherMockTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 7700
+      },
+      "writtenOn": "2021-04-14T15:40:25Z",
+      "side": 1,
+      "message": "I only formatted file format here :) I didn\u0027t understand the test goal. What is the solution ? I delete this file ?",
+      "parentUuid": "83e0e303_381dc621",
       "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -254,6 +362,24 @@
     },
     {
       "key": {
+        "uuid": "e556fe65_3c076cd0",
+        "filename": "src/test/java/org/onap/dmaap/mr/tools/MessageCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 7700
+      },
+      "writtenOn": "2021-04-14T15:40:25Z",
+      "side": 1,
+      "message": "indeed :)",
+      "parentUuid": "1d0217b5_87f52002",
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a1815b3_e260ae36",
         "filename": "src/test/java/org/onap/dmaap/mr/tools/ValidatorUtilTest.java",
         "patchSetId": 1
@@ -265,6 +391,30 @@
       "writtenOn": "2021-04-14T13:56:07Z",
       "side": 1,
       "message": "Probably best practice to avoid .* imports, and used the more specific type.",
+      "range": {
+        "startLine": 30,
+        "startChar": 31,
+        "endLine": 30,
+        "endChar": 32
+      },
+      "revId": "80ac083a6d7236aff30d60c7b508b9669d9825b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cef2c24_79da8a39",
+        "filename": "src/test/java/org/onap/dmaap/mr/tools/ValidatorUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 7700
+      },
+      "writtenOn": "2021-04-14T15:40:25Z",
+      "side": 1,
+      "message": "+1 I will",
+      "parentUuid": "3a1815b3_e260ae36",
       "range": {
         "startLine": 30,
         "startChar": 31,
