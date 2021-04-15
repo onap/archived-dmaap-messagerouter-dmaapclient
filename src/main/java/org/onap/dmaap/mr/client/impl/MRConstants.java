@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,15 +21,15 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.client.impl;
 
-import org.apache.http.HttpHost;
-
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.apache.http.HttpHost;
 
 class MRConstants {
 
@@ -40,21 +42,17 @@ class MRConstants {
     public static final String BASE_PATH = "events/";
     public static final int STD_MR_SERVICE_PORT = 8080;
 
-    public static String escape(String s) {
-        try {
-            return URLEncoder.encode(s, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new IllegalArgumentException(e);
-        }
+    public static String escape(String url) {
+        return URLEncoder.encode(url, StandardCharsets.UTF_8);
     }
 
     public static String makeUrl(String rawTopic) {
         final String cleanTopic = escape(rawTopic);
 
-        return new StringBuilder().
-                append(MRConstants.CONTEXT).
-                append(MRConstants.BASE_PATH).
-                append(cleanTopic).toString();
+        return new StringBuilder()
+                .append(MRConstants.CONTEXT)
+                .append(MRConstants.BASE_PATH)
+                .append(cleanTopic).toString();
     }
 
     public static String makeUrl(final String host, final String rawTopic) {
@@ -85,8 +83,9 @@ class MRConstants {
         url.append(MRConstants.CONTEXT);
         url.append(MRConstants.BASE_PATH);
         url.append(cleanTopic);
-        if (partition!= null && !partition.isEmpty())
+        if (partition != null && !partition.isEmpty()) {
             url.append("?partitionKey=").append(partition);
+        }
         return url.toString();
     }
 
@@ -106,7 +105,9 @@ class MRConstants {
     public static List<HttpHost> createHostsList(Collection<String> hosts) {
         final ArrayList<HttpHost> convertedHosts = new ArrayList<>();
         for (String host : hosts) {
-            if (host.length() == 0) continue;
+            if (host.length() == 0) {
+                continue;
+            }
             convertedHosts.add(hostForString(host));
         }
         return convertedHosts;
@@ -120,13 +121,17 @@ class MRConstants {
      * @return a list of hosts
      */
     public static HttpHost hostForString(String host) {
-        if (host.length() < 1) throw new IllegalArgumentException("An empty host entry is invalid.");
+        if (host.length() < 1) {
+            throw new IllegalArgumentException("An empty host entry is invalid.");
+        }
 
         String hostPart = host;
         int port = STD_MR_SERVICE_PORT;
 
         final int colon = host.indexOf(':');
-        if (colon == 0) throw new IllegalArgumentException("Host entry '" + host + "' is invalid.");
+        if (colon == 0) {
+            throw new IllegalArgumentException("Host entry '" + host + "' is invalid.");
+        }
         if (colon > 0) {
             hostPart = host.substring(0, colon).trim();
 
@@ -144,9 +149,9 @@ class MRConstants {
         return new HttpHost(hostPart, port);
     }
 
-    public static String makeConsumerUrl(String host, String fTopic, String fGroup, String fId, final String transferprotocol) {
-        final String cleanConsumerGroup = escape(fGroup);
-        final String cleanConsumerId = escape(fId);
+    public static String makeConsumerUrl(String host, String topic, String group, String id, final String transferprotocol) {
+        final String cleanConsumerGroup = escape(group);
+        final String cleanConsumerId = escape(id);
 
         StringBuilder url = new StringBuilder();
 
@@ -159,7 +164,7 @@ class MRConstants {
         url.append(host)
                 .append(CONTEXT)
                 .append(BASE_PATH)
-                .append(fTopic)
+                .append(topic)
                 .append("/").append(cleanConsumerGroup)
                 .append("/").append(cleanConsumerId);
 

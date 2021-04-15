@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,21 +21,11 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.client.impl;
 
 import com.att.aft.dme2.api.DME2Client;
 import com.att.aft.dme2.api.DME2Exception;
-import org.apache.http.HttpException;
-import org.apache.http.HttpStatus;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.onap.dmaap.mr.client.*;
-import org.onap.dmaap.mr.client.response.MRConsumerResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,16 +34,34 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import org.apache.http.HttpException;
+import org.apache.http.HttpStatus;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.onap.dmaap.mr.client.HostSelector;
+import org.onap.dmaap.mr.client.MRClientFactory;
+import org.onap.dmaap.mr.client.MRConsumer;
+import org.onap.dmaap.mr.client.Prop;
+import org.onap.dmaap.mr.client.ProtocolType;
+import org.onap.dmaap.mr.client.response.MRConsumerResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+    private static final Logger logger = LoggerFactory.getLogger(MRConsumerImpl.class);
 
     public static final String ROUTER_FILE_PATH = null;
 
-    public String protocolFlag = ProtocolTypeConstants.DME2.getValue();
+    public String protocolFlag = ProtocolType.DME2.getValue();
     public String consumerFilePath;
 
     private static final String JSON_RESULT = "result";
@@ -191,8 +201,8 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
     public Iterable<String> fetch(int timeoutMs, int limit) throws Exception {
         final LinkedList<String> msgs = new LinkedList<>();
 
-        ProtocolTypeConstants protocolFlagEnum = null;
-        for (ProtocolTypeConstants type : ProtocolTypeConstants.values()) {
+        ProtocolType protocolFlagEnum = null;
+        for (ProtocolType type : ProtocolType.values()) {
             if (type.getValue().equalsIgnoreCase(protocolFlag)) {
                 protocolFlagEnum = type;
             }
@@ -243,10 +253,11 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
             final JSONArray a = o.getJSONArray(JSON_RESULT);
             if (a != null) {
                 for (int i = 0; i < a.length(); i++) {
-                    if (a.get(i) instanceof String)
+                    if (a.get(i) instanceof String) {
                         msgs.add(a.getString(i));
-                    else
+                    } else {
                         msgs.add(a.getJSONObject(i).toString());
+                    }
                 }
             }
         }
@@ -263,7 +274,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
         final LinkedList<String> msgs = new LinkedList<>();
         MRConsumerResponse mrConsumerResponse = new MRConsumerResponse();
         try {
-            if (ProtocolTypeConstants.DME2.getValue().equalsIgnoreCase(protocolFlag)) {
+            if (ProtocolType.DME2.getValue().equalsIgnoreCase(protocolFlag)) {
                 dmeConfigure(timeoutMs, limit);
 
                 long timeout = (dme2ReplyHandlerTimeoutMs > 0 && longPollingMs == timeoutMs) ? dme2ReplyHandlerTimeoutMs
@@ -276,7 +287,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
                 createMRConsumerResponse(reply, mrConsumerResponse);
             }
 
-            if (ProtocolTypeConstants.AAF_AUTH.getValue().equalsIgnoreCase(protocolFlag)) {
+            if (ProtocolType.AAF_AUTH.getValue().equalsIgnoreCase(protocolFlag)) {
                 final String urlPath = createUrlPath(MRConstants.makeConsumerUrl(fHostSelector.selectBaseHost(), fTopic,
                         fGroup, fId, props.getProperty(Prop.PROTOCOL)), timeoutMs, limit);
 
@@ -286,7 +297,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
                 createMRConsumerResponse(response, mrConsumerResponse);
             }
 
-            if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
+            if (ProtocolType.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
                 final String urlPath = createUrlPath(
                         MRConstants.makeConsumerUrl(host, fTopic, fGroup, fId, props.getProperty(Prop.PROTOCOL)),
                         timeoutMs, limit);
@@ -297,7 +308,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
                 createMRConsumerResponse(response, mrConsumerResponse);
             }
 
-            if (ProtocolTypeConstants.HTTPNOAUTH.getValue().equalsIgnoreCase(protocolFlag)) {
+            if (ProtocolType.HTTPNOAUTH.getValue().equalsIgnoreCase(protocolFlag)) {
                 final String urlPath = createUrlPath(MRConstants.makeConsumerUrl(fHostSelector.selectBaseHost(), fTopic,
                         fGroup, fId, props.getProperty(Prop.PROTOCOL)), timeoutMs, limit);
 
@@ -337,9 +348,9 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 
     private void createMRConsumerResponse(String reply, MRConsumerResponse mrConsumerResponse) {
         if (reply.startsWith("{")) {
-            JSONObject jObject = new JSONObject(reply);
-            String message = jObject.getString("message");
-            int status = jObject.getInt("status");
+            JSONObject jsonObject = new JSONObject(reply);
+            String message = jsonObject.getString("message");
+            int status = jsonObject.getInt("status");
 
             mrConsumerResponse.setResponseCode(Integer.toString(status));
 
@@ -417,7 +428,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
         String contenttype = props.getProperty(Prop.CONTENT_TYPE);
         String handlers = props.getProperty(Prop.SESSION_STICKINESS_REQUIRED);
 
-        /**
+        /*
          * Changes to DME2Client url to use Partner for auto failover between data centers When Partner value is not
          * provided use the routeOffer value for auto failover within a cluster
          */

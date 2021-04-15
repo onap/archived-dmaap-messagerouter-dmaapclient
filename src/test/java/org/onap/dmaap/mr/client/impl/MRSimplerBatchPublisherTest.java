@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -27,7 +29,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.onap.dmaap.mr.client.MRClientFactory;
 import org.onap.dmaap.mr.client.MRPublisher.Message;
-import org.onap.dmaap.mr.client.ProtocolTypeConstants;
+import org.onap.dmaap.mr.client.ProtocolType;
 import org.onap.dmaap.mr.client.response.MRPublisherResponse;
 
 import java.io.File;
@@ -136,7 +138,7 @@ public class MRSimplerBatchPublisherTest {
 
         final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
                 .createBatchingPublisher(outFile.getPath());
-        pub.setProtocolFlag(ProtocolTypeConstants.AUTH_KEY.getValue());
+        pub.setProtocolFlag(ProtocolType.AUTH_KEY.getValue());
         // publish some messages
         final JSONObject msg1 = new JSONObject();
         pub.send("MyPartitionKey", msg1.toString());
@@ -153,7 +155,7 @@ public class MRSimplerBatchPublisherTest {
 
         final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
                 .createBatchingPublisher(outFile.getPath());
-        pub.setProtocolFlag(ProtocolTypeConstants.AAF_AUTH.getValue());
+        pub.setProtocolFlag(ProtocolType.AAF_AUTH.getValue());
         // publish some messages
         final JSONObject msg1 = new JSONObject();
         pub.send("MyPartitionKey", msg1.toString());
@@ -170,7 +172,7 @@ public class MRSimplerBatchPublisherTest {
 
         final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
                 .createBatchingPublisher(outFile.getPath());
-        pub.setProtocolFlag(ProtocolTypeConstants.HTTPNOAUTH.getValue());
+        pub.setProtocolFlag(ProtocolType.HTTPNOAUTH.getValue());
         // publish some messages
         final JSONObject msg1 = new JSONObject();
         pub.send("MyPartitionKey", msg1.toString());
@@ -225,7 +227,7 @@ public class MRSimplerBatchPublisherTest {
 
         final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
                 .createBatchingPublisher(outFile.getPath(), true);
-        pub.setProtocolFlag(ProtocolTypeConstants.AUTH_KEY.getValue());
+        pub.setProtocolFlag(ProtocolType.AUTH_KEY.getValue());
 
         // publish some messages
         final JSONObject msg1 = new JSONObject();
@@ -245,7 +247,7 @@ public class MRSimplerBatchPublisherTest {
 
         final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
                 .createBatchingPublisher(outFile.getPath(), true);
-        pub.setProtocolFlag(ProtocolTypeConstants.AAF_AUTH.getValue());
+        pub.setProtocolFlag(ProtocolType.AAF_AUTH.getValue());
 
         // publish some messages
         final JSONObject msg1 = new JSONObject();
@@ -265,7 +267,7 @@ public class MRSimplerBatchPublisherTest {
 
         final MRSimplerBatchPublisher pub = (MRSimplerBatchPublisher) MRClientFactory
                 .createBatchingPublisher(outFile.getPath(), true);
-        pub.setProtocolFlag(ProtocolTypeConstants.HTTPNOAUTH.getValue());
+        pub.setProtocolFlag(ProtocolType.HTTPNOAUTH.getValue());
 
         // publish some messages
         final JSONObject msg1 = new JSONObject();

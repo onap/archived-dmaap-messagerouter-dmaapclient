@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright © 2021 Orange.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,12 +25,12 @@ package org.onap.dmaap.mr.test.clients;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.dmaap.mr.client.ProtocolTypeConstants;
+import org.onap.dmaap.mr.client.ProtocolType;
 
 import static org.junit.Assert.assertTrue;
 
 public class ProtocolTypeConstantsTest {
-    private ProtocolTypeConstants constants = null;
+    private ProtocolType constants = null;
 
     @Before
     public void setUp() throws Exception {

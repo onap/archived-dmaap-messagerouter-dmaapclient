@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,6 +21,7 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.client;
 
 import com.att.nsa.apiClient.http.HttpException;
@@ -35,7 +38,7 @@ import java.util.Set;
  */
 public interface MRTopicManager extends MRClient {
     /**
-     * Get the topics available in the cluster
+     * Get the topics available in the cluster.
      *
      * @return a set of topic names
      * @throws IOException
@@ -47,28 +50,28 @@ public interface MRTopicManager extends MRClient {
      */
     interface TopicInfo {
         /**
-         * Get the owner of the topic
+         * Get the owner of the topic.
          *
          * @return the owner, or null if no entry
          */
         String getOwner();
 
         /**
-         * Get the description for this topic
+         * Get the description for this topic.
          *
          * @return the description, or null if no entry
          */
         String getDescription();
 
         /**
-         * Get the set of allowed producers (as API keys) on this topic
+         * Get the set of allowed producers (as API keys) on this topic.
          *
          * @return the set of allowed producers, null of no ACL exists/enabled
          */
         Set<String> getAllowedProducers();
 
         /**
-         * Get the set of allowed consumers (as API keys) on this topic
+         * Get the set of allowed consumers (as API keys) on this topic.
          *
          * @return the set of allowed consumers, null of no ACL exists/enabled
          */

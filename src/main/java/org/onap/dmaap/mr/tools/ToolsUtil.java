@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright © 2021 Orange.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -30,11 +32,11 @@ public final class ToolsUtil {
 
     public static MRBatchingPublisher createBatchPublisher(MRCommandContext context, String topicName) {
 
-        return new PublisherBuilder().
-                usingHosts(context.getCluster()).
-                onTopic(topicName).
-                authenticatedBy(context.getApiKey(), context.getApiPwd()).
-                build();
+        return new PublisherBuilder()
+                .usingHosts(context.getCluster())
+                .onTopic(topicName)
+                .authenticatedBy(context.getApiKey(), context.getApiPwd())
+                .build();
     }
 
 }

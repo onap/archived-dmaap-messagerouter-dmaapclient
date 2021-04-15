@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,6 +21,7 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.client;
 
 import com.att.nsa.apiClient.credentials.ApiCredential;
@@ -34,18 +37,18 @@ import java.io.IOException;
  */
 public interface MRIdentityManager extends MRClient {
     /**
-     * An API Key record
+     * An API Key record.
      */
     interface ApiKey {
         /**
-         * Get the email address associated with the API key
+         * Get the email address associated with the API key.
          *
          * @return the email address on the API key or null
          */
         String getEmail();
 
         /**
-         * Get the description associated with the API key
+         * Get the description associated with the API key.
          *
          * @return the description on the API key or null
          */
@@ -68,7 +71,7 @@ public interface MRIdentityManager extends MRClient {
     ApiCredential createApiKey(String email, String description) throws HttpException, MRApiException, IOException;
 
     /**
-     * Get basic info about a known API key
+     * Get basic info about a known API key.
      *
      * @param apiKey
      * @return the API key's info or null if it doesn't exist

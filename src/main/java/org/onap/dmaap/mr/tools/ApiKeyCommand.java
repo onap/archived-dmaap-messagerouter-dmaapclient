@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,6 +21,7 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.tools;
 
 import com.att.nsa.apiClient.credentials.ApiCredential;
@@ -26,6 +29,8 @@ import com.att.nsa.apiClient.http.HttpException;
 import com.att.nsa.apiClient.http.HttpObjectNotFoundException;
 import com.att.nsa.cmdtool.Command;
 import com.att.nsa.cmdtool.CommandNotReadyException;
+import java.io.IOException;
+import java.io.PrintStream;
 import org.onap.dmaap.mr.client.MRClient.MRApiException;
 import org.onap.dmaap.mr.client.MRClientFactory;
 import org.onap.dmaap.mr.client.MRIdentityManager;
@@ -33,18 +38,15 @@ import org.onap.dmaap.mr.client.MRIdentityManager.ApiKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.PrintStream;
-
 public class ApiKeyCommand implements Command<MRCommandContext> {
     final Logger logger = LoggerFactory.getLogger(ApiKeyCommand.class);
 
     @Override
     public String[] getMatches() {
-        return new String[]{
-                "key (create|update) (\\S*) (\\S*)",
-                "key (list) (\\S*)",
-                "key (revoke)",
+        return new String[] {
+            "key (create|update) (\\S*) (\\S*)",
+            "key (list) (\\S*)",
+            "key (revoke)",
         };
     }
 

@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2018 IBM Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -23,7 +25,7 @@
 package org.onap.dmaap.mr.tools;
 
 import org.junit.Test;
-import org.onap.dmaap.mr.client.ProtocolTypeConstants;
+import org.onap.dmaap.mr.client.ProtocolType;
 
 import java.util.Properties;
 
@@ -34,7 +36,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateForDME2WithNullServiceName() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.DME2.getValue());
+        props.setProperty("TransportType", ProtocolType.DME2.getValue());
         try {
             ValidatorUtil.validatePublisher(props);
             fail();
@@ -47,7 +49,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateForDME2WithNullTopic() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.DME2.getValue());
+        props.setProperty("TransportType", ProtocolType.DME2.getValue());
         props.setProperty("ServiceName", "ServiceName");
         try {
             ValidatorUtil.validatePublisher(props);
@@ -61,7 +63,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateForDME2WithNullUserName() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.DME2.getValue());
+        props.setProperty("TransportType", ProtocolType.DME2.getValue());
         props.setProperty("ServiceName", "ServiceName");
         props.setProperty("topic", "topic");
         try {
@@ -76,7 +78,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateForDME2WithNullPassword() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.DME2.getValue());
+        props.setProperty("TransportType", ProtocolType.DME2.getValue());
         props.setProperty("ServiceName", "ServiceName");
         props.setProperty("topic", "topic");
         props.setProperty("username", "username");
@@ -94,7 +96,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateForNonDME2WithNullServiceName() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("TransportType", ProtocolType.AUTH_KEY.getValue());
         try {
             ValidatorUtil.validatePublisher(props);
             fail();
@@ -107,7 +109,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateForNonDME2WithNullTopic() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("TransportType", ProtocolType.AUTH_KEY.getValue());
         props.setProperty("host", "ServiceName");
         try {
             ValidatorUtil.validatePublisher(props);
@@ -121,7 +123,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateForNonDME2WithNullContenttype() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("TransportType", ProtocolType.AUTH_KEY.getValue());
         props.setProperty("host", "ServiceName");
         props.setProperty("topic", "topic");
         try {
@@ -137,7 +139,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateForNonDME2WithNullUserName() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("TransportType", ProtocolType.AUTH_KEY.getValue());
         props.setProperty("host", "ServiceName");
         props.setProperty("topic", "topic");
         props.setProperty("contenttype", "contenttype");
@@ -153,7 +155,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateForNonDME2WithNullPassword() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("TransportType", ProtocolType.AUTH_KEY.getValue());
         props.setProperty("host", "ServiceName");
         props.setProperty("topic", "topic");
         props.setProperty("username", "username");
@@ -171,7 +173,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateForNonDME2WithAuthKey() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("TransportType", ProtocolType.AUTH_KEY.getValue());
         props.setProperty("host", "ServiceName");
         props.setProperty("topic", "topic");
         props.setProperty("username", "username");
@@ -190,7 +192,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateForNonDME2WithOutAuthDate() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("TransportType", ProtocolType.AUTH_KEY.getValue());
         props.setProperty("host", "ServiceName");
         props.setProperty("topic", "topic");
         props.setProperty("username", "username");
@@ -210,7 +212,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateForNonDME2WithAuthDate() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("TransportType", ProtocolType.AUTH_KEY.getValue());
         props.setProperty("host", "ServiceName");
         props.setProperty("topic", "topic");
         props.setProperty("username", "username");
@@ -231,7 +233,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateForNonDME2WithMaxAgeMs() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("TransportType", ProtocolType.AUTH_KEY.getValue());
         props.setProperty("host", "ServiceName");
         props.setProperty("topic", "topic");
         props.setProperty("username", "username");
@@ -254,7 +256,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateForNonDME2WithMessageSentThreadOccurrence() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("TransportType", ProtocolType.AUTH_KEY.getValue());
         props.setProperty("host", "ServiceName");
         props.setProperty("topic", "topic");
         props.setProperty("username", "username");
@@ -278,7 +280,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateSubscriberWithoutGroup() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("TransportType", ProtocolType.AUTH_KEY.getValue());
         props.setProperty("host", "ServiceName");
         props.setProperty("topic", "topic");
         props.setProperty("username", "username");
@@ -300,7 +302,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidateSubscriberWithoutCustomer() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("TransportType", ProtocolType.AUTH_KEY.getValue());
         props.setProperty("host", "ServiceName");
         props.setProperty("topic", "topic");
         props.setProperty("username", "username");
@@ -323,7 +325,7 @@ public class ValidatorUtilTest {
     @Test
     public void testValidatePublisher() {
         Properties props = new Properties();
-        props.setProperty("TransportType", ProtocolTypeConstants.AUTH_KEY.getValue());
+        props.setProperty("TransportType", ProtocolType.AUTH_KEY.getValue());
         props.setProperty("host", "ServiceName");
         props.setProperty("topic", "topic");
         props.setProperty("username", "username");

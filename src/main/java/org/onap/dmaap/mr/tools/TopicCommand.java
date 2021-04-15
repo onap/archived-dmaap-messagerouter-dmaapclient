@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,21 +21,21 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.tools;
 
 import com.att.nsa.apiClient.http.HttpException;
 import com.att.nsa.apiClient.http.HttpObjectNotFoundException;
 import com.att.nsa.cmdtool.Command;
 import com.att.nsa.cmdtool.CommandNotReadyException;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Set;
 import org.onap.dmaap.mr.client.MRClientFactory;
 import org.onap.dmaap.mr.client.MRTopicManager;
 import org.onap.dmaap.mr.client.MRTopicManager.TopicInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.Set;
 
 public class TopicCommand implements Command<MRCommandContext> {
     final Logger logger = LoggerFactory.getLogger(TopicCommand.class);
@@ -44,11 +46,11 @@ public class TopicCommand implements Command<MRCommandContext> {
 
     @Override
     public String[] getMatches() {
-        return new String[]{
-                "topic (list)",
-                "topic (list) (\\S*)",
-                "topic (create) (\\S*) (\\S*) (\\S*)",
-                "topic (grant|revoke) (read|write) (\\S*) (\\S*)",
+        return new String[] {
+            "topic (list)",
+            "topic (list) (\\S*)",
+            "topic (create) (\\S*) (\\S*) (\\S*)",
+            "topic (grant|revoke) (read|write) (\\S*) (\\S*)",
         };
     }
 

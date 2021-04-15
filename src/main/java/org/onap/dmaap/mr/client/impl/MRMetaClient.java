@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,11 +21,17 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.client.impl;
 
 import com.att.nsa.apiClient.credentials.ApiCredential;
 import com.att.nsa.apiClient.http.HttpException;
 import com.att.nsa.apiClient.http.HttpObjectNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Collection;
+import java.util.Set;
+import java.util.TreeSet;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,12 +39,6 @@ import org.onap.dmaap.mr.client.MRIdentityManager;
 import org.onap.dmaap.mr.client.MRTopicManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.Collection;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIdentityManager {
     private static final String BASE_URI_TOPIC = "/topics";
@@ -212,8 +214,12 @@ public class MRMetaClient extends MRBaseClient implements MRTopicManager, MRIden
     @Override
     public void updateCurrentApiKey(String email, String description) throws HttpObjectNotFoundException, HttpException, IOException {
         final JSONObject o = new JSONObject();
-        if (email != null) o.put(PARAM_EMAIL, email);
-        if (description != null) o.put(PARAM_DESCRIPTION, description);
+        if (email != null) {
+            o.put(PARAM_EMAIL, email);
+        }
+        if (description != null) {
+            o.put(PARAM_DESCRIPTION, description);
+        }
         patch(BASE_URI_APIKEY + "/" + MRConstants.escape(getCurrentApiKey()), o);
     }
 

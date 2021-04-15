@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,10 +21,19 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.client.impl;
 
 import com.att.nsa.apiClient.http.CacheUse;
 import com.att.nsa.apiClient.http.HttpClient;
+import java.net.MalformedURLException;
+import java.util.Collection;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.glassfish.jersey.client.ClientConfig;
@@ -33,17 +44,9 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.onap.dmaap.mr.client.MRClient;
 import org.onap.dmaap.mr.client.MRClientFactory;
-import org.onap.dmaap.mr.client.ProtocolTypeConstants;
+import org.onap.dmaap.mr.client.ProtocolType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
-import java.net.MalformedURLException;
-import java.util.Collection;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.concurrent.TimeUnit;
 
 public class MRBaseClient extends HttpClient implements MRClient {
 
@@ -89,13 +92,13 @@ public class MRBaseClient extends HttpClient implements MRClient {
         // nothing to close
     }
 
-    protected Set<String> jsonArrayToSet(JSONArray a) {
-        if (a == null)
+    protected Set<String> jsonArrayToSet(JSONArray array) {
+        if (array == null) {
             return null;
-
+        }
         final TreeSet<String> set = new TreeSet<>();
-        for (int i = 0; i < a.length(); i++) {
-            set.add(a.getString(i));
+        for (int i = 0; i < array.length(); i++) {
+            set.add(array.getString(i));
         }
         return set;
     }
@@ -214,7 +217,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
             WebTarget target = null;
             Response response = null;
 
-            if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
+            if (ProtocolType.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
                 target = DmaapClientUtil.getTarget(clientConfig, path);
                 response = DmaapClientUtil.getResponsewtCambriaAuth(target, username, password);
             } else {
@@ -236,7 +239,7 @@ public class MRBaseClient extends HttpClient implements MRClient {
         if (null != username && null != password) {
             WebTarget target = null;
             Response response = null;
-            if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
+            if (ProtocolType.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
                 target = DmaapClientUtil.getTarget(clientConfig, path);
                 response = DmaapClientUtil.getResponsewtCambriaAuth(target, username, password);
             } else {

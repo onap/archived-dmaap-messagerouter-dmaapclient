@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,15 +21,11 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.client.impl;
 
 import com.att.nsa.apiClient.http.HttpClient;
 import com.att.nsa.apiClient.http.HttpException;
-import org.onap.dmaap.mr.client.MRBatchingPublisher;
-import org.onap.dmaap.mr.client.response.MRPublisherResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -41,6 +39,11 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 import java.util.zip.GZIPOutputStream;
+import org.onap.dmaap.mr.client.MRBatchingPublisher;
+import org.onap.dmaap.mr.client.response.MRPublisherResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * This is a batching publisher class that allows the client to publish messages
@@ -90,7 +93,7 @@ public class MRBatchPublisher implements MRBatchingPublisher {
     }
 
     /**
-     * Send the given message with the given partition
+     * Send the given message with the given partition.
      *
      * @param partition
      * @param msg
@@ -107,7 +110,7 @@ public class MRBatchPublisher implements MRBatchingPublisher {
     }
 
     /**
-     * Send the given message
+     * Send the given message.
      *
      * @param userMsg a message
      * @throws IOException
@@ -120,7 +123,7 @@ public class MRBatchPublisher implements MRBatchingPublisher {
     }
 
     /**
-     * Send the given set of messages
+     * Send the given set of messages.
      *
      * @param msgs the set of messages, sent in order of iteration
      * @return the number of messages in the pending queue (this could actually be less than the size of the given collection, depending on thread timing)
@@ -186,8 +189,7 @@ public class MRBatchPublisher implements MRBatchingPublisher {
         public final long timestamp;
     }
 
-    private Logger logger
-            = LoggerFactory.getLogger(MRBatchPublisher.class);
+    private Logger logger = LoggerFactory.getLogger(MRBatchPublisher.class);
 
     private class Sender extends MRBaseClient implements Runnable {
         public Sender(Collection<String> baseUrls, String topic, int maxBatch, long maxAgeMs, boolean compress) throws MalformedURLException {
@@ -384,9 +386,8 @@ public class MRBatchPublisher implements MRBatchingPublisher {
         boolean result = false;
         final long startMs = System.currentTimeMillis();
         try {
-            client.post(url, compress ?
-                            MRFormat.CAMBRIA_ZIP.toString() :
-                            MRFormat.CAMBRIA.toString(),
+            client.post(url,
+                    compress ? MRFormat.CAMBRIA_ZIP.toString() : MRFormat.CAMBRIA.toString(),
                     baseStream.toByteArray(), false);
             result = true;
         } catch (HttpException | IOException e) {

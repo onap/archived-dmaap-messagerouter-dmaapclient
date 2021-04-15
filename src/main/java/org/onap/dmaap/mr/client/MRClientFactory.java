@@ -5,7 +5,8 @@
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
  *   Modifications Copyright © 2018 IBM.
- * ================================================================================
+ *   Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -21,17 +22,29 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.client;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Properties;
+import java.util.TreeSet;
+import java.util.UUID;
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.onap.dmaap.mr.client.impl.MRConsumerImpl;
 import org.onap.dmaap.mr.client.impl.MRMetaClient;
 import org.onap.dmaap.mr.client.impl.MRSimplerBatchPublisher;
 import org.onap.dmaap.mr.tools.ValidatorUtil;
-
-import javax.ws.rs.core.MultivaluedMap;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.util.*;
 
 /**
  * A factory for MR clients.<br/>
@@ -213,8 +226,9 @@ public class MRClientFactory {
      */
     public static MRConsumer createConsumer(Collection<String> hostSet, final String topic, final String consumerGroup,
                                             final String consumerId, int timeoutMs, int limit, String filter, String apiKey, String apiSecret) {
-        if (MRClientBuilders.sfConsumerMock != null)
+        if (MRClientBuilders.sfConsumerMock != null) {
             return MRClientBuilders.sfConsumerMock;
+        }
         try {
             return new MRConsumerImpl.MRConsumerImplBuilder().setHostPart(hostSet).setTopic(topic)
                     .setConsumerGroup(consumerGroup).setConsumerId(consumerId)
@@ -226,9 +240,9 @@ public class MRClientFactory {
         }
     }
 
-    /*************************************************************************/
-    /*************************************************************************/
-    /*************************************************************************/
+    //*************************************************************************
+    //*************************************************************************
+    //*************************************************************************
 
     /**
      * Create a publisher that sends each message (or group of messages)
@@ -294,9 +308,7 @@ public class MRClientFactory {
     public static MRBatchingPublisher createBatchingPublisher(String[] hostSet, String topic, int maxBatchSize,
                                                               long maxAgeMs, boolean compress) {
         final TreeSet<String> hosts = new TreeSet<>();
-        for (String hp : hostSet) {
-            hosts.add(hp);
-        }
+        Collections.addAll(hosts, hostSet);
         return createBatchingPublisher(hosts, topic, maxBatchSize, maxAgeMs, compress);
     }
 
@@ -439,7 +451,7 @@ public class MRClientFactory {
                     .httpThreadTime(Integer.parseInt(messageSentThreadOccurrence)).build();
         }
         pub.setHost(props.getProperty(Prop.HOST));
-        if (props.getProperty(Prop.TRANSPORT_TYPE).equalsIgnoreCase(ProtocolTypeConstants.AUTH_KEY.getValue())) {
+        if (props.getProperty(Prop.TRANSPORT_TYPE).equalsIgnoreCase(ProtocolType.AUTH_KEY.getValue())) {
 
             pub.setAuthKey(props.getProperty(Prop.AUTH_KEY));
             pub.setAuthDate(props.getProperty(Prop.AUTH_DATE));
@@ -452,7 +464,7 @@ public class MRClientFactory {
         pub.setProtocolFlag(props.getProperty(Prop.TRANSPORT_TYPE));
         pub.setProps(props);
         prop = new Properties();
-        if (props.getProperty(Prop.TRANSPORT_TYPE).equalsIgnoreCase(ProtocolTypeConstants.DME2.getValue())) {
+        if (props.getProperty(Prop.TRANSPORT_TYPE).equalsIgnoreCase(ProtocolType.DME2.getValue())) {
             routeFilePath = props.getProperty(Prop.DME2PREFERRED_ROUTER_FILE_PATH);
             routeReader = new FileReader(new File(routeFilePath));
             File fo = new File(routeFilePath);
@@ -513,13 +525,13 @@ public class MRClientFactory {
     }
 
     public static MRConsumer createConsumer(String host, String topic, String username, String password, String group,
-                                            String id, int i, int j, String protocalFlag, String consumerFilePath) {
+                                            String id, int timeout, int limit, String protocalFlag, String consumerFilePath) {
 
         MRConsumerImpl sub;
         try {
             sub = new MRConsumerImpl.MRConsumerImplBuilder()
                     .setHostPart(MRConsumerImpl.stringToList(host)).setTopic(topic)
-                    .setConsumerGroup(group).setConsumerId(id).setTimeoutMs(i).setLimit(j)
+                    .setConsumerGroup(group).setConsumerId(id).setTimeoutMs(timeout).setLimit(limit)
                     .setFilter(null).setApiKey_username(null).setApiSecret_password(null)
                     .createMRConsumerImpl();
         } catch (MalformedURLException e) {
@@ -535,13 +547,13 @@ public class MRClientFactory {
     }
 
     public static MRConsumer createConsumer(String host, String topic, String username, String password, String group,
-                                            String id, String protocalFlag, String consumerFilePath, int i, int j) {
+                                            String id, String protocalFlag, String consumerFilePath, int timeout, int limit) {
 
         MRConsumerImpl sub;
         try {
             sub = new MRConsumerImpl.MRConsumerImplBuilder()
                     .setHostPart(MRConsumerImpl.stringToList(host)).setTopic(topic)
-                    .setConsumerGroup(group).setConsumerId(id).setTimeoutMs(i).setLimit(j)
+                    .setConsumerGroup(group).setConsumerId(id).setTimeoutMs(timeout).setLimit(limit)
                     .setFilter(null).setApiKey_username(null).setApiSecret_password(null)
                     .createMRConsumerImpl();
         } catch (MalformedURLException e) {
@@ -567,22 +579,25 @@ public class MRClientFactory {
     public static MRConsumer createConsumer(Properties props) throws FileNotFoundException, IOException {
         int timeout;
         ValidatorUtil.validateSubscriber(props);
-        if (props.getProperty(Prop.TIMEOUT) != null)
+        if (props.getProperty(Prop.TIMEOUT) != null) {
             timeout = Integer.parseInt(props.getProperty(Prop.TIMEOUT));
-        else
+        } else {
             timeout = -1;
+        }
         int limit;
-        if (props.getProperty(Prop.LIMIT) != null)
+        if (props.getProperty(Prop.LIMIT) != null) {
             limit = Integer.parseInt(props.getProperty(Prop.LIMIT));
-        else
+        } else {
             limit = -1;
+        }
         String group;
-        if (props.getProperty(Prop.GROUP) == null)
+        if (props.getProperty(Prop.GROUP) == null) {
             group = UUID.randomUUID().toString();
-        else
+        } else {
             group = props.getProperty(Prop.GROUP);
+        }
         MRConsumerImpl sub = null;
-        if (props.getProperty(Prop.TRANSPORT_TYPE).equalsIgnoreCase(ProtocolTypeConstants.AUTH_KEY.getValue())) {
+        if (props.getProperty(Prop.TRANSPORT_TYPE).equalsIgnoreCase(ProtocolType.AUTH_KEY.getValue())) {
             sub = new MRConsumerImpl.MRConsumerImplBuilder()
                     .setHostPart(MRConsumerImpl.stringToList(props.getProperty(Prop.HOST)))
                     .setTopic(props.getProperty(Prop.TOPIC)).setConsumerGroup(group)
@@ -610,7 +625,7 @@ public class MRClientFactory {
         sub.setHost(props.getProperty(Prop.HOST));
         sub.setProtocolFlag(props.getProperty(Prop.TRANSPORT_TYPE));
         sub.setfFilter(props.getProperty(Prop.FILTER));
-        if (props.getProperty(Prop.TRANSPORT_TYPE).equalsIgnoreCase(ProtocolTypeConstants.DME2.getValue())) {
+        if (props.getProperty(Prop.TRANSPORT_TYPE).equalsIgnoreCase(ProtocolType.DME2.getValue())) {
             MRConsumerImpl.setRouterFilePath(props.getProperty(Prop.DME2PREFERRED_ROUTER_FILE_PATH));
             routeFilePath = props.getProperty(Prop.DME2PREFERRED_ROUTER_FILE_PATH);
             routeReader = new FileReader(new File(routeFilePath));

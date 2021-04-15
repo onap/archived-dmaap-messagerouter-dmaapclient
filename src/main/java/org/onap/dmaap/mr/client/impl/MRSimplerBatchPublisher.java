@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,10 +21,29 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.client.impl;
 
 import com.att.aft.dme2.api.DME2Client;
 import com.att.aft.dme2.api.DME2Exception;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.zip.GZIPOutputStream;
+import javax.ws.rs.core.MultivaluedMap;
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
@@ -31,23 +52,10 @@ import org.json.JSONTokener;
 import org.onap.dmaap.mr.client.HostSelector;
 import org.onap.dmaap.mr.client.MRBatchingPublisher;
 import org.onap.dmaap.mr.client.Prop;
-import org.onap.dmaap.mr.client.ProtocolTypeConstants;
+import org.onap.dmaap.mr.client.ProtocolType;
 import org.onap.dmaap.mr.client.response.MRPublisherResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.ws.rs.core.MultivaluedMap;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.*;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.zip.GZIPOutputStream;
 
 public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingPublisher {
     private static final Logger logger = LoggerFactory.getLogger(MRSimplerBatchPublisher.class);
@@ -239,7 +247,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
     }
 
     /**
-     * Method to parse published JSON Objects and Arrays
+     * Method to parse published JSON Objects and Arrays.
      *
      * @return JSONArray
      */
@@ -334,7 +342,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
             }
 
             final long startMs = Clock.now();
-            if (ProtocolTypeConstants.DME2.getValue().equalsIgnoreCase(protocolFlag)) {
+            if (ProtocolType.DME2.getValue().equalsIgnoreCase(protocolFlag)) {
 
                 configureDME2();
 
@@ -350,7 +358,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
                 return true;
             }
 
-            if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
+            if (ProtocolType.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
                 if (fPending.peek() != null) {
                     logSendMessage(fPending.size(), httpurl, nowMs - fPending.peek().timestamp);
                 }
@@ -369,7 +377,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
                 return true;
             }
 
-            if (ProtocolTypeConstants.AAF_AUTH.getValue().equalsIgnoreCase(protocolFlag)) {
+            if (ProtocolType.AAF_AUTH.getValue().equalsIgnoreCase(protocolFlag)) {
                 if (fPending.peek() != null) {
                     logSendMessage(fPending.size(), httpurl, nowMs - fPending.peek().timestamp);
                 }
@@ -387,7 +395,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
                 return true;
             }
 
-            if (ProtocolTypeConstants.HTTPNOAUTH.getValue().equalsIgnoreCase(protocolFlag)) {
+            if (ProtocolType.HTTPNOAUTH.getValue().equalsIgnoreCase(protocolFlag)) {
                 if (fPending.peek() != null) {
                     logSendMessage(fPending.size(), httpurl, nowMs - fPending.peek().timestamp);
                 }
@@ -463,7 +471,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
             }
 
             final long startMs = Clock.now();
-            if (ProtocolTypeConstants.DME2.getValue().equalsIgnoreCase(protocolFlag)) {
+            if (ProtocolType.DME2.getValue().equalsIgnoreCase(protocolFlag)) {
 
                 try {
                     configureDME2();
@@ -510,7 +518,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
                 return pubResponse;
             }
 
-            if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
+            if (ProtocolType.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
                 if (fPending.peek() != null) {
                     logSendMessage(fPending.size(), httpUrl, nowMs - fPending.peek().timestamp);
                 }
@@ -533,7 +541,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
                 return pubResponse;
             }
 
-            if (ProtocolTypeConstants.AAF_AUTH.getValue().equalsIgnoreCase(protocolFlag)) {
+            if (ProtocolType.AAF_AUTH.getValue().equalsIgnoreCase(protocolFlag)) {
                 if (fPending.peek() != null) {
                     logSendMessage(fPending.size(), httpUrl, nowMs - fPending.peek().timestamp);
                 }
@@ -557,7 +565,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
                 return pubResponse;
             }
 
-            if (ProtocolTypeConstants.HTTPNOAUTH.getValue().equalsIgnoreCase(protocolFlag)) {
+            if (ProtocolType.HTTPNOAUTH.getValue().equalsIgnoreCase(protocolFlag)) {
                 if (fPending.peek() != null) {
                     logSendMessage(fPending.size(), httpUrl, nowMs - fPending.peek().timestamp);
                 }
@@ -681,7 +689,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
     private static final long SF_WAIT_AFTER_ERROR = 10000;
     private HashMap<String, String> DMETimeOuts;
     private DME2Client sender;
-    public String protocolFlag = ProtocolTypeConstants.DME2.getValue();
+    public String protocolFlag = ProtocolType.DME2.getValue();
     private String authKey;
     private String authDate;
     private String handlers;
@@ -867,8 +875,8 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
     }
 
     private static class TimestampedMessage extends Message {
-        public TimestampedMessage(Message m) {
-            super(m);
+        public TimestampedMessage(Message message) {
+            super(message);
             timestamp = Clock.now();
         }
 

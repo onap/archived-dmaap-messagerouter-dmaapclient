@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,12 +21,12 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.tools;
 
-import org.onap.dmaap.mr.client.Prop;
-import org.onap.dmaap.mr.client.ProtocolTypeConstants;
-
 import java.util.Properties;
+import org.onap.dmaap.mr.client.Prop;
+import org.onap.dmaap.mr.client.ProtocolType;
 
 public class ValidatorUtil {
 
@@ -36,7 +38,7 @@ public class ValidatorUtil {
 
     public static void validatePublisher(Properties props) {
         String transportType = props.getProperty(Prop.TRANSPORT_TYPE);
-        if (ProtocolTypeConstants.DME2.getValue().equalsIgnoreCase(transportType)) {
+        if (ProtocolType.DME2.getValue().equalsIgnoreCase(transportType)) {
             validateForDME2(props);
         } else {
             validateForNonDME2(props);
@@ -67,7 +69,7 @@ public class ValidatorUtil {
 
     public static void validateSubscriber(Properties props) {
         String transportType = props.getProperty(Prop.TRANSPORT_TYPE);
-        if (ProtocolTypeConstants.DME2.getValue().equalsIgnoreCase(transportType)) {
+        if (ProtocolType.DME2.getValue().equalsIgnoreCase(transportType)) {
             validateForDME2(props);
         } else {
             validateForNonDME2(props);
@@ -99,8 +101,8 @@ public class ValidatorUtil {
         if (password.isEmpty()) {
             throw new IllegalArgumentException(Prop.PASSWORD + IS_NEEDED);
         }
-        String dME2preferredRouterFilePath = props.getProperty(Prop.DME2PREFERRED_ROUTER_FILE_PATH, "");
-        if (dME2preferredRouterFilePath.isEmpty()) {
+        String dme2preferredRouterFilePath = props.getProperty(Prop.DME2PREFERRED_ROUTER_FILE_PATH, "");
+        if (dme2preferredRouterFilePath.isEmpty()) {
             throw new IllegalArgumentException(Prop.DME2PREFERRED_ROUTER_FILE_PATH + IS_NEEDED);
         }
         String partner = props.getProperty(Prop.PARTNER, "");
@@ -164,7 +166,7 @@ public class ValidatorUtil {
             throw new IllegalArgumentException(Prop.CONTENT_TYPE + IS_NEEDED);
         }
         String transportType = props.getProperty(Prop.TRANSPORT_TYPE);
-        if (!ProtocolTypeConstants.HTTPNOAUTH.getValue().equalsIgnoreCase(transportType)) {
+        if (!ProtocolType.HTTPNOAUTH.getValue().equalsIgnoreCase(transportType)) {
             String username = props.getProperty(Prop.USERNAME, "");
             if (username.isEmpty()) {
                 throw new IllegalArgumentException(Prop.USERNAME + IS_NEEDED);
@@ -174,7 +176,7 @@ public class ValidatorUtil {
                 throw new IllegalArgumentException(Prop.PASSWORD + IS_NEEDED);
             }
         }
-        if (ProtocolTypeConstants.AUTH_KEY.getValue().equalsIgnoreCase(transportType)) {
+        if (ProtocolType.AUTH_KEY.getValue().equalsIgnoreCase(transportType)) {
             String authKey = props.getProperty(Prop.AUTH_KEY, "");
             if (authKey.isEmpty()) {
                 throw new IllegalArgumentException(Prop.AUTH_KEY + IS_NEEDED);

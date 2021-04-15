@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,19 +21,20 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.client.impl;
 
-import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.ClientProperties;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-
+import java.util.Properties;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import java.util.Properties;
+
+import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 public class DmaapClientUtil {
 
@@ -42,8 +45,8 @@ public class DmaapClientUtil {
     private static final String MR_AUTH_CONSTANT = "X-CambriaAuth";
     private static final String MR_DATE_CONSTANT = "X-CambriaDate";
     private static final String[] httpClientProperties = {ClientProperties.CONNECT_TIMEOUT,
-            ClientProperties.READ_TIMEOUT, ClientProperties.PROXY_USERNAME, ClientProperties.PROXY_PASSWORD,
-            ClientProperties.PROXY_URI};
+        ClientProperties.READ_TIMEOUT, ClientProperties.PROXY_USERNAME, ClientProperties.PROXY_PASSWORD,
+        ClientProperties.PROXY_URI};
 
     public static ClientConfig getClientConfig(Properties properties) {
         ClientConfig config = new ClientConfig();
@@ -59,8 +62,8 @@ public class DmaapClientUtil {
                 config.property(httpClientProperty, properties.getProperty(httpClientProperty));
             }
         }
-        if ((properties.getProperty(ClientProperties.PROXY_URI) != null) &&
-                !(properties.getProperty(ClientProperties.PROXY_URI).isEmpty())) {
+        if ((properties.getProperty(ClientProperties.PROXY_URI) != null)
+                && !(properties.getProperty(ClientProperties.PROXY_URI).isEmpty())) {
             config.connectorProvider(new ApacheConnectorProvider());
         } // else the default connectorProvider (HttpConnectorProvider) will be used
 

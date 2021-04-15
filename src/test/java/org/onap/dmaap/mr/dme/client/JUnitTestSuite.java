@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright © 2021 Orange.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RunWith(Suite.class)
-@SuiteClasses({DefaultLoggingFailoverFaultHandlerTest.class, HeaderReplyHandlerTest.class, PreferredRouteReplyHandlerTest.class,
+@SuiteClasses({HeaderReplyHandlerTest.class, PreferredRouteReplyHandlerTest.class,
         PreferredRouteRequestHandlerTest.class, SimpleExamplePublisherTest.class})
 public class JUnitTestSuite {
     private static final Logger logger = LoggerFactory.getLogger(JUnitTestSuite.class);

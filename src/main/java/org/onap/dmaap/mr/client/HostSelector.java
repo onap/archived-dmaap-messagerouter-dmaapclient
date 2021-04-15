@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,22 +21,27 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.client;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.security.SecureRandom;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HostSelector {
-    private final TreeSet<String> fBaseHosts;
-    private final DelayQueue<BlacklistEntry> fBlacklist;
-    private String fIdealHost;
-    private String fCurrentHost;
+    private final TreeSet<String> baseHosts;
+    private final DelayQueue<BlacklistEntry> blacklist;
+    private String idealHost;
+    private String currentHost;
     private static final Logger logger = LoggerFactory.getLogger(HostSelector.class);
 
     public HostSelector(String hostPart) {
@@ -50,9 +57,9 @@ public class HostSelector {
             throw new IllegalArgumentException("At least one host must be provided.");
         }
 
-        this.fBaseHosts = new TreeSet<>(baseHosts);
-        this.fBlacklist = new DelayQueue<>();
-        this.fIdealHost = null;
+        this.baseHosts = new TreeSet<>(baseHosts);
+        this.blacklist = new DelayQueue<>();
+        this.idealHost = null;
 
         if (signature == null) {
             return;
@@ -62,106 +69,107 @@ public class HostSelector {
         if (value != 0) {
             index = Math.abs(value) % baseHosts.size();
         }
-        Iterator<String> it = this.fBaseHosts.iterator();
+        Iterator<String> it = this.baseHosts.iterator();
         while (index-- > 0) {
             it.next();
         }
-        this.fIdealHost = (it.next());
+        this.idealHost = (it.next());
     }
 
     public String selectBaseHost() {
-        if (this.fCurrentHost == null) {
+        if (this.currentHost == null) {
             makeSelection();
         }
-        return this.fCurrentHost;
+        return this.currentHost;
     }
 
     public void reportReachabilityProblem(long blacklistUnit, TimeUnit blacklistTimeUnit) {
-        if (this.fCurrentHost == null) {
+        if (this.currentHost == null) {
             logger.warn("Reporting reachability problem, but no host is currently selected.");
         }
 
         if (blacklistUnit > 0L) {
-            for (BlacklistEntry be : this.fBlacklist) {
-                if (be.getHost().equals(this.fCurrentHost)) {
+            for (BlacklistEntry be : this.blacklist) {
+                if (be.getHost().equals(this.currentHost)) {
                     be.expireNow();
                 }
             }
 
             LinkedList<Delayed> devNull = new LinkedList<>();
-            this.fBlacklist.drainTo(devNull);
+            this.blacklist.drainTo(devNull);
 
-            if (this.fCurrentHost != null) {
-                this.fBlacklist.add(new BlacklistEntry(this.fCurrentHost, TimeUnit.MILLISECONDS.convert(blacklistUnit, blacklistTimeUnit)));
+            if (this.currentHost != null) {
+                this.blacklist.add(new BlacklistEntry(this.currentHost,
+                        TimeUnit.MILLISECONDS.convert(blacklistUnit, blacklistTimeUnit)));
             }
         }
-        this.fCurrentHost = null;
+        this.currentHost = null;
     }
 
     private String makeSelection() {
-        TreeSet<String> workingSet = new TreeSet<>(this.fBaseHosts);
+        TreeSet<String> workingSet = new TreeSet<>(this.baseHosts);
 
         LinkedList<Delayed> devNull = new LinkedList<>();
-        this.fBlacklist.drainTo(devNull);
-        for (BlacklistEntry be : this.fBlacklist) {
+        this.blacklist.drainTo(devNull);
+        for (BlacklistEntry be : this.blacklist) {
             workingSet.remove(be.getHost());
         }
 
         if (workingSet.isEmpty()) {
             logger.warn("All hosts were blacklisted; reverting to full set of hosts.");
-            workingSet.addAll(this.fBaseHosts);
-            this.fCurrentHost = null;
+            workingSet.addAll(this.baseHosts);
+            this.currentHost = null;
         }
 
         String selection = null;
-        if ((this.fCurrentHost != null) && (workingSet.contains(this.fCurrentHost))) {
-            selection = this.fCurrentHost;
-        } else if ((this.fIdealHost != null) && (workingSet.contains(this.fIdealHost))) {
-            selection = this.fIdealHost;
+        if ((this.currentHost != null) && (workingSet.contains(this.currentHost))) {
+            selection = this.currentHost;
+        } else if ((this.idealHost != null) && (workingSet.contains(this.idealHost))) {
+            selection = this.idealHost;
         } else {
             int index = 0;
             int value = new SecureRandom().nextInt();
-            ArrayList<String> v = new ArrayList<>(workingSet);
+            ArrayList<String> workingArray = new ArrayList<>(workingSet);
             if (value != 0) {
                 index = Math.abs(value) % workingSet.size();
             }
-            selection = v.get(index);
+            selection = workingArray.get(index);
         }
 
-        this.fCurrentHost = selection;
-        return this.fCurrentHost;
+        this.currentHost = selection;
+        return this.currentHost;
     }
 
-    private static Set<String> makeSet(String s) {
+    private static Set<String> makeSet(String firstTreeElem) {
         TreeSet<String> set = new TreeSet<>();
-        set.add(s);
+        set.add(firstTreeElem);
         return set;
     }
 
     private static class BlacklistEntry implements Delayed {
-        private final String fHost;
-        private long fExpireAtMs;
+        private final String host;
+        private long expireAtMs;
 
         public BlacklistEntry(String host, long delayMs) {
-            this.fHost = host;
-            this.fExpireAtMs = (System.currentTimeMillis() + delayMs);
+            this.host = host;
+            this.expireAtMs = (System.currentTimeMillis() + delayMs);
         }
 
         public void expireNow() {
-            this.fExpireAtMs = 0L;
+            this.expireAtMs = 0L;
         }
 
         public String getHost() {
-            return this.fHost;
+            return this.host;
         }
 
-        public int compareTo(Delayed o) {
+        public int compareTo(Delayed object) {
             Long thisDelay = getDelay(TimeUnit.MILLISECONDS);
-            return thisDelay.compareTo(o.getDelay(TimeUnit.MILLISECONDS));
+            return thisDelay.compareTo(object.getDelay(TimeUnit.MILLISECONDS));
         }
 
         public long getDelay(TimeUnit unit) {
-            long remainingMs = this.fExpireAtMs - System.currentTimeMillis();
+            long remainingMs = this.expireAtMs - System.currentTimeMillis();
             return unit.convert(remainingMs, TimeUnit.MILLISECONDS);
         }
     }

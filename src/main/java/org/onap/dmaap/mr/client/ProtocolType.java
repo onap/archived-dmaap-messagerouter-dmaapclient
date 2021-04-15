@@ -2,7 +2,7 @@
  *  ============LICENSE_START=======================================================
  *  org.onap.dmaap
  *  ================================================================================
- *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
+ *  Copyright © 2021 Orange Intellectual Property. All rights reserved.
  *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,11 +19,29 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
-package org.onap.dmaap.mr.dme.client;
 
+package org.onap.dmaap.mr.client;
 
-public class DefaultLoggingFailoverFaultHandler {
-    //TODO: This code may be enable in the future when we implement DME2FailoverFaultHandler interface
+/**
+ * Enumeration with all Protocol we can use.
+ *
+ * @author sliard
+ *
+ */
+public enum ProtocolType {
 
+    DME2("DME2"),
+    AAF_AUTH("HTTPAAF"),
+    AUTH_KEY("HTTPAUTH"),
+    HTTPNOAUTH("HTTPNOAUTH");
+
+    private String value;
+
+    ProtocolType(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
 }
-

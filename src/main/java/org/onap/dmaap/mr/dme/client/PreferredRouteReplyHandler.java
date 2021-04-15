@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -19,22 +21,22 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
+
 package org.onap.dmaap.mr.dme.client;
 
 import com.att.aft.dme2.api.util.DME2ExchangeFaultContext;
 import com.att.aft.dme2.api.util.DME2ExchangeReplyHandler;
 import com.att.aft.dme2.api.util.DME2ExchangeResponseContext;
+import java.io.File;
+import java.io.FileWriter;
 import org.onap.dmaap.mr.client.MRClientFactory;
 import org.onap.dmaap.mr.client.impl.MRSimplerBatchPublisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileWriter;
-
 public class PreferredRouteReplyHandler implements DME2ExchangeReplyHandler {
-    private Logger logger
-            = LoggerFactory.getLogger(this.getClass().getName());
+
+    private static final Logger logger = LoggerFactory.getLogger(PreferredRouteReplyHandler.class);
 
     @Override
     public void handleReply(DME2ExchangeResponseContext responseData) {

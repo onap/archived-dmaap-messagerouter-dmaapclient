@@ -5,6 +5,7 @@
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
  *   Modifications Copyright © 2018 IBM.
+ *   Modifications Copyright © 2021 Orange.
  *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,22 +22,22 @@
  *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  *
  *******************************************************************************/
-package org.onap.dmaap.mr.client;
 
-import org.onap.dmaap.mr.client.impl.MRConsumerImpl;
-import org.onap.dmaap.mr.client.impl.MRMetaClient;
-import org.onap.dmaap.mr.client.impl.MRSimplerBatchPublisher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package org.onap.dmaap.mr.client;
 
 import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.TreeSet;
 import java.util.UUID;
+import org.onap.dmaap.mr.client.impl.MRConsumerImpl;
+import org.onap.dmaap.mr.client.impl.MRMetaClient;
+import org.onap.dmaap.mr.client.impl.MRSimplerBatchPublisher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * A collection of builders for various types of MR API clients
+ * A collection of builders for various types of MR API clients.
  *
  * @author author
  */
@@ -53,14 +54,14 @@ public class MRClientBuilders {
     }
 
     /**
-     * A builder for a topic Consumer
+     * A builder for a topic Consumer.
      *
      * @author author
      */
     public static class ConsumerBuilder {
 
         /**
-         * Set the host list
+         * Set the host list.
          *
          * @param hostList a comma-separated list of hosts to use to connect to MR
          * @return this builder
@@ -70,7 +71,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Set the host list
+         * Set the host list.
          *
          * @param hostSet a set of hosts to use to connect to MR
          * @return this builder
@@ -81,7 +82,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Set the topic
+         * Set the topic.
          *
          * @param topic the name of the topic to consume
          * @return this builder
@@ -92,7 +93,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Set the consumer's group and ID
+         * Set the consumer's group and ID.
          *
          * @param consumerGroup The name of the consumer group this consumer is part of
          * @param consumerId    The unique id of this consumer in its group
@@ -118,7 +119,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Set the server side timeout
+         * Set the server side timeout.
          *
          * @param timeoutMs The amount of time in milliseconds that the server should keep the connection open while waiting for message traffic.
          * @return this builder
@@ -129,7 +130,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Set the maximum number of messages to receive per transaction
+         * Set the maximum number of messages to receive per transaction.
          *
          * @param limit The maximum number of messages to receive from the server in one transaction.
          * @return this builder
@@ -140,7 +141,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Set a filter to use on the server
+         * Set a filter to use on the server.
          *
          * @param filter a Highland Park standard library filter encoded in JSON
          * @return this builder
@@ -151,7 +152,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Build the consumer
+         * Build the consumer.
          *
          * @return a consumer
          */
@@ -166,7 +167,9 @@ public class MRClientBuilders {
                 logger.info("Creating non-restartable client with group {} and ID {}.", fGroup, fId);
             }
 
-            if (sfConsumerMock != null) return sfConsumerMock;
+            if (sfConsumerMock != null) {
+                return sfConsumerMock;
+            }
             try {
                 return new MRConsumerImpl.MRConsumerImplBuilder().setHostPart(fHosts)
                         .setTopic(fTopic).setConsumerGroup(fGroup).setConsumerId(fId)
@@ -194,14 +197,14 @@ public class MRClientBuilders {
     //*************************************************************************/
 
     /**
-     * A publisher builder
+     * A publisher builder.
      *
      * @author author
      */
     public static class PublisherBuilder {
 
         /**
-         * Set the MR/UEB host(s) to use
+         * Set the MR/UEB host(s) to use.
          *
          * @param hostlist The host(s) used in the URL to MR. Can be "host:port", can be multiple comma-separated entries.
          * @return this builder
@@ -211,7 +214,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Set the MR/UEB host(s) to use
+         * Set the MR/UEB host(s) to use.
          *
          * @param hostSet The host(s) used in the URL to MR. Can be "host:port"
          * @return this builder
@@ -223,7 +226,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Set the MR/UEB host(s) to use
+         * Set the MR/UEB host(s) to use.
          *
          * @param hostlist The host(s) used in the URL to MR. Can be "host:port".
          * @return this builder
@@ -234,7 +237,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Set the topic to publish on
+         * Set the topic to publish on.
          *
          * @param topic The topic on which to publish messages.
          * @return this builder
@@ -258,7 +261,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Compress transactions
+         * Compress transactions.
          *
          * @return this builder
          */
@@ -267,7 +270,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Do not compress transactions
+         * Do not compress transactions.
          *
          * @return this builder
          */
@@ -276,7 +279,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Set the compression option
+         * Set the compression option.
          *
          * @param compress true to gzip compress transactions
          * @return this builder
@@ -300,7 +303,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Build the publisher
+         * Build the publisher.
          *
          * @return a batching publisher
          */
@@ -309,14 +312,16 @@ public class MRClientBuilders {
                 throw new IllegalArgumentException(ILLEGAL_ARGUMENT_MESSAGE);
             }
 
-            if (sfPublisherMock != null) return sfPublisherMock;
+            if (sfPublisherMock != null) {
+                return sfPublisherMock;
+            }
 
-            final MRSimplerBatchPublisher pub = new MRSimplerBatchPublisher.Builder().
-                    againstUrls(fHosts).
-                    onTopic(fTopic).
-                    batchTo(fMaxBatchSize, fMaxBatchAgeMs).
-                    compress(fCompress).
-                    build();
+            final MRSimplerBatchPublisher pub = new MRSimplerBatchPublisher.Builder()
+                    .againstUrls(fHosts)
+                    .onTopic(fTopic)
+                    .batchTo(fMaxBatchSize, fMaxBatchAgeMs)
+                    .compress(fCompress)
+                    .build();
             if (fApiKey != null) {
                 pub.setApiCredentials(fApiKey, fApiSecret);
             }
@@ -333,7 +338,7 @@ public class MRClientBuilders {
     }
 
     /**
-     * A builder for an identity manager
+     * A builder for an identity manager.
      *
      * @author author
      */
@@ -350,7 +355,7 @@ public class MRClientBuilders {
     }
 
     /**
-     * A builder for a topic manager
+     * A builder for a topic manager.
      *
      * @author author
      */
@@ -388,14 +393,14 @@ public class MRClientBuilders {
     static MRBatchingPublisher sfPublisherMock = null;
 
     /**
-     * A builder for an identity manager
+     * A builder for an identity manager.
      *
      * @author author
      */
     public abstract static class AbstractAuthenticatedManagerBuilder<T extends MRClient> {
 
         /**
-         * Set the host list
+         * Set the host list.
          *
          * @param hostList a comma-separated list of hosts to use to connect to MR
          * @return this builder
@@ -405,7 +410,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Set the host list
+         * Set the host list.
          *
          * @param hostSet a set of hosts to use to connect to MR
          * @return this builder
@@ -429,7 +434,7 @@ public class MRClientBuilders {
         }
 
         /**
-         * Build the consumer
+         * Build the consumer.
          *
          * @return a consumer
          */

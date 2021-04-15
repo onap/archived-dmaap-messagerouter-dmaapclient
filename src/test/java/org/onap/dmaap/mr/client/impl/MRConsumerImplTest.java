@@ -4,6 +4,8 @@
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Modifications Copyright © 2021 Orange.
+ *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -24,7 +26,7 @@ package org.onap.dmaap.mr.client.impl;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.onap.dmaap.mr.client.MRClientFactory;
-import org.onap.dmaap.mr.client.ProtocolTypeConstants;
+import org.onap.dmaap.mr.client.ProtocolType;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -136,11 +138,11 @@ public class MRConsumerImplTest extends TestCase {
                 .setApiSecret_password(null).createMRConsumerImpl();
         c.setProps(properties);
         assertNotNull(c.fetchWithReturnConsumerResponse());
-        c.setProtocolFlag(ProtocolTypeConstants.AAF_AUTH.getValue());
+        c.setProtocolFlag(ProtocolType.AAF_AUTH.getValue());
         assertNotNull(c.fetchWithReturnConsumerResponse());
-        c.setProtocolFlag(ProtocolTypeConstants.HTTPNOAUTH.getValue());
+        c.setProtocolFlag(ProtocolType.HTTPNOAUTH.getValue());
         assertNotNull(c.fetchWithReturnConsumerResponse());
-        c.setProtocolFlag(ProtocolTypeConstants.AUTH_KEY.getValue());
+        c.setProtocolFlag(ProtocolType.AUTH_KEY.getValue());
         assertNotNull(c.fetchWithReturnConsumerResponse());
         assertTrue(true);
     }
@@ -175,19 +177,19 @@ public class MRConsumerImplTest extends TestCase {
         } catch (Exception e) {
             assertTrue(true);
         }
-        c.setProtocolFlag(ProtocolTypeConstants.AAF_AUTH.getValue());
+        c.setProtocolFlag(ProtocolType.AAF_AUTH.getValue());
         try {
             c.fetch();
         } catch (Exception e) {
             assertTrue(true);
         }
-        c.setProtocolFlag(ProtocolTypeConstants.HTTPNOAUTH.getValue());
+        c.setProtocolFlag(ProtocolType.HTTPNOAUTH.getValue());
         try {
             c.fetch();
         } catch (Exception e) {
             assertTrue(true);
         }
-        c.setProtocolFlag(ProtocolTypeConstants.AUTH_KEY.getValue());
+        c.setProtocolFlag(ProtocolType.AUTH_KEY.getValue());
         try {
             c.fetch();
         } catch (Exception e) {
