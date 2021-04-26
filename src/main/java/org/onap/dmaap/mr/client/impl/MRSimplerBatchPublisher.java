@@ -49,6 +49,7 @@ import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.onap.dmaap.mr.client.DmaapClientConst;
 import org.onap.dmaap.mr.client.HostSelector;
 import org.onap.dmaap.mr.client.MRBatchingPublisher;
 import org.onap.dmaap.mr.client.ProtocolType;
@@ -59,29 +60,9 @@ import org.slf4j.LoggerFactory;
 public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingPublisher {
     private static final Logger logger = LoggerFactory.getLogger(MRSimplerBatchPublisher.class);
 
-    private static final String PASSWORD = "password";
-    private static final String USERNAME = "username";
-    private static final String DME2PREFERRED_ROUTER_FILE_PATH = "DME2preferredRouterFilePath";
-    private static final String SERVICE_NAME = "ServiceName";
-    private static final String PARTNER = "Partner";
-    private static final String ROUTE_OFFER = "routeOffer";
-    private static final String PROTOCOL = "Protocol";
-    private static final String METHOD_TYPE = "MethodType";
-    private static final String CONTENT_TYPE = "contenttype";
-    private static final String LATITUDE = "Latitude";
-    private static final String LONGITUDE = "Longitude";
-    private static final String AFT_ENVIRONMENT = "AFT_ENVIRONMENT";
-    private static final String VERSION = "Version";
-    private static final String ENVIRONMENT = "Environment";
-    private static final String SUB_CONTEXT_PATH = "SubContextPath";
-    private static final String SESSION_STICKINESS_REQUIRED = "sessionstickinessrequired";
-    private static final String PARTITION = "partition";
-    private static final String AFT_DME2_EP_READ_TIMEOUT_MS = "AFT_DME2_EP_READ_TIMEOUT_MS";
-    private static final String AFT_DME2_ROUNDTRIP_TIMEOUT_MS = "AFT_DME2_ROUNDTRIP_TIMEOUT_MS";
-    private static final String AFT_DME2_EP_CONN_TIMEOUT = "AFT_DME2_EP_CONN_TIMEOUT";
-    private static final String AFT_DME2_EXCHANGE_REQUEST_HANDLERS = "AFT_DME2_EXCHANGE_REQUEST_HANDLERS";
-    private static final String AFT_DME2_EXCHANGE_REPLY_HANDLERS = "AFT_DME2_EXCHANGE_REPLY_HANDLERS";
-    private static final String AFT_DME2_REQ_TRACE_ON = "AFT_DME2_REQ_TRACE_ON";
+    private static final String HEADER_DME2_EXCHANGE_REQUEST_HANDLERS = "AFT_DME2_EXCHANGE_REQUEST_HANDLERS";
+    private static final String HEADER_DME2_EXCHANGE_REPLY_HANDLERS = "AFT_DME2_EXCHANGE_REPLY_HANDLERS";
+    private static final String HEADER_DME2_REQ_TRACE_ON = "AFT_DME2_REQ_TRACE_ON";
 
     private static final String CONTENT_TYPE_TEXT = "text/plain";
 
@@ -321,14 +302,14 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
             host = this.fHostSelector.selectBaseHost();
         }
 
-        final String httpurl = MRConstants.makeUrl(host, fTopic, props.getProperty(PROTOCOL),
-                props.getProperty(PARTITION));
+        final String httpurl = MRConstants.makeUrl(host, fTopic, props.getProperty(DmaapClientConst.PROTOCOL),
+                props.getProperty(DmaapClientConst.PARTITION));
 
         try {
 
             final ByteArrayOutputStream baseStream = new ByteArrayOutputStream();
             OutputStream os = baseStream;
-            final String contentType = props.getProperty(CONTENT_TYPE);
+            final String contentType = props.getProperty(DmaapClientConst.CONTENT_TYPE);
             if (contentType.equalsIgnoreCase(MRFormat.JSON.toString())) {
                 JSONArray jsonArray = parseJSON();
                 os.write(jsonArray.toString().getBytes());
@@ -457,12 +438,12 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 
         host = this.fHostSelector.selectBaseHost();
 
-        final String httpUrl = MRConstants.makeUrl(host, fTopic, props.getProperty(PROTOCOL),
-                props.getProperty(PARTITION));
+        final String httpUrl = MRConstants.makeUrl(host, fTopic, props.getProperty(DmaapClientConst.PROTOCOL),
+                props.getProperty(DmaapClientConst.PARTITION));
         OutputStream os = null;
         try (ByteArrayOutputStream baseStream = new ByteArrayOutputStream()) {
             os = baseStream;
-            final String propsContentType = props.getProperty(CONTENT_TYPE);
+            final String propsContentType = props.getProperty(DmaapClientConst.CONTENT_TYPE);
             if (propsContentType.equalsIgnoreCase(MRFormat.JSON.toString())) {
                 JSONArray jsonArray = parseJSON();
                 os.write(jsonArray.toString().getBytes());
@@ -759,23 +740,23 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
     private void configureDME2() throws Exception {
         try {
 
-            latitude = props.getProperty(LATITUDE);
-            longitude = props.getProperty(LONGITUDE);
-            version = props.getProperty(VERSION);
-            serviceName = props.getProperty(SERVICE_NAME);
-            env = props.getProperty(ENVIRONMENT);
-            partner = props.getProperty(PARTNER);
-            routeOffer = props.getProperty(ROUTE_OFFER);
-            subContextPath = props.getProperty(SUB_CONTEXT_PATH) + fTopic;
+            latitude = props.getProperty(DmaapClientConst.LATITUDE);
+            longitude = props.getProperty(DmaapClientConst.LONGITUDE);
+            version = props.getProperty(DmaapClientConst.VERSION);
+            serviceName = props.getProperty(DmaapClientConst.SERVICE_NAME);
+            env = props.getProperty(DmaapClientConst.ENVIRONMENT);
+            partner = props.getProperty(DmaapClientConst.PARTNER);
+            routeOffer = props.getProperty(DmaapClientConst.ROUTE_OFFER);
+            subContextPath = props.getProperty(DmaapClientConst.SUB_CONTEXT_PATH) + fTopic;
 
-            protocol = props.getProperty(PROTOCOL);
-            methodType = props.getProperty(METHOD_TYPE);
-            dmeuser = props.getProperty(USERNAME);
-            dmepassword = props.getProperty(PASSWORD);
-            contentType = props.getProperty(CONTENT_TYPE);
-            handlers = props.getProperty(SESSION_STICKINESS_REQUIRED);
+            protocol = props.getProperty(DmaapClientConst.PROTOCOL);
+            methodType = props.getProperty(DmaapClientConst.METHOD_TYPE);
+            dmeuser = props.getProperty(DmaapClientConst.USERNAME);
+            dmepassword = props.getProperty(DmaapClientConst.PASSWORD);
+            contentType = props.getProperty(DmaapClientConst.CONTENT_TYPE);
+            handlers = props.getProperty(DmaapClientConst.SESSION_STICKINESS_REQUIRED);
 
-            MRSimplerBatchPublisher.routerFilePath = props.getProperty(DME2PREFERRED_ROUTER_FILE_PATH);
+            MRSimplerBatchPublisher.routerFilePath = props.getProperty(DmaapClientConst.DME2PREFERRED_ROUTER_FILE_PATH);
 
             /*
              * Changes to DME2Client url to use Partner for auto failover
@@ -783,7 +764,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
              * routeOffer value for auto failover within a cluster
              */
 
-            String partitionKey = props.getProperty(PARTITION);
+            String partitionKey = props.getProperty(DmaapClientConst.PARTITION);
 
             if (partner != null && !partner.isEmpty()) {
                 url = protocol + "://" + serviceName + "?version=" + version + "&envContext=" + env + "&partner="
@@ -800,13 +781,13 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
             }
 
             DMETimeOuts = new HashMap<>();
-            DMETimeOuts.put("AFT_DME2_EP_READ_TIMEOUT_MS", props.getProperty(AFT_DME2_EP_READ_TIMEOUT_MS));
-            DMETimeOuts.put("AFT_DME2_ROUNDTRIP_TIMEOUT_MS", props.getProperty(AFT_DME2_ROUNDTRIP_TIMEOUT_MS));
-            DMETimeOuts.put("AFT_DME2_EP_CONN_TIMEOUT", props.getProperty(AFT_DME2_EP_CONN_TIMEOUT));
+            DMETimeOuts.put("AFT_DME2_EP_READ_TIMEOUT_MS", props.getProperty(DmaapClientConst.AFT_DME2_EP_READ_TIMEOUT_MS));
+            DMETimeOuts.put("AFT_DME2_ROUNDTRIP_TIMEOUT_MS", props.getProperty(DmaapClientConst.AFT_DME2_ROUNDTRIP_TIMEOUT_MS));
+            DMETimeOuts.put("AFT_DME2_EP_CONN_TIMEOUT", props.getProperty(DmaapClientConst.AFT_DME2_EP_CONN_TIMEOUT));
             DMETimeOuts.put("Content-Type", contentType);
             System.setProperty("AFT_LATITUDE", latitude);
             System.setProperty("AFT_LONGITUDE", longitude);
-            System.setProperty("AFT_ENVIRONMENT", props.getProperty(AFT_ENVIRONMENT));
+            System.setProperty("AFT_ENVIRONMENT", props.getProperty(DmaapClientConst.AFT_ENVIRONMENT));
             // System.setProperty("DME2.DEBUG", "true");
 
             // SSL changes
@@ -826,13 +807,13 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
             sender.setCredentials(dmeuser, dmepassword);
             sender.setHeaders(DMETimeOuts);
             if ("yes".equalsIgnoreCase(handlers)) {
-                sender.addHeader("AFT_DME2_EXCHANGE_REQUEST_HANDLERS",
-                        props.getProperty(AFT_DME2_EXCHANGE_REQUEST_HANDLERS));
-                sender.addHeader("AFT_DME2_EXCHANGE_REPLY_HANDLERS",
-                        props.getProperty(AFT_DME2_EXCHANGE_REPLY_HANDLERS));
-                sender.addHeader("AFT_DME2_REQ_TRACE_ON", props.getProperty(AFT_DME2_REQ_TRACE_ON));
+                sender.addHeader(HEADER_DME2_EXCHANGE_REQUEST_HANDLERS,
+                        props.getProperty(DmaapClientConst.AFT_DME2_EXCHANGE_REQUEST_HANDLERS));
+                sender.addHeader(HEADER_DME2_EXCHANGE_REPLY_HANDLERS,
+                        props.getProperty(DmaapClientConst.AFT_DME2_EXCHANGE_REPLY_HANDLERS));
+                sender.addHeader(HEADER_DME2_REQ_TRACE_ON, props.getProperty(DmaapClientConst.AFT_DME2_REQ_TRACE_ON));
             } else {
-                sender.addHeader("AFT_DME2_EXCHANGE_REPLY_HANDLERS", "com.att.nsa.mr.dme.client.HeaderReplyHandler");
+                sender.addHeader(HEADER_DME2_EXCHANGE_REQUEST_HANDLERS, "com.att.nsa.mr.dme.client.HeaderReplyHandler");
             }
         } catch (DME2Exception x) {
             getLog().warn(x.getMessage(), x);

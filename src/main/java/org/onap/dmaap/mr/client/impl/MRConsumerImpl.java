@@ -34,6 +34,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -46,6 +47,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.onap.dmaap.mr.client.DmaapClientConst;
 import org.onap.dmaap.mr.client.HostSelector;
 import org.onap.dmaap.mr.client.MRClientFactory;
 import org.onap.dmaap.mr.client.MRConsumer;
@@ -77,29 +79,10 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
     private static final String URL_PARAM_FILTER = "filter";
     private static final String URL_PARAM_LIMIT = "limit";
     private static final String URL_PARAM_TIMEOUT = "timeout";
-
-    private static final String USERNAME = "username";
-    private static final String SERVICE_NAME = "ServiceName";
-    private static final String PARTNER = "Partner";
-    private static final String ROUTE_OFFER = "routeOffer";
-    private static final String PROTOCOL = "Protocol";
-    private static final String METHOD_TYPE = "MethodType";
-    private static final String CONTENT_TYPE = "contenttype";
-    private static final String LATITUDE = "Latitude";
-    private static final String LONGITUDE = "Longitude";
-    private static final String AFT_ENVIRONMENT = "AFT_ENVIRONMENT";
-    private static final String VERSION = "Version";
-    private static final String ENVIRONMENT = "Environment";
-    private static final String SUB_CONTEXT_PATH = "SubContextPath";
-    private static final String SESSION_STICKINESS_REQUIRED = "sessionstickinessrequired";
-    private static final String AFT_DME2_EP_READ_TIMEOUT_MS = "AFT_DME2_EP_READ_TIMEOUT_MS";
-    private static final String AFT_DME2_ROUNDTRIP_TIMEOUT_MS = "AFT_DME2_ROUNDTRIP_TIMEOUT_MS";
-    private static final String AFT_DME2_EP_CONN_TIMEOUT = "AFT_DME2_EP_CONN_TIMEOUT";
-    private static final String AFT_DME2_EXCHANGE_REQUEST_HANDLERS = "AFT_DME2_EXCHANGE_REQUEST_HANDLERS";
-    private static final String AFT_DME2_EXCHANGE_REPLY_HANDLERS = "AFT_DME2_EXCHANGE_REPLY_HANDLERS";
-    private static final String AFT_DME2_REQ_TRACE_ON = "AFT_DME2_REQ_TRACE_ON";
-    private static final String DME2_PER_HANDLER_TIMEOUT_MS = "DME2_PER_HANDLER_TIMEOUT_MS";
-    private static final String DME2_REPLY_HANDLER_TIMEOUT_MS = "DME2_REPLY_HANDLER_TIMEOUT_MS";
+    
+    private static final String HEADER_DME2_EXCHANGE_REQUEST_HANDLERS = "AFT_DME2_EXCHANGE_REQUEST_HANDLERS";
+    private static final String HEADER_DME2_EXCHANGE_REPLY_HANDLERS = "AFT_DME2_EXCHANGE_REPLY_HANDLERS";
+    private static final String HEADER_DME2_REQ_TRACE_ON = "AFT_DME2_REQ_TRACE_ON";
 
     private final String fTopic;
     private final String fGroup;
@@ -242,20 +225,20 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
                     break;
                 case AAF_AUTH:
                     String urlAuthPath = createUrlPath(MRConstants.makeConsumerUrl(fHostSelector.selectBaseHost(), fTopic,
-                            fGroup, fId, props.getProperty(PROTOCOL)), timeoutMs, limit);
+                            fGroup, fId, props.getProperty(DmaapClientConst.PROTOCOL)), timeoutMs, limit);
                     final JSONObject o = get(urlAuthPath, username, password, protocolFlag);
                     readJsonData(msgs, o);
                     break;
                 case AUTH_KEY:
                     final String urlKeyPath = createUrlPath(
-                            MRConstants.makeConsumerUrl(host, fTopic, fGroup, fId, props.getProperty(PROTOCOL)),
+                            MRConstants.makeConsumerUrl(host, fTopic, fGroup, fId, props.getProperty(DmaapClientConst.PROTOCOL)),
                             timeoutMs, limit);
                     final JSONObject authObject = getAuth(urlKeyPath, authKey, authDate, username, password, protocolFlag);
                     readJsonData(msgs, authObject);
                     break;
                 case HTTPNOAUTH:
                     final String urlNoAuthPath = createUrlPath(MRConstants.makeConsumerUrl(fHostSelector.selectBaseHost(), fTopic,
-                            fGroup, fId, props.getProperty(PROTOCOL)), timeoutMs, limit);
+                            fGroup, fId, props.getProperty(DmaapClientConst.PROTOCOL)), timeoutMs, limit);
                     readJsonData(msgs, getNoAuth(urlNoAuthPath));
                     break;
             }
@@ -311,7 +294,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 
             if (ProtocolType.AAF_AUTH.getValue().equalsIgnoreCase(protocolFlag)) {
                 final String urlPath = createUrlPath(MRConstants.makeConsumerUrl(fHostSelector.selectBaseHost(), fTopic,
-                        fGroup, fId, props.getProperty(PROTOCOL)), timeoutMs, limit);
+                        fGroup, fId, props.getProperty(DmaapClientConst.PROTOCOL)), timeoutMs, limit);
 
                 String response = getResponse(urlPath, username, password, protocolFlag);
                 final JSONObject o = getResponseDataInJsonWithResponseReturned(response);
@@ -321,7 +304,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 
             if (ProtocolType.AUTH_KEY.getValue().equalsIgnoreCase(protocolFlag)) {
                 final String urlPath = createUrlPath(
-                        MRConstants.makeConsumerUrl(host, fTopic, fGroup, fId, props.getProperty(PROTOCOL)),
+                        MRConstants.makeConsumerUrl(host, fTopic, fGroup, fId, props.getProperty(DmaapClientConst.PROTOCOL)),
                         timeoutMs, limit);
 
                 String response = getAuthResponse(urlPath, authKey, authDate, username, password, protocolFlag);
@@ -332,7 +315,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 
             if (ProtocolType.HTTPNOAUTH.getValue().equalsIgnoreCase(protocolFlag)) {
                 final String urlPath = createUrlPath(MRConstants.makeConsumerUrl(fHostSelector.selectBaseHost(), fTopic,
-                        fGroup, fId, props.getProperty(PROTOCOL)), timeoutMs, limit);
+                        fGroup, fId, props.getProperty(DmaapClientConst.PROTOCOL)), timeoutMs, limit);
 
                 String response = getNoAuthResponse(urlPath, username, password, protocolFlag);
                 final JSONObject o = getResponseDataInJsonWithResponseReturned(response);
@@ -435,20 +418,20 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 
     private void dmeConfigure(int timeoutMs, int limit) throws IOException, DME2Exception, URISyntaxException {
         this.longPollingMs = timeoutMs;
-        String latitude = props.getProperty(LATITUDE);
-        String longitude = props.getProperty(LONGITUDE);
-        String version = props.getProperty(VERSION);
-        String serviceName = props.getProperty(SERVICE_NAME);
-        String env = props.getProperty(ENVIRONMENT);
-        String partner = props.getProperty(PARTNER);
-        String routeOffer = props.getProperty(ROUTE_OFFER);
-        String subContextPath = props.getProperty(SUB_CONTEXT_PATH) + fTopic + "/" + fGroup + "/" + fId;
-        String protocol = props.getProperty(PROTOCOL);
-        String methodType = props.getProperty(METHOD_TYPE);
-        String dmeuser = props.getProperty(USERNAME);
-        String dmepassword = props.getProperty(USERNAME);
-        String contenttype = props.getProperty(CONTENT_TYPE);
-        String handlers = props.getProperty(SESSION_STICKINESS_REQUIRED);
+        String latitude = props.getProperty(DmaapClientConst.LATITUDE);
+        String longitude = props.getProperty(DmaapClientConst.LONGITUDE);
+        String version = props.getProperty(DmaapClientConst.VERSION);
+        String serviceName = props.getProperty(DmaapClientConst.SERVICE_NAME);
+        String env = props.getProperty(DmaapClientConst.ENVIRONMENT);
+        String partner = props.getProperty(DmaapClientConst.PARTNER, "");
+        String routeOffer = props.getProperty(DmaapClientConst.ROUTE_OFFER, "");
+        String subContextPath = props.getProperty(DmaapClientConst.SUB_CONTEXT_PATH) + fTopic + "/" + fGroup + "/" + fId;
+        String protocol = props.getProperty(DmaapClientConst.PROTOCOL);
+        String methodType = props.getProperty(DmaapClientConst.METHOD_TYPE);
+        String dmeuser = props.getProperty(DmaapClientConst.USERNAME);
+        String dmepassword = props.getProperty(DmaapClientConst.USERNAME);
+        String contenttype = props.getProperty(DmaapClientConst.CONTENT_TYPE);
+        String handlers = props.getProperty(DmaapClientConst.SESSION_STICKINESS_REQUIRED, "");
 
         /*
          * Changes to DME2Client url to use Partner for auto failover between data centers When Partner value is not
@@ -457,18 +440,18 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 
         String preferredRouteKey = readRoute("preferredRouteKey");
         StringBuilder contextUrl = new StringBuilder();
-        if (partner != null && !partner.isEmpty() && preferredRouteKey != null && !preferredRouteKey.isEmpty()) {
+        if (!partner.isEmpty() && preferredRouteKey != null && !preferredRouteKey.isEmpty()) {
             contextUrl.append(protocol).append("://").append(serviceName).append("?")
                     .append(URL_PARAM_VERSION).append("=").append(version).append("&")
                     .append(URL_PARAM_ENV_CONTEXT).append("=").append(env).append("&")
                     .append(URL_PARAM_PARTNER).append("=").append(partner).append("&")
                     .append(URL_PARAM_ROUTE_OFFER).append("=").append(preferredRouteKey);
-        } else if (partner != null && !partner.isEmpty()) {
+        } else if (!partner.isEmpty()) {
             contextUrl.append(protocol).append("://").append(serviceName).append("?")
                     .append(URL_PARAM_VERSION).append("=").append(version).append("&")
                     .append(URL_PARAM_ENV_CONTEXT).append("=").append(env).append("&")
                     .append(URL_PARAM_PARTNER).append("=").append(partner);
-        } else if (routeOffer != null && !routeOffer.isEmpty()) {
+        } else if (!routeOffer.isEmpty()) {
             contextUrl.append(protocol).append("://").append(serviceName).append("?")
                     .append(URL_PARAM_VERSION).append("=").append(version).append("&")
                     .append(URL_PARAM_ENV_CONTEXT).append("=").append(env).append("&")
@@ -484,19 +467,20 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 
         // Add filter to DME2 Url
         if (fFilter != null && fFilter.length() > 0) {
-            contextUrl.append("&").append(URL_PARAM_FILTER).append("=").append(URLEncoder.encode(fFilter, "UTF-8"));
+            contextUrl.append("&").append(URL_PARAM_FILTER).append("=")
+                    .append(URLEncoder.encode(fFilter, StandardCharsets.UTF_8));
         }
 
         url = contextUrl.toString();
 
         DMETimeOuts = new HashMap<>();
-        DMETimeOuts.put("AFT_DME2_EP_READ_TIMEOUT_MS", props.getProperty(AFT_DME2_EP_READ_TIMEOUT_MS));
-        DMETimeOuts.put("AFT_DME2_ROUNDTRIP_TIMEOUT_MS", props.getProperty(AFT_DME2_ROUNDTRIP_TIMEOUT_MS));
-        DMETimeOuts.put("AFT_DME2_EP_CONN_TIMEOUT", props.getProperty(AFT_DME2_EP_CONN_TIMEOUT));
+        DMETimeOuts.put("AFT_DME2_EP_READ_TIMEOUT_MS", props.getProperty(DmaapClientConst.AFT_DME2_EP_READ_TIMEOUT_MS));
+        DMETimeOuts.put("AFT_DME2_ROUNDTRIP_TIMEOUT_MS", props.getProperty(DmaapClientConst.AFT_DME2_ROUNDTRIP_TIMEOUT_MS));
+        DMETimeOuts.put("AFT_DME2_EP_CONN_TIMEOUT", props.getProperty(DmaapClientConst.AFT_DME2_EP_CONN_TIMEOUT));
         DMETimeOuts.put("Content-Type", contenttype);
         System.setProperty("AFT_LATITUDE", latitude);
         System.setProperty("AFT_LONGITUDE", longitude);
-        System.setProperty("AFT_ENVIRONMENT", props.getProperty(AFT_ENVIRONMENT));
+        System.setProperty("AFT_ENVIRONMENT", props.getProperty(DmaapClientConst.AFT_ENVIRONMENT));
 
         // SSL changes
         System.setProperty("AFT_DME2_CLIENT_SSL_INCLUDE_PROTOCOLS", "TLSv1.1,TLSv1.2");
@@ -506,7 +490,7 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
 
         long dme2PerEndPointTimeoutMs;
         try {
-            dme2PerEndPointTimeoutMs = Long.parseLong(props.getProperty(DME2_PER_HANDLER_TIMEOUT_MS));
+            dme2PerEndPointTimeoutMs = Long.parseLong(props.getProperty(DmaapClientConst.DME2_PER_HANDLER_TIMEOUT_MS));
             // backward compatibility
             if (dme2PerEndPointTimeoutMs <= 0) {
                 dme2PerEndPointTimeoutMs = timeoutMs + DEFAULT_DME2_PER_ENDPOINT_TIMEOUT_MS;
@@ -515,15 +499,15 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
             // backward compatibility
             dme2PerEndPointTimeoutMs = timeoutMs + DEFAULT_DME2_PER_ENDPOINT_TIMEOUT_MS;
             getLog().debug(
-                    DME2_PER_HANDLER_TIMEOUT_MS + " not set and using default " + DEFAULT_DME2_PER_ENDPOINT_TIMEOUT_MS);
+                    DmaapClientConst.DME2_PER_HANDLER_TIMEOUT_MS + " not set and using default " + DEFAULT_DME2_PER_ENDPOINT_TIMEOUT_MS);
         }
 
         try {
-            dme2ReplyHandlerTimeoutMs = Long.parseLong(props.getProperty(DME2_REPLY_HANDLER_TIMEOUT_MS));
+            dme2ReplyHandlerTimeoutMs = Long.parseLong(props.getProperty(DmaapClientConst.DME2_REPLY_HANDLER_TIMEOUT_MS));
         } catch (NumberFormatException nfe) {
             try {
-                long dme2EpReadTimeoutMs = Long.parseLong(props.getProperty(AFT_DME2_EP_READ_TIMEOUT_MS));
-                long dme2EpConnTimeoutMs = Long.parseLong(props.getProperty(AFT_DME2_EP_CONN_TIMEOUT));
+                long dme2EpReadTimeoutMs = Long.parseLong(props.getProperty(DmaapClientConst.AFT_DME2_EP_READ_TIMEOUT_MS));
+                long dme2EpConnTimeoutMs = Long.parseLong(props.getProperty(DmaapClientConst.AFT_DME2_EP_CONN_TIMEOUT));
                 dme2ReplyHandlerTimeoutMs = timeoutMs + dme2EpReadTimeoutMs + dme2EpConnTimeoutMs;
                 getLog().debug(
                         "DME2_REPLY_HANDLER_TIMEOUT_MS not set and using default from timeoutMs, AFT_DME2_EP_READ_TIMEOUT_MS and AFT_DME2_EP_CONN_TIMEOUT "
@@ -548,13 +532,13 @@ public class MRConsumerImpl extends MRBaseClient implements MRConsumer {
         }
         sender.setHeaders(DMETimeOuts);
         sender.setPayload("");
-        if (handlers != null && handlers.equalsIgnoreCase("yes")) {
-            sender.addHeader("AFT_DME2_EXCHANGE_REQUEST_HANDLERS",
-                    props.getProperty(AFT_DME2_EXCHANGE_REQUEST_HANDLERS));
-            sender.addHeader("AFT_DME2_EXCHANGE_REPLY_HANDLERS", props.getProperty(AFT_DME2_EXCHANGE_REPLY_HANDLERS));
-            sender.addHeader("AFT_DME2_REQ_TRACE_ON", props.getProperty(AFT_DME2_REQ_TRACE_ON));
+        if (handlers.equalsIgnoreCase("yes")) {
+            sender.addHeader(HEADER_DME2_EXCHANGE_REQUEST_HANDLERS,
+                    props.getProperty(DmaapClientConst.AFT_DME2_EXCHANGE_REQUEST_HANDLERS));
+            sender.addHeader(HEADER_DME2_EXCHANGE_REPLY_HANDLERS, props.getProperty(DmaapClientConst.AFT_DME2_EXCHANGE_REPLY_HANDLERS));
+            sender.addHeader(HEADER_DME2_REQ_TRACE_ON, props.getProperty(DmaapClientConst.AFT_DME2_REQ_TRACE_ON));
         } else {
-            sender.addHeader("AFT_DME2_EXCHANGE_REPLY_HANDLERS", "com.att.nsa.mr.dme.client.HeaderReplyHandler");
+            sender.addHeader(HEADER_DME2_EXCHANGE_REPLY_HANDLERS, "com.att.nsa.mr.dme.client.HeaderReplyHandler");
         }
     }
 
