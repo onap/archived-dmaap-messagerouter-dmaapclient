@@ -59,29 +59,45 @@ import org.slf4j.LoggerFactory;
 public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingPublisher {
     private static final Logger logger = LoggerFactory.getLogger(MRSimplerBatchPublisher.class);
 
-    private static final String PASSWORD = "password";
-    private static final String USERNAME = "username";
-    private static final String DME2PREFERRED_ROUTER_FILE_PATH = "DME2preferredRouterFilePath";
-    private static final String SERVICE_NAME = "ServiceName";
-    private static final String PARTNER = "Partner";
-    private static final String ROUTE_OFFER = "routeOffer";
-    private static final String PROTOCOL = "Protocol";
-    private static final String METHOD_TYPE = "MethodType";
-    private static final String CONTENT_TYPE = "contenttype";
-    private static final String LATITUDE = "Latitude";
-    private static final String LONGITUDE = "Longitude";
-    private static final String AFT_ENVIRONMENT = "AFT_ENVIRONMENT";
-    private static final String VERSION = "Version";
-    private static final String ENVIRONMENT = "Environment";
-    private static final String SUB_CONTEXT_PATH = "SubContextPath";
-    private static final String SESSION_STICKINESS_REQUIRED = "sessionstickinessrequired";
-    private static final String PARTITION = "partition";
-    private static final String AFT_DME2_EP_READ_TIMEOUT_MS = "AFT_DME2_EP_READ_TIMEOUT_MS";
-    private static final String AFT_DME2_ROUNDTRIP_TIMEOUT_MS = "AFT_DME2_ROUNDTRIP_TIMEOUT_MS";
-    private static final String AFT_DME2_EP_CONN_TIMEOUT = "AFT_DME2_EP_CONN_TIMEOUT";
-    private static final String AFT_DME2_EXCHANGE_REQUEST_HANDLERS = "AFT_DME2_EXCHANGE_REQUEST_HANDLERS";
-    private static final String AFT_DME2_EXCHANGE_REPLY_HANDLERS = "AFT_DME2_EXCHANGE_REPLY_HANDLERS";
-    private static final String AFT_DME2_REQ_TRACE_ON = "AFT_DME2_REQ_TRACE_ON";
+    private static final String PROP_PASSWORD = "password";
+    private static final String PROP_USERNAME = "username";
+    private static final String PROP_DME2PREFERRED_ROUTER_FILE_PATH = "DME2preferredRouterFilePath";
+    private static final String PROP_SERVICE_NAME = "ServiceName";
+    private static final String PROP_PARTNER = "Partner";
+    private static final String PROP_ROUTE_OFFER = "routeOffer";
+    private static final String PROP_PROTOCOL = "Protocol";
+    private static final String PROP_METHOD_TYPE = "MethodType";
+    private static final String PROP_CONTENT_TYPE = "contenttype";
+    private static final String PROP_LATITUDE = "Latitude";
+    private static final String PROP_LONGITUDE = "Longitude";
+    private static final String PROP_AFT_ENVIRONMENT = "AFT_ENVIRONMENT";
+    private static final String PROP_VERSION = "Version";
+    private static final String PROP_ENVIRONMENT = "Environment";
+    private static final String PROP_SUB_CONTEXT_PATH = "SubContextPath";
+    private static final String PROP_SESSION_STICKINESS_REQUIRED = "sessionstickinessrequired";
+    private static final String PROP_PARTITION = "partition";
+    private static final String PROP_AFT_DME2_EP_READ_TIMEOUT_MS = "AFT_DME2_EP_READ_TIMEOUT_MS";
+    private static final String PROP_AFT_DME2_ROUNDTRIP_TIMEOUT_MS = "AFT_DME2_ROUNDTRIP_TIMEOUT_MS";
+    private static final String PROP_AFT_DME2_EP_CONN_TIMEOUT = "AFT_DME2_EP_CONN_TIMEOUT";
+    private static final String PROP_AFT_DME2_EXCHANGE_REQUEST_HANDLERS = "AFT_DME2_EXCHANGE_REQUEST_HANDLERS";
+    private static final String PROP_AFT_DME2_EXCHANGE_REPLY_HANDLERS = "AFT_DME2_EXCHANGE_REPLY_HANDLERS";
+    private static final String PROP_AFT_DME2_REQ_TRACE_ON = "AFT_DME2_REQ_TRACE_ON";
+
+    private static final String DME_AFT_DME2_EP_READ_TIMEOUT_MS = "AFT_DME2_EP_READ_TIMEOUT_MS";
+    private static final String DME_AFT_DME2_ROUNDTRIP_TIMEOUT_MS = "AFT_DME2_ROUNDTRIP_TIMEOUT_MS";
+    private static final String DME_AFT_DME2_EP_CONN_TIMEOUT = "AFT_DME2_EP_CONN_TIMEOUT";
+    private static final String DME_CONTENT_TYPE = "Content-Type";
+
+    private static final String SYS_LATITUDE = "AFT_LATITUDE";
+    private static final String SYS_LONGITUDE = "AFT_LONGITUDE";
+    private static final String SYS_ENVIRONMENT = "AFT_ENVIRONMENT";
+    private static final String SYS_DME2_CLIENT_SSL_INCLUDE_PROTOCOLS = "AFT_DME2_CLIENT_SSL_INCLUDE_PROTOCOLS";
+    private static final String SYS_DME2_CLIENT_IGNORE_SSL_CONFIG = "AFT_DME2_CLIENT_IGNORE_SSL_CONFIG";
+    private static final String SYS_DME2_CLIENT_KEYSTORE_PASSWORD = "AFT_DME2_CLIENT_KEYSTORE_PASSWORD";
+
+    private static final String HEADER_DME2_EXCHANGE_REQUEST_HANDLERS = "AFT_DME2_EXCHANGE_REQUEST_HANDLERS";
+    private static final String HEADER_DME2_EXCHANGE_REPLY_HANDLERS = "AFT_DME2_EXCHANGE_REPLY_HANDLERS";
+    private static final String HEADER_DME2_REQ_TRACE_ON = "AFT_DME2_REQ_TRACE_ON";
 
     private static final String CONTENT_TYPE_TEXT = "text/plain";
 
@@ -321,14 +337,14 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
             host = this.fHostSelector.selectBaseHost();
         }
 
-        final String httpurl = MRConstants.makeUrl(host, fTopic, props.getProperty(PROTOCOL),
-                props.getProperty(PARTITION));
+        final String httpurl = MRConstants.makeUrl(host, fTopic, props.getProperty(PROP_PROTOCOL),
+                props.getProperty(PROP_PARTITION));
 
         try {
 
             final ByteArrayOutputStream baseStream = new ByteArrayOutputStream();
             OutputStream os = baseStream;
-            final String contentType = props.getProperty(CONTENT_TYPE);
+            final String contentType = props.getProperty(PROP_CONTENT_TYPE);
             if (contentType.equalsIgnoreCase(MRFormat.JSON.toString())) {
                 JSONArray jsonArray = parseJSON();
                 os.write(jsonArray.toString().getBytes());
@@ -457,12 +473,12 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
 
         host = this.fHostSelector.selectBaseHost();
 
-        final String httpUrl = MRConstants.makeUrl(host, fTopic, props.getProperty(PROTOCOL),
-                props.getProperty(PARTITION));
+        final String httpUrl = MRConstants.makeUrl(host, fTopic, props.getProperty(PROP_PROTOCOL),
+                props.getProperty(PROP_PARTITION));
         OutputStream os = null;
         try (ByteArrayOutputStream baseStream = new ByteArrayOutputStream()) {
             os = baseStream;
-            final String propsContentType = props.getProperty(CONTENT_TYPE);
+            final String propsContentType = props.getProperty(PROP_CONTENT_TYPE);
             if (propsContentType.equalsIgnoreCase(MRFormat.JSON.toString())) {
                 JSONArray jsonArray = parseJSON();
                 os.write(jsonArray.toString().getBytes());
@@ -759,23 +775,23 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
     private void configureDME2() throws Exception {
         try {
 
-            latitude = props.getProperty(LATITUDE);
-            longitude = props.getProperty(LONGITUDE);
-            version = props.getProperty(VERSION);
-            serviceName = props.getProperty(SERVICE_NAME);
-            env = props.getProperty(ENVIRONMENT);
-            partner = props.getProperty(PARTNER);
-            routeOffer = props.getProperty(ROUTE_OFFER);
-            subContextPath = props.getProperty(SUB_CONTEXT_PATH) + fTopic;
+            latitude = props.getProperty(PROP_LATITUDE);
+            longitude = props.getProperty(PROP_LONGITUDE);
+            version = props.getProperty(PROP_VERSION);
+            serviceName = props.getProperty(PROP_SERVICE_NAME);
+            env = props.getProperty(PROP_ENVIRONMENT);
+            partner = props.getProperty(PROP_PARTNER);
+            routeOffer = props.getProperty(PROP_ROUTE_OFFER);
+            subContextPath = props.getProperty(PROP_SUB_CONTEXT_PATH) + fTopic;
 
-            protocol = props.getProperty(PROTOCOL);
-            methodType = props.getProperty(METHOD_TYPE);
-            dmeuser = props.getProperty(USERNAME);
-            dmepassword = props.getProperty(PASSWORD);
-            contentType = props.getProperty(CONTENT_TYPE);
-            handlers = props.getProperty(SESSION_STICKINESS_REQUIRED);
+            protocol = props.getProperty(PROP_PROTOCOL);
+            methodType = props.getProperty(PROP_METHOD_TYPE);
+            dmeuser = props.getProperty(PROP_USERNAME);
+            dmepassword = props.getProperty(PROP_PASSWORD);
+            contentType = props.getProperty(PROP_CONTENT_TYPE);
+            handlers = props.getProperty(PROP_SESSION_STICKINESS_REQUIRED);
 
-            MRSimplerBatchPublisher.routerFilePath = props.getProperty(DME2PREFERRED_ROUTER_FILE_PATH);
+            MRSimplerBatchPublisher.routerFilePath = props.getProperty(PROP_DME2PREFERRED_ROUTER_FILE_PATH);
 
             /*
              * Changes to DME2Client url to use Partner for auto failover
@@ -783,7 +799,7 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
              * routeOffer value for auto failover within a cluster
              */
 
-            String partitionKey = props.getProperty(PARTITION);
+            String partitionKey = props.getProperty(PROP_PARTITION);
 
             if (partner != null && !partner.isEmpty()) {
                 url = protocol + "://" + serviceName + "?version=" + version + "&envContext=" + env + "&partner="
@@ -800,21 +816,21 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
             }
 
             DMETimeOuts = new HashMap<>();
-            DMETimeOuts.put("AFT_DME2_EP_READ_TIMEOUT_MS", props.getProperty(AFT_DME2_EP_READ_TIMEOUT_MS));
-            DMETimeOuts.put("AFT_DME2_ROUNDTRIP_TIMEOUT_MS", props.getProperty(AFT_DME2_ROUNDTRIP_TIMEOUT_MS));
-            DMETimeOuts.put("AFT_DME2_EP_CONN_TIMEOUT", props.getProperty(AFT_DME2_EP_CONN_TIMEOUT));
-            DMETimeOuts.put("Content-Type", contentType);
-            System.setProperty("AFT_LATITUDE", latitude);
-            System.setProperty("AFT_LONGITUDE", longitude);
-            System.setProperty("AFT_ENVIRONMENT", props.getProperty(AFT_ENVIRONMENT));
+            DMETimeOuts.put(DME_AFT_DME2_EP_READ_TIMEOUT_MS, props.getProperty(PROP_AFT_DME2_EP_READ_TIMEOUT_MS));
+            DMETimeOuts.put(DME_AFT_DME2_ROUNDTRIP_TIMEOUT_MS, props.getProperty(PROP_AFT_DME2_ROUNDTRIP_TIMEOUT_MS));
+            DMETimeOuts.put(DME_AFT_DME2_EP_CONN_TIMEOUT, props.getProperty(PROP_AFT_DME2_EP_CONN_TIMEOUT));
+            DMETimeOuts.put(DME_CONTENT_TYPE, contentType);
+            System.setProperty(SYS_LATITUDE, latitude);
+            System.setProperty(SYS_LONGITUDE, longitude);
+            System.setProperty(SYS_ENVIRONMENT, props.getProperty(PROP_AFT_ENVIRONMENT));
             // System.setProperty("DME2.DEBUG", "true");
 
             // SSL changes
             // System.setProperty("AFT_DME2_CLIENT_SSL_INCLUDE_PROTOCOLS",
 
-            System.setProperty("AFT_DME2_CLIENT_SSL_INCLUDE_PROTOCOLS", "TLSv1.1,TLSv1.2");
-            System.setProperty("AFT_DME2_CLIENT_IGNORE_SSL_CONFIG", "false");
-            System.setProperty("AFT_DME2_CLIENT_KEYSTORE_PASSWORD", "changeit");
+            System.setProperty(SYS_DME2_CLIENT_SSL_INCLUDE_PROTOCOLS, "TLSv1.1,TLSv1.2");
+            System.setProperty(SYS_DME2_CLIENT_IGNORE_SSL_CONFIG, "false");
+            System.setProperty(SYS_DME2_CLIENT_KEYSTORE_PASSWORD, "changeit");
 
             // SSL changes
 
@@ -826,13 +842,13 @@ public class MRSimplerBatchPublisher extends MRBaseClient implements MRBatchingP
             sender.setCredentials(dmeuser, dmepassword);
             sender.setHeaders(DMETimeOuts);
             if ("yes".equalsIgnoreCase(handlers)) {
-                sender.addHeader("AFT_DME2_EXCHANGE_REQUEST_HANDLERS",
-                        props.getProperty(AFT_DME2_EXCHANGE_REQUEST_HANDLERS));
-                sender.addHeader("AFT_DME2_EXCHANGE_REPLY_HANDLERS",
-                        props.getProperty(AFT_DME2_EXCHANGE_REPLY_HANDLERS));
-                sender.addHeader("AFT_DME2_REQ_TRACE_ON", props.getProperty(AFT_DME2_REQ_TRACE_ON));
+                sender.addHeader(HEADER_DME2_EXCHANGE_REQUEST_HANDLERS,
+                        props.getProperty(PROP_AFT_DME2_EXCHANGE_REQUEST_HANDLERS));
+                sender.addHeader(HEADER_DME2_EXCHANGE_REPLY_HANDLERS,
+                        props.getProperty(PROP_AFT_DME2_EXCHANGE_REPLY_HANDLERS));
+                sender.addHeader(HEADER_DME2_REQ_TRACE_ON, props.getProperty(PROP_AFT_DME2_REQ_TRACE_ON));
             } else {
-                sender.addHeader("AFT_DME2_EXCHANGE_REPLY_HANDLERS", "com.att.nsa.mr.dme.client.HeaderReplyHandler");
+                sender.addHeader(HEADER_DME2_EXCHANGE_REQUEST_HANDLERS, "com.att.nsa.mr.dme.client.HeaderReplyHandler");
             }
         } catch (DME2Exception x) {
             getLog().warn(x.getMessage(), x);

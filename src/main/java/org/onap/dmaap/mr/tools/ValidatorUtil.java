@@ -29,33 +29,33 @@ import org.onap.dmaap.mr.client.ProtocolType;
 
 public class ValidatorUtil {
 
-    private static final String ID = "id";
-    private static final String AUTH_KEY = "authKey";
-    private static final String AUTH_DATE = "authDate";
-    private static final String PASSWORD = "password";
-    private static final String USERNAME = "username";
-    private static final String HOST = "host";
-    private static final String DME2PREFERRED_ROUTER_FILE_PATH = "DME2preferredRouterFilePath";
-    private static final String TOPIC = "topic";
-    private static final String TRANSPORT_TYPE = "TransportType";
-    private static final String MAX_BATCH_SIZE = "maxBatchSize";
-    private static final String MAX_AGE_MS = "maxAgeMs";
-    private static final String MESSAGE_SENT_THREAD_OCCURRENCE_OLD = "MessageSentThreadOccurance";
-    private static final String MESSAGE_SENT_THREAD_OCCURRENCE = "MessageSentThreadOccurrence";
-    private static final String GROUP = "group";
-    private static final String SERVICE_NAME = "ServiceName";
-    private static final String PARTNER = "Partner";
-    private static final String ROUTE_OFFER = "routeOffer";
-    private static final String PROTOCOL = "Protocol";
-    private static final String METHOD_TYPE = "MethodType";
-    private static final String CONTENT_TYPE = "contenttype";
-    private static final String LATITUDE = "Latitude";
-    private static final String LONGITUDE = "Longitude";
-    private static final String AFT_ENVIRONMENT = "AFT_ENVIRONMENT";
-    private static final String VERSION = "Version";
-    private static final String ENVIRONMENT = "Environment";
-    private static final String SUB_CONTEXT_PATH = "SubContextPath";
-    private static final String SESSION_STICKINESS_REQUIRED = "sessionstickinessrequired";
+    private static final String PROP_ID = "id";
+    private static final String PROP_AUTH_KEY = "authKey";
+    private static final String PROP_AUTH_DATE = "authDate";
+    private static final String PROP_PASSWORD = "password";
+    private static final String PROP_USERNAME = "username";
+    private static final String PROP_HOST = "host";
+    private static final String PROP_DME2PREFERRED_ROUTER_FILE_PATH = "DME2preferredRouterFilePath";
+    private static final String PROP_TOPIC = "topic";
+    private static final String PROP_TRANSPORT_TYPE = "TransportType";
+    private static final String PROP_MAX_BATCH_SIZE = "maxBatchSize";
+    private static final String PROP_MAX_AGE_MS = "maxAgeMs";
+    private static final String PROP_MESSAGE_SENT_THREAD_OCCURRENCE_OLD = "MessageSentThreadOccurance";
+    private static final String PROP_MESSAGE_SENT_THREAD_OCCURRENCE = "MessageSentThreadOccurrence";
+    private static final String PROP_GROUP = "group";
+    private static final String PROP_SERVICE_NAME = "ServiceName";
+    private static final String PROP_PARTNER = "Partner";
+    private static final String PROP_ROUTE_OFFER = "routeOffer";
+    private static final String PROP_PROTOCOL = "Protocol";
+    private static final String PROP_METHOD_TYPE = "MethodType";
+    private static final String PROP_CONTENT_TYPE = "contenttype";
+    private static final String PROP_LATITUDE = "Latitude";
+    private static final String PROP_LONGITUDE = "Longitude";
+    private static final String PROP_AFT_ENVIRONMENT = "AFT_ENVIRONMENT";
+    private static final String PROP_VERSION = "Version";
+    private static final String PROP_ENVIRONMENT = "Environment";
+    private static final String PROP_SUB_CONTEXT_PATH = "SubContextPath";
+    private static final String PROP_SESSION_STICKINESS_REQUIRED = "sessionstickinessrequired";
 
     public static final String IS_NEEDED = " is needed";
 
@@ -64,153 +64,153 @@ public class ValidatorUtil {
     }
 
     public static void validatePublisher(Properties props) {
-        String transportType = props.getProperty(TRANSPORT_TYPE);
+        String transportType = props.getProperty(PROP_TRANSPORT_TYPE);
         if (ProtocolType.DME2.getValue().equalsIgnoreCase(transportType)) {
             validateForDME2(props);
         } else {
             validateForNonDME2(props);
         }
-        String maxBatchSize = props.getProperty(MAX_BATCH_SIZE, "");
+        String maxBatchSize = props.getProperty(PROP_MAX_BATCH_SIZE, "");
         if (maxBatchSize.isEmpty()) {
-            throw new IllegalArgumentException(MAX_BATCH_SIZE + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_MAX_BATCH_SIZE + IS_NEEDED);
         }
-        String maxAgeMs = props.getProperty(MAX_AGE_MS, "");
+        String maxAgeMs = props.getProperty(PROP_MAX_AGE_MS, "");
         if (maxAgeMs.isEmpty()) {
-            throw new IllegalArgumentException(MAX_AGE_MS + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_MAX_AGE_MS + IS_NEEDED);
         }
 
-        String messageSentThreadOccurrence = props.getProperty(MESSAGE_SENT_THREAD_OCCURRENCE);
+        String messageSentThreadOccurrence = props.getProperty(PROP_MESSAGE_SENT_THREAD_OCCURRENCE);
         if (messageSentThreadOccurrence == null || messageSentThreadOccurrence.isEmpty()) {
-            messageSentThreadOccurrence = props.getProperty(MESSAGE_SENT_THREAD_OCCURRENCE_OLD);
+            messageSentThreadOccurrence = props.getProperty(PROP_MESSAGE_SENT_THREAD_OCCURRENCE_OLD);
         }
         if (messageSentThreadOccurrence == null || messageSentThreadOccurrence.isEmpty()) {
-            throw new IllegalArgumentException(MESSAGE_SENT_THREAD_OCCURRENCE + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_MESSAGE_SENT_THREAD_OCCURRENCE + IS_NEEDED);
         }
         try {
             Integer.parseInt(messageSentThreadOccurrence);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(MESSAGE_SENT_THREAD_OCCURRENCE + " must be an integer");
+            throw new IllegalArgumentException(PROP_MESSAGE_SENT_THREAD_OCCURRENCE + " must be an integer");
         }
 
     }
 
     public static void validateSubscriber(Properties props) {
-        String transportType = props.getProperty(TRANSPORT_TYPE);
+        String transportType = props.getProperty(PROP_TRANSPORT_TYPE);
         if (ProtocolType.DME2.getValue().equalsIgnoreCase(transportType)) {
             validateForDME2(props);
         } else {
             validateForNonDME2(props);
         }
-        String group = props.getProperty(GROUP, "");
+        String group = props.getProperty(PROP_GROUP, "");
         if (group.isEmpty()) {
-            throw new IllegalArgumentException(GROUP + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_GROUP + IS_NEEDED);
         }
-        String id = props.getProperty(ID, "");
+        String id = props.getProperty(PROP_ID, "");
         if (id.isEmpty()) {
-            throw new IllegalArgumentException("Consumer (" + ID + ")" + IS_NEEDED);
+            throw new IllegalArgumentException("Consumer (" + PROP_ID + ")" + IS_NEEDED);
         }
     }
 
     private static void validateForDME2(Properties props) {
-        String serviceName = props.getProperty(SERVICE_NAME, "");
+        String serviceName = props.getProperty(PROP_SERVICE_NAME, "");
         if (serviceName.isEmpty()) {
-            throw new IllegalArgumentException(SERVICE_NAME + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_SERVICE_NAME + IS_NEEDED);
         }
-        String topic = props.getProperty(TOPIC, "");
+        String topic = props.getProperty(PROP_TOPIC, "");
         if (topic.isEmpty()) {
-            throw new IllegalArgumentException(TOPIC + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_TOPIC + IS_NEEDED);
         }
-        String username = props.getProperty(USERNAME, "");
+        String username = props.getProperty(PROP_USERNAME, "");
         if (username.isEmpty()) {
-            throw new IllegalArgumentException(USERNAME + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_USERNAME + IS_NEEDED);
         }
-        String password = props.getProperty(PASSWORD, "");
+        String password = props.getProperty(PROP_PASSWORD, "");
         if (password.isEmpty()) {
-            throw new IllegalArgumentException(PASSWORD + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_PASSWORD + IS_NEEDED);
         }
-        String dme2preferredRouterFilePath = props.getProperty(DME2PREFERRED_ROUTER_FILE_PATH, "");
+        String dme2preferredRouterFilePath = props.getProperty(PROP_DME2PREFERRED_ROUTER_FILE_PATH, "");
         if (dme2preferredRouterFilePath.isEmpty()) {
-            throw new IllegalArgumentException(DME2PREFERRED_ROUTER_FILE_PATH + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_DME2PREFERRED_ROUTER_FILE_PATH + IS_NEEDED);
         }
-        String partner = props.getProperty(PARTNER, "");
-        String routeOffer = props.getProperty(ROUTE_OFFER, "");
+        String partner = props.getProperty(PROP_PARTNER, "");
+        String routeOffer = props.getProperty(PROP_ROUTE_OFFER, "");
         if (partner.isEmpty() && routeOffer.isEmpty()) {
-            throw new IllegalArgumentException(PARTNER + " or " + ROUTE_OFFER + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_PARTNER + " or " + PROP_ROUTE_OFFER + IS_NEEDED);
         }
-        String protocol = props.getProperty(PROTOCOL, "");
+        String protocol = props.getProperty(PROP_PROTOCOL, "");
         if (protocol.isEmpty()) {
-            throw new IllegalArgumentException(PROTOCOL + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_PROTOCOL + IS_NEEDED);
         }
-        String methodType = props.getProperty(METHOD_TYPE, "");
+        String methodType = props.getProperty(PROP_METHOD_TYPE, "");
         if (methodType.isEmpty()) {
-            throw new IllegalArgumentException(METHOD_TYPE + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_METHOD_TYPE + IS_NEEDED);
         }
-        String contentType = props.getProperty(CONTENT_TYPE, "");
+        String contentType = props.getProperty(PROP_CONTENT_TYPE, "");
         if (contentType.isEmpty()) {
-            throw new IllegalArgumentException(CONTENT_TYPE + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_CONTENT_TYPE + IS_NEEDED);
         }
-        String latitude = props.getProperty(LATITUDE, "");
+        String latitude = props.getProperty(PROP_LATITUDE, "");
         if (latitude.isEmpty()) {
-            throw new IllegalArgumentException(LATITUDE + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_LATITUDE + IS_NEEDED);
         }
-        String longitude = props.getProperty(LONGITUDE, "");
+        String longitude = props.getProperty(PROP_LONGITUDE, "");
         if (longitude.isEmpty()) {
-            throw new IllegalArgumentException(LONGITUDE + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_LONGITUDE + IS_NEEDED);
         }
-        String aftEnv = props.getProperty(AFT_ENVIRONMENT, "");
+        String aftEnv = props.getProperty(PROP_AFT_ENVIRONMENT, "");
         if (aftEnv.isEmpty()) {
-            throw new IllegalArgumentException(AFT_ENVIRONMENT + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_AFT_ENVIRONMENT + IS_NEEDED);
         }
-        String version = props.getProperty(VERSION, "");
+        String version = props.getProperty(PROP_VERSION, "");
         if (version.isEmpty()) {
-            throw new IllegalArgumentException(VERSION + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_VERSION + IS_NEEDED);
         }
-        String environment = props.getProperty(ENVIRONMENT, "");
+        String environment = props.getProperty(PROP_ENVIRONMENT, "");
         if (environment.isEmpty()) {
-            throw new IllegalArgumentException(ENVIRONMENT + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_ENVIRONMENT + IS_NEEDED);
         }
-        String subContextPath = props.getProperty(SUB_CONTEXT_PATH, "");
+        String subContextPath = props.getProperty(PROP_SUB_CONTEXT_PATH, "");
         if (subContextPath.isEmpty()) {
-            throw new IllegalArgumentException(SUB_CONTEXT_PATH + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_SUB_CONTEXT_PATH + IS_NEEDED);
         }
-        String sessionstickinessrequired = props.getProperty(SESSION_STICKINESS_REQUIRED, "");
+        String sessionstickinessrequired = props.getProperty(PROP_SESSION_STICKINESS_REQUIRED, "");
         if (sessionstickinessrequired.isEmpty()) {
-            throw new IllegalArgumentException(SESSION_STICKINESS_REQUIRED + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_SESSION_STICKINESS_REQUIRED + IS_NEEDED);
         }
     }
 
     private static void validateForNonDME2(Properties props) {
-        String host = props.getProperty(HOST, "");
+        String host = props.getProperty(PROP_HOST, "");
         if (host.isEmpty()) {
-            throw new IllegalArgumentException(HOST + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_HOST + IS_NEEDED);
         }
-        String topic = props.getProperty(TOPIC, "");
+        String topic = props.getProperty(PROP_TOPIC, "");
         if (topic.isEmpty()) {
-            throw new IllegalArgumentException(TOPIC + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_TOPIC + IS_NEEDED);
         }
-        String contenttype = props.getProperty(CONTENT_TYPE, "");
+        String contenttype = props.getProperty(PROP_CONTENT_TYPE, "");
         if (contenttype.isEmpty()) {
-            throw new IllegalArgumentException(CONTENT_TYPE + IS_NEEDED);
+            throw new IllegalArgumentException(PROP_CONTENT_TYPE + IS_NEEDED);
         }
-        String transportType = props.getProperty(TRANSPORT_TYPE);
+        String transportType = props.getProperty(PROP_TRANSPORT_TYPE);
         if (!ProtocolType.HTTPNOAUTH.getValue().equalsIgnoreCase(transportType)) {
-            String username = props.getProperty(USERNAME, "");
+            String username = props.getProperty(PROP_USERNAME, "");
             if (username.isEmpty()) {
-                throw new IllegalArgumentException(USERNAME + IS_NEEDED);
+                throw new IllegalArgumentException(PROP_USERNAME + IS_NEEDED);
             }
-            String password = props.getProperty(PASSWORD, "");
+            String password = props.getProperty(PROP_PASSWORD, "");
             if (password.isEmpty()) {
-                throw new IllegalArgumentException(PASSWORD + IS_NEEDED);
+                throw new IllegalArgumentException(PROP_PASSWORD + IS_NEEDED);
             }
         }
         if (ProtocolType.AUTH_KEY.getValue().equalsIgnoreCase(transportType)) {
-            String authKey = props.getProperty(AUTH_KEY, "");
+            String authKey = props.getProperty(PROP_AUTH_KEY, "");
             if (authKey.isEmpty()) {
-                throw new IllegalArgumentException(AUTH_KEY + IS_NEEDED);
+                throw new IllegalArgumentException(PROP_AUTH_KEY + IS_NEEDED);
             }
-            String authDate = props.getProperty(AUTH_DATE, "");
+            String authDate = props.getProperty(PROP_AUTH_DATE, "");
             if (authDate.isEmpty()) {
-                throw new IllegalArgumentException(AUTH_DATE + IS_NEEDED);
+                throw new IllegalArgumentException(PROP_AUTH_DATE + IS_NEEDED);
             }
         }
     }

@@ -64,46 +64,25 @@ import org.onap.dmaap.mr.tools.ValidatorUtil;
  */
 public class MRClientFactory {
 
-    private static final String ID = "id";
-    private static final String AUTH_KEY = "authKey";
-    private static final String AUTH_DATE = "authDate";
-    private static final String PASSWORD = "password";
-    private static final String USERNAME = "username";
-    private static final String FILTER = "filter";
-    private static final String HOST = "host";
-    private static final String DME2PREFERRED_ROUTER_FILE_PATH = "DME2preferredRouterFilePath";
-    private static final String TOPIC = "topic";
-    private static final String TRANSPORT_TYPE = "TransportType";
-    private static final String MAX_BATCH_SIZE = "maxBatchSize";
-    private static final String MAX_AGE_MS = "maxAgeMs";
-    private static final String MESSAGE_SENT_THREAD_OCCURRENCE_OLD = "MessageSentThreadOccurance";
-    private static final String MESSAGE_SENT_THREAD_OCCURRENCE = "MessageSentThreadOccurrence";
-    private static final String GROUP = "group";
-    private static final String SERVICE_NAME = "ServiceName";
-    private static final String PARTNER = "Partner";
-    private static final String ROUTE_OFFER = "routeOffer";
-    private static final String PROTOCOL = "Protocol";
-    private static final String METHOD_TYPE = "MethodType";
-    private static final String CONTENT_TYPE = "contenttype";
-    private static final String LATITUDE = "Latitude";
-    private static final String LONGITUDE = "Longitude";
-    private static final String AFT_ENVIRONMENT = "AFT_ENVIRONMENT";
-    private static final String VERSION = "Version";
-    private static final String ENVIRONMENT = "Environment";
-    private static final String SUB_CONTEXT_PATH = "SubContextPath";
-    private static final String SESSION_STICKINESS_REQUIRED = "sessionstickinessrequired";
-    private static final String PARTITION = "partition";
-    private static final String COMPRESS = "compress";
-    private static final String TIMEOUT = "timeout";
-    private static final String LIMIT = "limit";
-    private static final String AFT_DME2_EP_READ_TIMEOUT_MS = "AFT_DME2_EP_READ_TIMEOUT_MS";
-    private static final String AFT_DME2_ROUNDTRIP_TIMEOUT_MS = "AFT_DME2_ROUNDTRIP_TIMEOUT_MS";
-    private static final String AFT_DME2_EP_CONN_TIMEOUT = "AFT_DME2_EP_CONN_TIMEOUT";
-    private static final String AFT_DME2_EXCHANGE_REQUEST_HANDLERS = "AFT_DME2_EXCHANGE_REQUEST_HANDLERS";
-    private static final String AFT_DME2_EXCHANGE_REPLY_HANDLERS = "AFT_DME2_EXCHANGE_REPLY_HANDLERS";
-    private static final String AFT_DME2_REQ_TRACE_ON = "AFT_DME2_REQ_TRACE_ON";
-    private static final String DME2_PER_HANDLER_TIMEOUT_MS = "DME2_PER_HANDLER_TIMEOUT_MS";
-    private static final String DME2_REPLY_HANDLER_TIMEOUT_MS = "DME2_REPLY_HANDLER_TIMEOUT_MS";
+    private static final String PROP_ID = "id";
+    private static final String PROP_AUTH_KEY = "authKey";
+    private static final String PROP_AUTH_DATE = "authDate";
+    private static final String PROP_PASSWORD = "password";
+    private static final String PROP_USERNAME = "username";
+    private static final String PROP_FILTER = "filter";
+    private static final String PROP_HOST = "host";
+    private static final String PROP_DME2PREFERRED_ROUTER_FILE_PATH = "DME2preferredRouterFilePath";
+    private static final String PROP_TOPIC = "topic";
+    private static final String PROP_TRANSPORT_TYPE = "TransportType";
+    private static final String PROP_MAX_BATCH_SIZE = "maxBatchSize";
+    private static final String PROP_MAX_AGE_MS = "maxAgeMs";
+    private static final String PROP_MESSAGE_SENT_THREAD_OCCURRENCE_OLD = "MessageSentThreadOccurance";
+    private static final String PROP_MESSAGE_SENT_THREAD_OCCURRENCE = "MessageSentThreadOccurrence";
+    private static final String PROP_GROUP = "group";
+    private static final String PROP_SERVICE_NAME = "ServiceName";
+    private static final String PROP_COMPRESS = "compress";
+    private static final String PROP_TIMEOUT = "timeout";
+    private static final String PROP_LIMIT = "limit";
 
     private static MultivaluedMap<String, Object> httpHeadersMap;
     public static Map<String, String> DME2HeadersMap;
@@ -469,45 +448,45 @@ public class MRClientFactory {
         assert props != null;
         MRSimplerBatchPublisher pub;
 
-        String messageSentThreadOccurrence = props.getProperty(MESSAGE_SENT_THREAD_OCCURRENCE);
+        String messageSentThreadOccurrence = props.getProperty(PROP_MESSAGE_SENT_THREAD_OCCURRENCE);
         if (messageSentThreadOccurrence == null || messageSentThreadOccurrence.isEmpty()) {
-            messageSentThreadOccurrence = props.getProperty(MESSAGE_SENT_THREAD_OCCURRENCE_OLD);
+            messageSentThreadOccurrence = props.getProperty(PROP_MESSAGE_SENT_THREAD_OCCURRENCE_OLD);
         }
 
         if (withResponse) {
             pub = new MRSimplerBatchPublisher.Builder()
-                    .againstUrlsOrServiceName(MRConsumerImpl.stringToList(props.getProperty(HOST)), MRConsumerImpl.stringToList(props.getProperty(SERVICE_NAME)), props.getProperty(TRANSPORT_TYPE))
-                    .onTopic(props.getProperty(TOPIC))
-                    .batchTo(Integer.parseInt(props.getProperty(MAX_BATCH_SIZE)),
-                            Integer.parseInt(props.getProperty(MAX_AGE_MS).toString()))
-                    .compress(Boolean.parseBoolean(props.getProperty(COMPRESS)))
+                    .againstUrlsOrServiceName(MRConsumerImpl.stringToList(props.getProperty(PROP_HOST)), MRConsumerImpl.stringToList(props.getProperty(PROP_SERVICE_NAME)), props.getProperty(PROP_TRANSPORT_TYPE))
+                    .onTopic(props.getProperty(PROP_TOPIC))
+                    .batchTo(Integer.parseInt(props.getProperty(PROP_MAX_BATCH_SIZE)),
+                            Integer.parseInt(props.getProperty(PROP_MAX_AGE_MS)))
+                    .compress(Boolean.parseBoolean(props.getProperty(PROP_COMPRESS)))
                     .httpThreadTime(Integer.parseInt(messageSentThreadOccurrence))
                     .withResponse(withResponse).build();
         } else {
             pub = new MRSimplerBatchPublisher.Builder()
-                    .againstUrlsOrServiceName(MRConsumerImpl.stringToList(props.getProperty(HOST)), MRConsumerImpl.stringToList(props.getProperty(SERVICE_NAME)), props.getProperty(TRANSPORT_TYPE))
-                    .onTopic(props.getProperty(TOPIC))
-                    .batchTo(Integer.parseInt(props.getProperty(MAX_BATCH_SIZE)),
-                            Integer.parseInt(props.getProperty(MAX_AGE_MS).toString()))
-                    .compress(Boolean.parseBoolean(props.getProperty(COMPRESS)))
+                    .againstUrlsOrServiceName(MRConsumerImpl.stringToList(props.getProperty(PROP_HOST)), MRConsumerImpl.stringToList(props.getProperty(PROP_SERVICE_NAME)), props.getProperty(PROP_TRANSPORT_TYPE))
+                    .onTopic(props.getProperty(PROP_TOPIC))
+                    .batchTo(Integer.parseInt(props.getProperty(PROP_MAX_BATCH_SIZE)),
+                            Integer.parseInt(props.getProperty(PROP_MAX_AGE_MS)))
+                    .compress(Boolean.parseBoolean(props.getProperty(PROP_COMPRESS)))
                     .httpThreadTime(Integer.parseInt(messageSentThreadOccurrence)).build();
         }
-        pub.setHost(props.getProperty(HOST));
-        if (props.getProperty(TRANSPORT_TYPE).equalsIgnoreCase(ProtocolType.AUTH_KEY.getValue())) {
+        pub.setHost(props.getProperty(PROP_HOST));
+        if (props.getProperty(PROP_TRANSPORT_TYPE).equalsIgnoreCase(ProtocolType.AUTH_KEY.getValue())) {
 
-            pub.setAuthKey(props.getProperty(AUTH_KEY));
-            pub.setAuthDate(props.getProperty(AUTH_DATE));
-            pub.setUsername(props.getProperty(USERNAME));
-            pub.setPassword(props.getProperty(PASSWORD));
+            pub.setAuthKey(props.getProperty(PROP_AUTH_KEY));
+            pub.setAuthDate(props.getProperty(PROP_AUTH_DATE));
+            pub.setUsername(props.getProperty(PROP_USERNAME));
+            pub.setPassword(props.getProperty(PROP_PASSWORD));
         } else {
-            pub.setUsername(props.getProperty(USERNAME));
-            pub.setPassword(props.getProperty(PASSWORD));
+            pub.setUsername(props.getProperty(PROP_USERNAME));
+            pub.setPassword(props.getProperty(PROP_PASSWORD));
         }
-        pub.setProtocolFlag(props.getProperty(TRANSPORT_TYPE));
+        pub.setProtocolFlag(props.getProperty(PROP_TRANSPORT_TYPE));
         pub.setProps(props);
         prop = new Properties();
-        if (props.getProperty(TRANSPORT_TYPE).equalsIgnoreCase(ProtocolType.DME2.getValue())) {
-            routeFilePath = props.getProperty(DME2PREFERRED_ROUTER_FILE_PATH);
+        if (props.getProperty(PROP_TRANSPORT_TYPE).equalsIgnoreCase(ProtocolType.DME2.getValue())) {
+            routeFilePath = props.getProperty(PROP_DME2PREFERRED_ROUTER_FILE_PATH);
             routeReader = new FileReader(new File(routeFilePath));
             File fo = new File(routeFilePath);
             if (!fo.exists()) {
@@ -621,55 +600,55 @@ public class MRClientFactory {
     public static MRConsumer createConsumer(Properties props) throws FileNotFoundException, IOException {
         int timeout;
         ValidatorUtil.validateSubscriber(props);
-        if (props.getProperty(TIMEOUT) != null) {
-            timeout = Integer.parseInt(props.getProperty(TIMEOUT));
+        if (props.getProperty(PROP_TIMEOUT) != null) {
+            timeout = Integer.parseInt(props.getProperty(PROP_TIMEOUT));
         } else {
             timeout = -1;
         }
         int limit;
-        if (props.getProperty(LIMIT) != null) {
-            limit = Integer.parseInt(props.getProperty(LIMIT));
+        if (props.getProperty(PROP_LIMIT) != null) {
+            limit = Integer.parseInt(props.getProperty(PROP_LIMIT));
         } else {
             limit = -1;
         }
         String group;
-        if (props.getProperty(GROUP) == null) {
+        if (props.getProperty(PROP_GROUP) == null) {
             group = UUID.randomUUID().toString();
         } else {
-            group = props.getProperty(GROUP);
+            group = props.getProperty(PROP_GROUP);
         }
         MRConsumerImpl sub = null;
-        if (props.getProperty(TRANSPORT_TYPE).equalsIgnoreCase(ProtocolType.AUTH_KEY.getValue())) {
+        if (props.getProperty(PROP_TRANSPORT_TYPE).equalsIgnoreCase(ProtocolType.AUTH_KEY.getValue())) {
             sub = new MRConsumerImpl.MRConsumerImplBuilder()
-                    .setHostPart(MRConsumerImpl.stringToList(props.getProperty(HOST)))
-                    .setTopic(props.getProperty(TOPIC)).setConsumerGroup(group)
-                    .setConsumerId(props.getProperty(ID)).setTimeoutMs(timeout).setLimit(limit)
-                    .setFilter(props.getProperty(FILTER))
-                    .setApiKey_username(props.getProperty(AUTH_KEY))
-                    .setApiSecret_password(props.getProperty(AUTH_DATE)).createMRConsumerImpl();
-            sub.setAuthKey(props.getProperty(AUTH_KEY));
-            sub.setAuthDate(props.getProperty(AUTH_DATE));
-            sub.setUsername(props.getProperty(USERNAME));
-            sub.setPassword(props.getProperty(PASSWORD));
+                    .setHostPart(MRConsumerImpl.stringToList(props.getProperty(PROP_HOST)))
+                    .setTopic(props.getProperty(PROP_TOPIC)).setConsumerGroup(group)
+                    .setConsumerId(props.getProperty(PROP_ID)).setTimeoutMs(timeout).setLimit(limit)
+                    .setFilter(props.getProperty(PROP_FILTER))
+                    .setApiKey_username(props.getProperty(PROP_AUTH_KEY))
+                    .setApiSecret_password(props.getProperty(PROP_AUTH_DATE)).createMRConsumerImpl();
+            sub.setAuthKey(props.getProperty(PROP_AUTH_KEY));
+            sub.setAuthDate(props.getProperty(PROP_AUTH_DATE));
+            sub.setUsername(props.getProperty(PROP_USERNAME));
+            sub.setPassword(props.getProperty(PROP_PASSWORD));
         } else {
             sub = new MRConsumerImpl.MRConsumerImplBuilder()
-                    .setHostPart(MRConsumerImpl.stringToList(props.getProperty(HOST)))
-                    .setTopic(props.getProperty(TOPIC)).setConsumerGroup(group)
-                    .setConsumerId(props.getProperty(ID)).setTimeoutMs(timeout).setLimit(limit)
-                    .setFilter(props.getProperty(FILTER))
-                    .setApiKey_username(props.getProperty(USERNAME))
-                    .setApiSecret_password(props.getProperty(PASSWORD)).createMRConsumerImpl();
-            sub.setUsername(props.getProperty(USERNAME));
-            sub.setPassword(props.getProperty(PASSWORD));
+                    .setHostPart(MRConsumerImpl.stringToList(props.getProperty(PROP_HOST)))
+                    .setTopic(props.getProperty(PROP_TOPIC)).setConsumerGroup(group)
+                    .setConsumerId(props.getProperty(PROP_ID)).setTimeoutMs(timeout).setLimit(limit)
+                    .setFilter(props.getProperty(PROP_FILTER))
+                    .setApiKey_username(props.getProperty(PROP_USERNAME))
+                    .setApiSecret_password(props.getProperty(PROP_PASSWORD)).createMRConsumerImpl();
+            sub.setUsername(props.getProperty(PROP_USERNAME));
+            sub.setPassword(props.getProperty(PROP_PASSWORD));
         }
 
         sub.setProps(props);
-        sub.setHost(props.getProperty(HOST));
-        sub.setProtocolFlag(props.getProperty(TRANSPORT_TYPE));
-        sub.setfFilter(props.getProperty(FILTER));
-        if (props.getProperty(TRANSPORT_TYPE).equalsIgnoreCase(ProtocolType.DME2.getValue())) {
-            MRConsumerImpl.setRouterFilePath(props.getProperty(DME2PREFERRED_ROUTER_FILE_PATH));
-            routeFilePath = props.getProperty(DME2PREFERRED_ROUTER_FILE_PATH);
+        sub.setHost(props.getProperty(PROP_HOST));
+        sub.setProtocolFlag(props.getProperty(PROP_TRANSPORT_TYPE));
+        sub.setfFilter(props.getProperty(PROP_FILTER));
+        if (props.getProperty(PROP_TRANSPORT_TYPE).equalsIgnoreCase(ProtocolType.DME2.getValue())) {
+            MRConsumerImpl.setRouterFilePath(props.getProperty(PROP_DME2PREFERRED_ROUTER_FILE_PATH));
+            routeFilePath = props.getProperty(PROP_DME2PREFERRED_ROUTER_FILE_PATH);
             routeReader = new FileReader(new File(routeFilePath));
             prop = new Properties();
             File fo = new File(routeFilePath);
