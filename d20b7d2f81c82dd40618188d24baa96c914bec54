@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "e0eac9ed_6039adec",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/impl/MRConsumerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 7700
+      },
+      "writtenOn": "2021-04-28T06:50:51Z",
+      "side": 1,
+      "message": "Yes but it\u0027s more uniform to use constant everywhere. It\u0027s like \"magic number\" error, even if it\u0027s use once, we have to use constant.",
+      "parentUuid": "d39363bc_021c28c7",
+      "range": {
+        "startLine": 92,
+        "startChar": 30,
+        "endLine": 92,
+        "endChar": 45
+      },
+      "revId": "d20b7d2f81c82dd40618188d24baa96c914bec54",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "09d28113_df674a4b",
         "filename": "src/main/java/org/onap/dmaap/mr/client/impl/MRConsumerImpl.java",
         "patchSetId": 1
@@ -94,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "2d2c78d1_c04c336c",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/impl/MRConsumerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 7700
+      },
+      "writtenOn": "2021-04-28T06:50:51Z",
+      "side": 1,
+      "message": "In fact it\u0027s the same value, but not the same meaning. One is the properties name, an other is a system environment variable name.\nSo different constant is important for example if you want to change just properties name.",
+      "parentUuid": "09d28113_df674a4b",
+      "range": {
+        "startLine": 105,
+        "startChar": 67,
+        "endLine": 105,
+        "endChar": 94
+      },
+      "revId": "d20b7d2f81c82dd40618188d24baa96c914bec54",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bdfc1bf0_8e3cd4ec",
         "filename": "src/main/java/org/onap/dmaap/mr/client/impl/MRConsumerImpl.java",
         "patchSetId": 1
@@ -105,6 +153,30 @@
       "writtenOn": "2021-04-27T18:24:23Z",
       "side": 1,
       "message": "Use java.nio.charset.StandardCharsets.UTF_8 instead of importing the whole class",
+      "range": {
+        "startLine": 505,
+        "startChar": 55,
+        "endLine": 505,
+        "endChar": 77
+      },
+      "revId": "d20b7d2f81c82dd40618188d24baa96c914bec54",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da44c5f9_171cd628",
+        "filename": "src/main/java/org/onap/dmaap/mr/client/impl/MRConsumerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 7700
+      },
+      "writtenOn": "2021-04-28T06:50:51Z",
+      "side": 1,
+      "message": "StandardCharsets have 33 lines of code with 6 constants importing the whole class is realy a problem ? And it\u0027s include into the JDK.",
+      "parentUuid": "bdfc1bf0_8e3cd4ec",
       "range": {
         "startLine": 505,
         "startChar": 55,
@@ -197,6 +269,30 @@
       "writtenOn": "2021-04-27T18:24:23Z",
       "side": 1,
       "message": "Why do we need to prefix everything with PROP_\nNo need inn my opinion",
+      "range": {
+        "startLine": 47,
+        "startChar": 32,
+        "endLine": 47,
+        "endChar": 36
+      },
+      "revId": "d20b7d2f81c82dd40618188d24baa96c914bec54",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f51cdbb7_95bee825",
+        "filename": "src/main/java/org/onap/dmaap/mr/tools/ValidatorUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 7700
+      },
+      "writtenOn": "2021-04-28T06:50:51Z",
+      "side": 1,
+      "message": "Remove properties centralized class (Prop) add sonar blocker error like :\nhttps://sonarcloud.io/project/issues?id\u003donap_dmaap-messagerouter-dmaapclient\u0026issues\u003dAXkALsra1aqw2hxRNQ68\u0026open\u003dAXkALsra1aqw2hxRNQ68\n\nSome global variable have the same name that properties name (but in upper case). So to make something unified I added PROP all over.\n\nSorry to insist, but have a single class with all properties constant is for me the best solution. (and avoid a lot of duplication)",
+      "parentUuid": "94be973a_45089c98",
       "range": {
         "startLine": 47,
         "startChar": 32,
