@@ -302,6 +302,30 @@
       "revId": "d20b7d2f81c82dd40618188d24baa96c914bec54",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f50e1227_1f08b0d2",
+        "filename": "src/main/java/org/onap/dmaap/mr/tools/ValidatorUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2021-04-29T08:31:51Z",
+      "side": 1,
+      "message": "Ok. I\u0027ll let this one fly. Go with a constants class so.",
+      "parentUuid": "f51cdbb7_95bee825",
+      "range": {
+        "startLine": 47,
+        "startChar": 32,
+        "endLine": 47,
+        "endChar": 36
+      },
+      "revId": "d20b7d2f81c82dd40618188d24baa96c914bec54",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
