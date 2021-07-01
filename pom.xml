@@ -184,6 +184,25 @@
             <version>${jersey.version}</version>
         </dependency>
         <dependency>
+        <groupId>org.glassfish.jersey.inject</groupId>
+        <artifactId>jersey-hk2</artifactId>
+        <version>${jersey.version}</version>
+        <exclusions>
+            <exclusion>
+                <groupId>org.glassfish.hk2.external</groupId>
+                <artifactId>javax.inject</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>javax.annotation</groupId>
+                <artifactId>javax.annotation-api</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
