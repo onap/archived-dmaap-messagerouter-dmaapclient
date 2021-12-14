@@ -39,7 +39,7 @@
     </parent>
 
     <properties>
-        <jersey.version>2.27</jersey.version>
+        <jersey.version>2.34</jersey.version>
         <version.jackson.core>2.6.7.1</version.jackson.core>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <onap.nexus.url>https://nexus.onap.org</onap.nexus.url>
@@ -171,7 +171,7 @@
         <dependency>
             <groupId>org.glassfish.jersey.connectors</groupId>
             <artifactId>jersey-apache-connector</artifactId>
-            <version>2.29.1</version>
+            <version>${jersey.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
@@ -311,7 +311,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
+                <version>3.3.1</version>
                 <configuration>
                     <failOnError>false</failOnError>
 	            <detectJavaApiLink>false</detectJavaApiLink>

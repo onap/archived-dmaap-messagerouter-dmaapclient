@@ -27,17 +27,17 @@ package org.onap.dmaap.mr.client.impl;
 import com.att.nsa.apiClient.http.CacheUse;
 import com.att.nsa.apiClient.http.HttpClient;
 import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.internal.util.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -120,7 +120,8 @@ public class MRBaseClient extends HttpClient implements MRClient {
             WebTarget target = null;
             Response response = null;
             target = DmaapClientUtil.getTarget(clientConfig, path, username, password);
-            String encoding = Base64.encodeAsString(username + ":" + password);
+            Base64 base64 = new Base64();
+            String encoding = base64.encodeAsString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
 
             response = DmaapClientUtil.postResponsewtBasicAuth(target, encoding, data, contentType);
 
@@ -152,7 +153,8 @@ public class MRBaseClient extends HttpClient implements MRClient {
             WebTarget target = null;
             Response response = null;
             target = DmaapClientUtil.getTarget(clientConfig, path, username, password);
-            String encoding = Base64.encodeAsString(username + ":" + password);
+            Base64 base64 = new Base64();
+            String encoding = base64.encodeAsString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
 
             response = DmaapClientUtil.postResponsewtBasicAuth(target, encoding, data, contentType);
 
@@ -222,7 +224,8 @@ public class MRBaseClient extends HttpClient implements MRClient {
                 response = DmaapClientUtil.getResponsewtCambriaAuth(target, username, password);
             } else {
                 target = DmaapClientUtil.getTarget(clientConfig, path, username, password);
-                String encoding = Base64.encodeAsString(username + ":" + password);
+                Base64 base64 = new Base64();
+                String encoding = base64.encodeAsString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
 
                 response = DmaapClientUtil.getResponsewtBasicAuth(target, encoding);
 
@@ -244,7 +247,8 @@ public class MRBaseClient extends HttpClient implements MRClient {
                 response = DmaapClientUtil.getResponsewtCambriaAuth(target, username, password);
             } else {
                 target = DmaapClientUtil.getTarget(clientConfig, path, username, password);
-                String encoding = Base64.encodeAsString(username + ":" + password);
+                Base64 base64 = new Base64();
+                String encoding = base64.encodeAsString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
                 response = DmaapClientUtil.getResponsewtBasicAuth(target, encoding);
             }
             MRClientFactory.setHTTPHeadersMap(response.getHeaders());

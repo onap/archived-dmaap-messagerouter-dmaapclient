@@ -24,9 +24,10 @@
 
 package org.onap.dmaap.mr.client.impl;
 
+import java.nio.charset.StandardCharsets;
 import org.apache.http.HttpException;
 import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.internal.util.Base64;
+import org.apache.commons.codec.binary.Base64;
 import org.glassfish.jersey.internal.util.collection.StringKeyIgnoreCaseMultivaluedMap;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -115,9 +116,9 @@ public class MRBaseClientTest {
         Mockito.when(response.getStatus()).thenReturn(200);
         Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
         Mockito.when(response.getHeaders()).thenReturn(map);
-
+        Base64 base64 = new Base64();
         Mockito.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget(getClientConfig(), "/path"),
-                Base64.encodeAsString("username:password"))).thenReturn(response);
+            base64.encodeAsString(("username:password").getBytes(StandardCharsets.UTF_8)))).thenReturn(response);
 
         JSONObject result = mrBaseClient.get("/path", "username", "password", "HTTPAAF");
         assertEquals(200, result.getInt("status"));
@@ -190,9 +191,9 @@ public class MRBaseClientTest {
         Mockito.when(response.getStatus()).thenReturn(200);
         Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
         Mockito.when(response.getHeaders()).thenReturn(map);
-
+        Base64 base64 = new Base64();
         Mockito.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget(getClientConfig(), "/path"),
-                Base64.encodeAsString("username:password"))).thenReturn(response);
+            base64.encodeAsString(("username:password").getBytes(StandardCharsets.UTF_8)))).thenReturn(response);
 
         mrBaseClient.getResponse("/path", "username", "password", "HTTPAAF");
         assertTrue(true);
@@ -322,9 +323,9 @@ public class MRBaseClientTest {
         Mockito.when(response.getStatus()).thenReturn(200);
         Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
         Mockito.when(response.getHeaders()).thenReturn(map);
-
+        Base64 base64 = new Base64();
         Mockito.when(DmaapClientUtil.postResponsewtBasicAuth(DmaapClientUtil.getTarget(getClientConfig(), "/path"),
-                Base64.encodeAsString("username:password"), ("{\"test\":\"test\"}").getBytes(), "application/json")).thenReturn(response);
+            base64.encodeAsString(("username:password").getBytes(StandardCharsets.UTF_8)), ("{\"test\":\"test\"}").getBytes(), "application/json")).thenReturn(response);
 
         mrBaseClient.post("/path", ("{\"test\":\"test\"}").getBytes(), "application/json", "username",
                 "password", "HTTPAUTH");
@@ -338,10 +339,9 @@ public class MRBaseClientTest {
     public void testPost_error() throws JSONException, HttpException {
 
         ResponseBuilder responseBuilder = Response.ok();
-        Mockito
-                .when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget(getClientConfig(), "/path"),
-                        Base64.encodeAsString("username:password")))
-                .thenReturn(
+        Base64 base64 = new Base64();
+        Mockito.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget(getClientConfig(), "/path"),
+            base64.encodeAsString(("username:password").getBytes(StandardCharsets.UTF_8)))).thenReturn(
                         responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
 
         mrBaseClient.post("/path", ("{\"test\":\"test\"}").getBytes(), "application/json", null, null,
@@ -396,9 +396,9 @@ public class MRBaseClientTest {
         Mockito.when(response.getStatus()).thenReturn(200);
         Mockito.when(response.readEntity(String.class)).thenReturn("{\"test\":\"test\"}");
         Mockito.when(response.getHeaders()).thenReturn(map);
-
+        Base64 base64 = new Base64();
         Mockito.when(DmaapClientUtil.postResponsewtBasicAuth(DmaapClientUtil.getTarget(getClientConfig(), "/path"),
-                Base64.encodeAsString("username:password"), ("{\"test\":\"test\"}").getBytes(), "application/json")).thenReturn(response);
+            base64.encodeAsString(("username:password").getBytes(StandardCharsets.UTF_8)), ("{\"test\":\"test\"}").getBytes(), "application/json")).thenReturn(response);
 
         mrBaseClient.postWithResponse("/path", ("{\"test\":\"test\"}").getBytes(), "application/json",
                 "username", "password", "HTTPAUTH");
@@ -410,11 +410,10 @@ public class MRBaseClientTest {
     public void testPostWithResponse_error() throws JSONException, HttpException {
 
         ResponseBuilder responseBuilder = Response.ok();
-        Mockito
-                .when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget(getClientConfig(), "/path"),
-                        Base64.encodeAsString("username:password")))
-                .thenReturn(
-                        responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
+        Base64 base64 = new Base64();
+        Mockito.when(DmaapClientUtil.getResponsewtBasicAuth(DmaapClientUtil.getTarget(getClientConfig(), "/path"),
+            base64.encodeAsString(("username:password").getBytes(StandardCharsets.UTF_8)))).thenReturn(
+            responseBuilder.header("transactionid", "transactionid").entity("{\"test\":\"test\"}").build());
 
         mrBaseClient.postWithResponse("/path", ("{\"test\":\"test\"}").getBytes(), "application/json", null,
                 null, "HTTPAUTH");
