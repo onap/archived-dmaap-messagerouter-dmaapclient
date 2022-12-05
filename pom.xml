@@ -27,7 +27,7 @@
     <groupId>org.onap.dmaap.messagerouter.dmaapclient</groupId>
     <artifactId>dmaapClient</artifactId>
     <packaging>jar</packaging>
-    <version>1.1.14-SNAPSHOT</version>
+    <version>1.1.15-SNAPSHOT</version>
     <name>dmaap-messagerouter-dmaapclient</name>
     <description>Client library for MR event routing API</description>
     <url>https://gerrit.onap.org/r/gitweb?p=dmaap/messagerouter/dmaapclient.git</url>
